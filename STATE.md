@@ -1,6 +1,6 @@
 # Caret State
 
-**Last updated:** 2025-01-09T12:00:00Z
+**Last updated:** 2025-01-09T13:00:00Z
 
 ## Current milestone
 Milestone 22: Distributed graph execution with real Caret graphs - IN PROGRESS
@@ -42,7 +42,18 @@ Implementing distributed graph execution with real Caret graphs
 - Test fixes:
   - Fixed deadlock in `test_distributed_execution_integration` by releasing graphs lock
   - Fixed async coordinator tests by awaiting `start()` futures
-- 60 tests passing in caret_distributed (44 lib + 16 integration)
+- TCP networking integration tests:
+  - Export `TcpTransport` and `MemoryTransport` from lib.rs
+  - 8 new TCP networking integration tests:
+    - `tcp_transport_bind_connect`: Basic bind and connect
+    - `tcp_transport_send`: Message sending over TCP
+    - `tcp_distributed_executor_handshake`: Coordinator-worker handshake
+    - `tcp_worker_registration`: Worker registration flow
+    - `tcp_graph_submission`: Graph lifecycle over TCP
+    - `tcp_broadcast`: Broadcast functionality
+    - `tcp_connection_error_handling`: Connection refused errors
+    - `tcp_transport_lifecycle`: Start/stop/restart transport
+- 68 tests passing in caret_distributed (44 lib + 16 integration + 8 TCP)
 
 ### Milestone 21: Distributed execution support - COMPLETE
 - Created `caret_distributed` crate with:
@@ -124,7 +135,7 @@ Implementing distributed graph execution with real Caret graphs
 
 ## Quality gates status
 - Build: Passing
-- Tests: 60 tests passing in caret_distributed (44 lib + 16 integration)
+- Tests: 68 tests passing in caret_distributed (44 lib + 16 integration + 8 TCP networking)
 - Docs: Core APIs documented
 - Lint: Passes (some warnings for missing docs on internal items)
 - Format: Passing
