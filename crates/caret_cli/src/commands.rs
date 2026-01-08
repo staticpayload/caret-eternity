@@ -5,8 +5,9 @@
 // Licensed under the MIT License:
 // https://opensource.org/licenses/MIT
 
-use crate::Result;
+use crate::{Error, Result};
 use caret_dsl::{AstNodeKind, NodeType, Statement};
+use caret_inspector::InspectorServer;
 use clap::Parser;
 use std::path::PathBuf;
 
@@ -16,11 +17,11 @@ pub struct RunCommand {
     /// Path to the DSL file
     #[arg(short, long)]
     pub file: PathBuf,
-    
+
     /// Name of the pipeline to run (for files with multiple pipelines)
     #[arg(short, long)]
     pub pipeline: Option<String>,
-    
+
     /// Number of ticks to run (0 = run until completion)
     #[arg(short = 'n', long, default_value = "0")]
     pub ticks: usize,
@@ -72,6 +73,22 @@ pub struct BenchCommand {
     /// Output format (table, json)
     #[arg(short = 't', long, default_value = "table")]
     pub format: String,
+}
+
+/// Start inspector server
+#[derive(Parser, Debug, Clone)]
+pub struct InspectCommand {
+    /// Bind address for the inspector server
+    #[arg(short, long, default_value = "127.0.0.1:3000")]
+    pub bind_addr: String,
+
+    /// Path to the DSL file to inspect
+    #[arg(short, long)]
+    pub file: Option<PathBuf>,
+
+    /// Disable CORS
+    #[arg(long)]
+    pub no_cors: bool,
 }
 
 pub async fn run(cmd: RunCommand, verbose: u8) -> Result<()> {
@@ -302,7 +319,7 @@ fn generate_mermaid_graph(ast: &[caret_dsl::AstNode], pipeline: &Option<String>)
                         _ => {}
                     }
                 }
-                
+
                 output.push_str("  end\n");
             }
             _ => {}
@@ -310,4 +327,41 @@ fn generate_mermaid_graph(ast: &[caret_dsl::AstNode], pipeline: &Option<String>)
     }
 
     Ok(output)
+}
+
+/// Start the inspector server
+pub async fn inspect(cmd: InspectCommand, verbose: u8) -> Result<()> {
+    use caret_inspector::InspectorConfig;
+
+    if verbose > 0 {
+        eprintln!("Starting inspector server...");
+    }
+
+    // Parse bind address
+    let bind_addr: std::net::SocketAddr = cmd.bind_addr.parse()
+        .map_err(|e| format!("Invalid bind address: {}", e))?;
+
+    // Build inspector configuration
+    let config = InspectorConfig::new()
+        .with_bind_addr(bind_addr)
+        .with_cors(!cmd.no_cors);
+
+    let server = InspectorServer::new(config);
+
+    println!("Inspector server starting on http://{}", cmd.bind_addr);
+    println!("Available endpoints:");
+    println!("  GET  /api          - API information");
+    println!("  GET  /api/runtime  - Runtime state");
+    println!("  GET  /api/graph    - Graph topology");
+    println!("  GET  /api/nodes    - All nodes");
+    println!("  GET  /api/metrics  - Metrics");
+    println!("  GET  /api/stats    - Statistics");
+    println!("  WS   /api/stream   - Event stream");
+    println!();
+    println!("Press Ctrl+C to stop the server");
+
+    match server.run().await {
+        Ok(()) => Ok(()),
+        Err(e) => Err(Error::Message(format!("Inspector server error: {}", e))),
+    }
 }

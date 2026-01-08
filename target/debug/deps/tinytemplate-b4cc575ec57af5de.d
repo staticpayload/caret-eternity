@@ -1,0 +1,10 @@
+/Users/staticpayload/Mainframe/caret-eternity/target/debug/deps/tinytemplate-b4cc575ec57af5de.d: /Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinytemplate-1.2.1/src/lib.rs /Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinytemplate-1.2.1/src/compiler.rs /Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinytemplate-1.2.1/src/error.rs /Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinytemplate-1.2.1/src/instruction.rs /Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinytemplate-1.2.1/src/syntax.rs /Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinytemplate-1.2.1/src/template.rs
+
+/Users/staticpayload/Mainframe/caret-eternity/target/debug/deps/libtinytemplate-b4cc575ec57af5de.rmeta: /Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinytemplate-1.2.1/src/lib.rs /Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinytemplate-1.2.1/src/compiler.rs /Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinytemplate-1.2.1/src/error.rs /Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinytemplate-1.2.1/src/instruction.rs /Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinytemplate-1.2.1/src/syntax.rs /Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinytemplate-1.2.1/src/template.rs
+
+/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinytemplate-1.2.1/src/lib.rs:
+/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinytemplate-1.2.1/src/compiler.rs:
+/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinytemplate-1.2.1/src/error.rs:
+/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinytemplate-1.2.1/src/instruction.rs:
+/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinytemplate-1.2.1/src/syntax.rs:
+/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinytemplate-1.2.1/src/template.rs:

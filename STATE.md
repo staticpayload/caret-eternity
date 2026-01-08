@@ -1,18 +1,25 @@
 # Caret State
 
-**Last updated:** 2025-01-08T23:30:00Z
+**Last updated:** 2025-01-08T23:59:00Z
 
 ## Current milestone
-Milestone 13: Inspector service API
+Milestone 14: Record and replay v0
 
 ## Current objective
-Implementing inspector service for runtime introspection and debugging
-
-## In progress
-- Designing inspector API
-- Adding query endpoints for graph state
+Implementing event recording and replay functionality
 
 ## Done since last update
+### Milestone 13: Inspector service API - COMPLETE
+- `caret_inspector` crate with HTTP/WebSocket server
+- REST API endpoints: /api/runtime, /api/graph, /api/nodes, /api/metrics, /api/stats
+- WebSocket endpoint at /api/stream for real-time event streaming
+- Snapshot data models: RuntimeSnapshot, GraphSnapshot, NodeSnapshot, PortSnapshot, MetricSnapshot
+- RuntimeIntegration for capturing snapshots from Executor
+- InspectorConfig and InspectorServer with CORS support
+- CLI inspect command: `caret inspect --bind-addr 127.0.0.1:3000`
+- 17 tests passing in caret_inspector
+- 216 total tests passing across workspace
+
 ### Milestone 12: Transform nodes for common operations - COMPLETE
 - `caret_transform` crate with 8 transform node types
 - FilterNode with predicate system (by_kind, min_length, max_length, no_control)
@@ -52,9 +59,9 @@ Implementing inspector service for runtime introspection and debugging
 - Complete governance documentation and repo structure
 
 ## Next objectives
-1. Implement inspector service API - Milestone 13
-2. Add record and replay v0 - Milestone 14
-3. Performance benchmarking framework - Milestone 15
+1. Implement record and replay v0 - Milestone 14
+2. Performance benchmarking framework - Milestone 15
+3. Enhanced error handling and recovery - Milestone 16
 
 ## Risks
 - Plugin system uses unsafe code for dynamic loading - needs audit
@@ -62,7 +69,7 @@ Implementing inspector service for runtime introspection and debugging
 
 ## Quality gates status
 - Build: Passing
-- Tests: 270+ tests passing across workspace
+- Tests: 216 tests passing across workspace
 - Docs: Core APIs documented
 - Lint: Passes (some warnings for missing docs on internal items)
 - Format: Passing

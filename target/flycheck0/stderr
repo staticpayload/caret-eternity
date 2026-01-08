@@ -1,8 +1,5 @@
-   0.044606083s  INFO prepare_target{force=false package_id=caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench) target="caret_bench"}: cargo::core::compiler::fingerprint: dependency on `caret_graph` is newer than we are 1767874065.344212711s > 1767870992.724244457s "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench"
-   0.044694291s  INFO prepare_target{force=false package_id=caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench) target="caret_bench"}: cargo::core::compiler::fingerprint: fingerprint dirty for caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("caret_bench", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench/src/lib.rs", Edition2021) }
-   0.044701791s  INFO prepare_target{force=false package_id=caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench) target="caret_bench"}: cargo::core::compiler::fingerprint:     dirty: FsStatusOutdated(StaleDependency { name: "caret_graph", dep_mtime: FileTime { seconds: 1767874065, nanos: 344212711 }, max_mtime: FileTime { seconds: 1767870992, nanos: 724244457 } })
-   0.048904583s  INFO prepare_target{force=false package_id=caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench) target="buffer_pool_bench"}: cargo::core::compiler::fingerprint: fingerprint error for caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench)/Check { test: true }/TargetInner { kind: "bench", name: "buffer_pool_bench", tested: false, harness: false, ..: with_path("/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench/benches/buffer_pool_bench.rs", Edition2021) }
-   0.048909375s  INFO prepare_target{force=false package_id=caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench) target="buffer_pool_bench"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_bench-4cb60409e6aa297f/test-bench-buffer_pool_bench`
+   0.098235625s  INFO prepare_target{force=false package_id=caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench) target="caret_bench"}: cargo::core::compiler::fingerprint: fingerprint error for caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("caret_bench", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench/src/lib.rs", Edition2021) }
+   0.098371792s  INFO prepare_target{force=false package_id=caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench) target="caret_bench"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_bench-b6fcd94f4d1c6b17/lib-caret_bench`
 
 Caused by:
     No such file or directory (os error 2)
@@ -26,8 +23,504 @@ Stack backtrace:
   15: std::rt::lang_start::<()>::{closure#0}
   16: std::rt::lang_start_internal
   17: _main
-   0.051325583s  INFO prepare_target{force=false package_id=caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench) target="queue_bench"}: cargo::core::compiler::fingerprint: fingerprint error for caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench)/Check { test: true }/TargetInner { kind: "bench", name: "queue_bench", tested: false, harness: false, ..: with_path("/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench/benches/queue_bench.rs", Edition2021) }
-   0.051330666s  INFO prepare_target{force=false package_id=caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench) target="queue_bench"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_bench-9732365c1fd28976/test-bench-queue_bench`
+   0.111956917s  INFO prepare_target{force=false package_id=caret_buffers v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_buffers) target="caret_buffers"}: cargo::core::compiler::fingerprint: fingerprint error for caret_buffers v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_buffers)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("caret_buffers", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_buffers/src/lib.rs", Edition2021) }
+   0.111968042s  INFO prepare_target{force=false package_id=caret_buffers v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_buffers) target="caret_buffers"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_buffers-6cd268a17f10a08e/lib-caret_buffers`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   9: cargo::ops::cargo_compile::compile_ws
+  10: cargo::ops::cargo_compile::compile_with_exec
+  11: cargo::ops::cargo_compile::compile
+  12: cargo::commands::check::exec
+  13: <cargo::cli::Exec>::exec
+  14: cargo::main
+  15: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  16: std::rt::lang_start::<()>::{closure#0}
+  17: std::rt::lang_start_internal
+  18: _main
+   0.112378458s  INFO prepare_target{force=false package_id=caret_core v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_core) target="caret_core"}: cargo::core::compiler::fingerprint: fingerprint error for caret_core v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_core)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("caret_core", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_core/src/lib.rs", Edition2021) }
+   0.112385708s  INFO prepare_target{force=false package_id=caret_core v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_core) target="caret_core"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_core-0a6ad80e0ffb115d/lib-caret_core`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  10: cargo::ops::cargo_compile::compile_ws
+  11: cargo::ops::cargo_compile::compile_with_exec
+  12: cargo::ops::cargo_compile::compile
+  13: cargo::commands::check::exec
+  14: <cargo::cli::Exec>::exec
+  15: cargo::main
+  16: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  17: std::rt::lang_start::<()>::{closure#0}
+  18: std::rt::lang_start_internal
+  19: _main
+   0.112934875s  INFO prepare_target{force=false package_id=parking_lot v0.12.5 target="parking_lot"}: cargo::core::compiler::fingerprint: fingerprint error for parking_lot v0.12.5/Check { test: false }/TargetInner { ..: lib_target("parking_lot", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/parking_lot-0.12.5/src/lib.rs", Edition2021) }
+   0.112939083s  INFO prepare_target{force=false package_id=parking_lot v0.12.5 target="parking_lot"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/parking_lot-92b54a00acf006ec/lib-parking_lot`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  11: cargo::ops::cargo_compile::compile_ws
+  12: cargo::ops::cargo_compile::compile_with_exec
+  13: cargo::ops::cargo_compile::compile
+  14: cargo::commands::check::exec
+  15: <cargo::cli::Exec>::exec
+  16: cargo::main
+  17: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  18: std::rt::lang_start::<()>::{closure#0}
+  19: std::rt::lang_start_internal
+  20: _main
+   0.113448917s  INFO prepare_target{force=false package_id=parking_lot_core v0.9.12 target="parking_lot_core"}: cargo::core::compiler::fingerprint: fingerprint error for parking_lot_core v0.9.12/Check { test: false }/TargetInner { ..: lib_target("parking_lot_core", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/parking_lot_core-0.9.12/src/lib.rs", Edition2021) }
+   0.113455292s  INFO prepare_target{force=false package_id=parking_lot_core v0.9.12 target="parking_lot_core"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/parking_lot_core-a9b68cd9cce3f9e3/lib-parking_lot_core`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  12: cargo::ops::cargo_compile::compile_ws
+  13: cargo::ops::cargo_compile::compile_with_exec
+  14: cargo::ops::cargo_compile::compile
+  15: cargo::commands::check::exec
+  16: <cargo::cli::Exec>::exec
+  17: cargo::main
+  18: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  19: std::rt::lang_start::<()>::{closure#0}
+  20: std::rt::lang_start_internal
+  21: _main
+   0.114589833s  INFO prepare_target{force=false package_id=smallvec v1.15.1 target="smallvec"}: cargo::core::compiler::fingerprint: fingerprint error for smallvec v1.15.1/Check { test: false }/TargetInner { ..: lib_target("smallvec", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/smallvec-1.15.1/src/lib.rs", Edition2018) }
+   0.114596167s  INFO prepare_target{force=false package_id=smallvec v1.15.1 target="smallvec"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/smallvec-2c0b0ecccaf193ea/lib-smallvec`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: cargo::core::compiler::compile
+  12: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  13: cargo::ops::cargo_compile::compile_ws
+  14: cargo::ops::cargo_compile::compile_with_exec
+  15: cargo::ops::cargo_compile::compile
+  16: cargo::commands::check::exec
+  17: <cargo::cli::Exec>::exec
+  18: cargo::main
+  19: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  20: std::rt::lang_start::<()>::{closure#0}
+  21: std::rt::lang_start_internal
+  22: _main
+   0.115775917s  INFO prepare_target{force=false package_id=caret_graph v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_graph) target="caret_graph"}: cargo::core::compiler::fingerprint: fingerprint error for caret_graph v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_graph)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("caret_graph", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_graph/src/lib.rs", Edition2021) }
+   0.115782042s  INFO prepare_target{force=false package_id=caret_graph v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_graph) target="caret_graph"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_graph-56e0dc616541336d/lib-caret_graph`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   9: cargo::ops::cargo_compile::compile_ws
+  10: cargo::ops::cargo_compile::compile_with_exec
+  11: cargo::ops::cargo_compile::compile
+  12: cargo::commands::check::exec
+  13: <cargo::cli::Exec>::exec
+  14: cargo::main
+  15: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  16: std::rt::lang_start::<()>::{closure#0}
+  17: std::rt::lang_start_internal
+  18: _main
+   0.116999833s  INFO prepare_target{force=false package_id=caret_sched v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_sched) target="caret_sched"}: cargo::core::compiler::fingerprint: fingerprint error for caret_sched v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_sched)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("caret_sched", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_sched/src/lib.rs", Edition2021) }
+   0.117004417s  INFO prepare_target{force=false package_id=caret_sched v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_sched) target="caret_sched"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_sched-6c851b2447d954ad/lib-caret_sched`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   9: cargo::ops::cargo_compile::compile_ws
+  10: cargo::ops::cargo_compile::compile_with_exec
+  11: cargo::ops::cargo_compile::compile
+  12: cargo::commands::check::exec
+  13: <cargo::cli::Exec>::exec
+  14: cargo::main
+  15: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  16: std::rt::lang_start::<()>::{closure#0}
+  17: std::rt::lang_start_internal
+  18: _main
+   0.117788583s  INFO prepare_target{force=false package_id=futures v0.3.31 target="futures"}: cargo::core::compiler::fingerprint: fingerprint error for futures v0.3.31/Check { test: false }/TargetInner { ..: lib_target("futures", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-0.3.31/src/lib.rs", Edition2018) }
+   0.117793542s  INFO prepare_target{force=false package_id=futures v0.3.31 target="futures"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/futures-89a7b6a35d3f78cb/lib-futures`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  10: cargo::ops::cargo_compile::compile_ws
+  11: cargo::ops::cargo_compile::compile_with_exec
+  12: cargo::ops::cargo_compile::compile
+  13: cargo::commands::check::exec
+  14: <cargo::cli::Exec>::exec
+  15: cargo::main
+  16: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  17: std::rt::lang_start::<()>::{closure#0}
+  18: std::rt::lang_start_internal
+  19: _main
+   0.118064625s  INFO prepare_target{force=false package_id=futures-channel v0.3.31 target="futures_channel"}: cargo::core::compiler::fingerprint: fingerprint error for futures-channel v0.3.31/Check { test: false }/TargetInner { ..: lib_target("futures_channel", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-channel-0.3.31/src/lib.rs", Edition2018) }
+   0.118068792s  INFO prepare_target{force=false package_id=futures-channel v0.3.31 target="futures_channel"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/futures-channel-61c2d5768b0906f8/lib-futures_channel`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  11: cargo::ops::cargo_compile::compile_ws
+  12: cargo::ops::cargo_compile::compile_with_exec
+  13: cargo::ops::cargo_compile::compile
+  14: cargo::commands::check::exec
+  15: <cargo::cli::Exec>::exec
+  16: cargo::main
+  17: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  18: std::rt::lang_start::<()>::{closure#0}
+  19: std::rt::lang_start_internal
+  20: _main
+   0.118219708s  INFO prepare_target{force=false package_id=futures-core v0.3.31 target="futures_core"}: cargo::core::compiler::fingerprint: fingerprint error for futures-core v0.3.31/Check { test: false }/TargetInner { ..: lib_target("futures_core", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-core-0.3.31/src/lib.rs", Edition2018) }
+   0.118223083s  INFO prepare_target{force=false package_id=futures-core v0.3.31 target="futures_core"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/futures-core-dce0033978b4068e/lib-futures_core`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  12: cargo::ops::cargo_compile::compile_ws
+  13: cargo::ops::cargo_compile::compile_with_exec
+  14: cargo::ops::cargo_compile::compile
+  15: cargo::commands::check::exec
+  16: <cargo::cli::Exec>::exec
+  17: cargo::main
+  18: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  19: std::rt::lang_start::<()>::{closure#0}
+  20: std::rt::lang_start_internal
+  21: _main
+   0.118340208s  INFO prepare_target{force=false package_id=futures-sink v0.3.31 target="futures_sink"}: cargo::core::compiler::fingerprint: fingerprint error for futures-sink v0.3.31/Check { test: false }/TargetInner { ..: lib_target("futures_sink", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-sink-0.3.31/src/lib.rs", Edition2018) }
+   0.118343292s  INFO prepare_target{force=false package_id=futures-sink v0.3.31 target="futures_sink"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/futures-sink-107a37bc39cb9801/lib-futures_sink`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  12: cargo::ops::cargo_compile::compile_ws
+  13: cargo::ops::cargo_compile::compile_with_exec
+  14: cargo::ops::cargo_compile::compile
+  15: cargo::commands::check::exec
+  16: <cargo::cli::Exec>::exec
+  17: cargo::main
+  18: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  19: std::rt::lang_start::<()>::{closure#0}
+  20: std::rt::lang_start_internal
+  21: _main
+   0.118461833s  INFO prepare_target{force=false package_id=futures-executor v0.3.31 target="futures_executor"}: cargo::core::compiler::fingerprint: fingerprint error for futures-executor v0.3.31/Check { test: false }/TargetInner { ..: lib_target("futures_executor", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-executor-0.3.31/src/lib.rs", Edition2018) }
+   0.118465000s  INFO prepare_target{force=false package_id=futures-executor v0.3.31 target="futures_executor"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/futures-executor-2d53bfdf65cbc24c/lib-futures_executor`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  11: cargo::ops::cargo_compile::compile_ws
+  12: cargo::ops::cargo_compile::compile_with_exec
+  13: cargo::ops::cargo_compile::compile
+  14: cargo::commands::check::exec
+  15: <cargo::cli::Exec>::exec
+  16: cargo::main
+  17: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  18: std::rt::lang_start::<()>::{closure#0}
+  19: std::rt::lang_start_internal
+  20: _main
+   0.118692292s  INFO prepare_target{force=false package_id=futures-util v0.3.31 target="futures_util"}: cargo::core::compiler::fingerprint: fingerprint error for futures-util v0.3.31/Check { test: false }/TargetInner { ..: lib_target("futures_util", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-util-0.3.31/src/lib.rs", Edition2018) }
+   0.118696542s  INFO prepare_target{force=false package_id=futures-util v0.3.31 target="futures_util"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/futures-util-3c7ef90acc227e45/lib-futures_util`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  12: cargo::ops::cargo_compile::compile_ws
+  13: cargo::ops::cargo_compile::compile_with_exec
+  14: cargo::ops::cargo_compile::compile
+  15: cargo::commands::check::exec
+  16: <cargo::cli::Exec>::exec
+  17: cargo::main
+  18: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  19: std::rt::lang_start::<()>::{closure#0}
+  20: std::rt::lang_start_internal
+  21: _main
+   0.119270333s  INFO prepare_target{force=false package_id=tokio v1.49.0 target="tokio"}: cargo::core::compiler::fingerprint: fingerprint error for tokio v1.49.0/Check { test: false }/TargetInner { ..: lib_target("tokio", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.49.0/src/lib.rs", Edition2021) }
+   0.119273792s  INFO prepare_target{force=false package_id=tokio v1.49.0 target="tokio"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/tokio-7a243b70e822bdca/lib-tokio`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  10: cargo::ops::cargo_compile::compile_ws
+  11: cargo::ops::cargo_compile::compile_with_exec
+  12: cargo::ops::cargo_compile::compile
+  13: cargo::commands::check::exec
+  14: <cargo::cli::Exec>::exec
+  15: cargo::main
+  16: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  17: std::rt::lang_start::<()>::{closure#0}
+  18: std::rt::lang_start_internal
+  19: _main
+   0.119830333s  INFO prepare_target{force=false package_id=tracing v0.1.44 target="tracing"}: cargo::core::compiler::fingerprint: fingerprint error for tracing v0.1.44/Check { test: false }/TargetInner { ..: lib_target("tracing", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tracing-0.1.44/src/lib.rs", Edition2018) }
+   0.119834083s  INFO prepare_target{force=false package_id=tracing v0.1.44 target="tracing"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/tracing-05a32c2204e4d1b9/lib-tracing`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  10: cargo::ops::cargo_compile::compile_ws
+  11: cargo::ops::cargo_compile::compile_with_exec
+  12: cargo::ops::cargo_compile::compile
+  13: cargo::commands::check::exec
+  14: <cargo::cli::Exec>::exec
+  15: cargo::main
+  16: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  17: std::rt::lang_start::<()>::{closure#0}
+  18: std::rt::lang_start_internal
+  19: _main
+   0.120220125s  INFO prepare_target{force=false package_id=criterion v0.5.1 target="criterion"}: cargo::core::compiler::fingerprint: fingerprint error for criterion v0.5.1/Check { test: false }/TargetInner { name_inferred: true, benched: false, ..: lib_target("criterion", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/criterion-0.5.1/src/lib.rs", Edition2018) }
+   0.120224750s  INFO prepare_target{force=false package_id=criterion v0.5.1 target="criterion"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/criterion-103f300202f383aa/lib-criterion`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   9: cargo::ops::cargo_compile::compile_ws
+  10: cargo::ops::cargo_compile::compile_with_exec
+  11: cargo::ops::cargo_compile::compile
+  12: cargo::commands::check::exec
+  13: <cargo::cli::Exec>::exec
+  14: cargo::main
+  15: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  16: std::rt::lang_start::<()>::{closure#0}
+  17: std::rt::lang_start_internal
+  18: _main
+   0.123879625s  INFO prepare_target{force=false package_id=serde_json v1.0.149 target="serde_json"}: cargo::core::compiler::fingerprint: fingerprint error for serde_json v1.0.149/Check { test: false }/TargetInner { ..: lib_target("serde_json", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.149/src/lib.rs", Edition2021) }
+   0.123884250s  INFO prepare_target{force=false package_id=serde_json v1.0.149 target="serde_json"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/serde_json-915dec04b5ec50d1/lib-serde_json`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  10: cargo::ops::cargo_compile::compile_ws
+  11: cargo::ops::cargo_compile::compile_with_exec
+  12: cargo::ops::cargo_compile::compile
+  13: cargo::commands::check::exec
+  14: <cargo::cli::Exec>::exec
+  15: cargo::main
+  16: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  17: std::rt::lang_start::<()>::{closure#0}
+  18: std::rt::lang_start_internal
+  19: _main
+   0.124414750s  INFO prepare_target{force=false package_id=tinytemplate v1.2.1 target="tinytemplate"}: cargo::core::compiler::fingerprint: fingerprint error for tinytemplate v1.2.1/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("tinytemplate", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinytemplate-1.2.1/src/lib.rs", Edition2015) }
+   0.124420208s  INFO prepare_target{force=false package_id=tinytemplate v1.2.1 target="tinytemplate"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/tinytemplate-b4cc575ec57af5de/lib-tinytemplate`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  10: cargo::ops::cargo_compile::compile_ws
+  11: cargo::ops::cargo_compile::compile_with_exec
+  12: cargo::ops::cargo_compile::compile
+  13: cargo::commands::check::exec
+  14: <cargo::cli::Exec>::exec
+  15: cargo::main
+  16: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  17: std::rt::lang_start::<()>::{closure#0}
+  18: std::rt::lang_start_internal
+  19: _main
+   0.124737583s  INFO prepare_target{force=false package_id=caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench) target="caret_bench"}: cargo::core::compiler::fingerprint: fingerprint error for caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench)/Check { test: true }/TargetInner { name_inferred: true, ..: lib_target("caret_bench", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench/src/lib.rs", Edition2021) }
+   0.124743250s  INFO prepare_target{force=false package_id=caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench) target="caret_bench"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_bench-12828a4a6d6045a5/test-lib-caret_bench`
 
 Caused by:
     No such file or directory (os error 2)
@@ -51,8 +544,8 @@ Stack backtrace:
   15: std::rt::lang_start::<()>::{closure#0}
   16: std::rt::lang_start_internal
   17: _main
-   0.051597375s  INFO prepare_target{force=false package_id=caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench) target="scheduler_bench"}: cargo::core::compiler::fingerprint: fingerprint error for caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench)/Check { test: true }/TargetInner { kind: "bench", name: "scheduler_bench", tested: false, harness: false, ..: with_path("/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench/benches/scheduler_bench.rs", Edition2021) }
-   0.051600333s  INFO prepare_target{force=false package_id=caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench) target="scheduler_bench"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_bench-00d73bc2817d6654/test-bench-scheduler_bench`
+   0.125072375s  INFO prepare_target{force=false package_id=caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench) target="buffer_pool_bench"}: cargo::core::compiler::fingerprint: fingerprint error for caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench)/Check { test: true }/TargetInner { kind: "bench", name: "buffer_pool_bench", tested: false, harness: false, ..: with_path("/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench/benches/buffer_pool_bench.rs", Edition2021) }
+   0.125077167s  INFO prepare_target{force=false package_id=caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench) target="buffer_pool_bench"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_bench-6b21970e5030631c/test-bench-buffer_pool_bench`
 
 Caused by:
     No such file or directory (os error 2)
@@ -76,24 +569,8 @@ Stack backtrace:
   15: std::rt::lang_start::<()>::{closure#0}
   16: std::rt::lang_start_internal
   17: _main
-   0.051939541s  INFO prepare_target{force=false package_id=caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli) target="caret_cli"}: cargo::core::compiler::fingerprint: dependency on `caret_graph` is newer than we are 1767874065.344212711s > 1767870991.602343724s "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_dsl"
-   0.051952458s  INFO prepare_target{force=false package_id=caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli) target="caret_cli"}: cargo::core::compiler::fingerprint: dependency on `caret_core` is newer than we are 1767874065.032994002s > 1767871869.772565370s "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_metrics"
-   0.052251000s  INFO prepare_target{force=false package_id=caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli) target="caret_cli"}: cargo::core::compiler::fingerprint: fingerprint dirty for caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("caret_cli", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli/src/lib.rs", Edition2021) }
-   0.052254833s  INFO prepare_target{force=false package_id=caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli) target="caret_cli"}: cargo::core::compiler::fingerprint:     dirty: FsStatusOutdated(StaleDepFingerprint { name: "caret_trace" })
-   0.052618041s  INFO prepare_target{force=false package_id=caret_dsl v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_dsl) target="caret_dsl"}: cargo::core::compiler::fingerprint: fingerprint dirty for caret_dsl v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_dsl)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("caret_dsl", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_dsl/src/lib.rs", Edition2021) }
-   0.052621000s  INFO prepare_target{force=false package_id=caret_dsl v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_dsl) target="caret_dsl"}: cargo::core::compiler::fingerprint:     dirty: FsStatusOutdated(StaleDependency { name: "caret_graph", dep_mtime: FileTime { seconds: 1767874065, nanos: 344212711 }, max_mtime: FileTime { seconds: 1767870991, nanos: 602343724 } })
-   0.052872375s  INFO prepare_target{force=false package_id=caret_metrics v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_metrics) target="caret_metrics"}: cargo::core::compiler::fingerprint: fingerprint dirty for caret_metrics v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_metrics)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("caret_metrics", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_metrics/src/lib.rs", Edition2021) }
-   0.052875375s  INFO prepare_target{force=false package_id=caret_metrics v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_metrics) target="caret_metrics"}: cargo::core::compiler::fingerprint:     dirty: FsStatusOutdated(StaleDependency { name: "caret_core", dep_mtime: FileTime { seconds: 1767874065, nanos: 32994002 }, max_mtime: FileTime { seconds: 1767871869, nanos: 772565370 } })
-   0.053068208s  INFO prepare_target{force=false package_id=caret_trace v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_trace) target="caret_trace"}: cargo::core::compiler::fingerprint: fingerprint dirty for caret_trace v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_trace)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("caret_trace", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_trace/src/lib.rs", Edition2021) }
-   0.053073916s  INFO prepare_target{force=false package_id=caret_trace v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_trace) target="caret_trace"}: cargo::core::compiler::fingerprint:     dirty: FsStatusOutdated(StaleDepFingerprint { name: "caret_metrics" })
-   0.053530666s  INFO prepare_target{force=false package_id=caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli) target="caret_cli"}: cargo::core::compiler::fingerprint: fingerprint dirty for caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli)/Check { test: true }/TargetInner { name_inferred: true, ..: lib_target("caret_cli", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli/src/lib.rs", Edition2021) }
-   0.053533625s  INFO prepare_target{force=false package_id=caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli) target="caret_cli"}: cargo::core::compiler::fingerprint:     dirty: FsStatusOutdated(StaleDepFingerprint { name: "caret_trace" })
-   0.053908333s  INFO prepare_target{force=false package_id=caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli) target="caret"}: cargo::core::compiler::fingerprint: fingerprint dirty for caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli)/Check { test: false }/TargetInner { name: "caret", doc: true, ..: with_path("/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli/src/main.rs", Edition2021) }
-   0.053911458s  INFO prepare_target{force=false package_id=caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli) target="caret"}: cargo::core::compiler::fingerprint:     dirty: FsStatusOutdated(StaleDepFingerprint { name: "caret_trace" })
-   0.054265541s  INFO prepare_target{force=false package_id=caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli) target="caret"}: cargo::core::compiler::fingerprint: fingerprint dirty for caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli)/Check { test: true }/TargetInner { name: "caret", doc: true, ..: with_path("/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli/src/main.rs", Edition2021) }
-   0.054273083s  INFO prepare_target{force=false package_id=caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli) target="caret"}: cargo::core::compiler::fingerprint:     dirty: FsStatusOutdated(StaleDepFingerprint { name: "caret_trace" })
-   0.056359458s  INFO prepare_target{force=false package_id=caret_plugins v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_plugins) target="caret_plugins"}: cargo::core::compiler::fingerprint: fingerprint error for caret_plugins v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_plugins)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("caret_plugins", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_plugins/src/lib.rs", Edition2021) }
-   0.056362708s  INFO prepare_target{force=false package_id=caret_plugins v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_plugins) target="caret_plugins"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_plugins-da4f16c8f993d332/lib-caret_plugins`
+   0.125369125s  INFO prepare_target{force=false package_id=caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench) target="queue_bench"}: cargo::core::compiler::fingerprint: fingerprint error for caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench)/Check { test: true }/TargetInner { kind: "bench", name: "queue_bench", tested: false, harness: false, ..: with_path("/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench/benches/queue_bench.rs", Edition2021) }
+   0.125372792s  INFO prepare_target{force=false package_id=caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench) target="queue_bench"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_bench-965e4e0c88de2006/test-bench-queue_bench`
 
 Caused by:
     No such file or directory (os error 2)
@@ -117,8 +594,8 @@ Stack backtrace:
   15: std::rt::lang_start::<()>::{closure#0}
   16: std::rt::lang_start_internal
   17: _main
-   0.056940166s  INFO prepare_target{force=false package_id=caret_plugins v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_plugins) target="caret_plugins"}: cargo::core::compiler::fingerprint: fingerprint error for caret_plugins v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_plugins)/Check { test: true }/TargetInner { name_inferred: true, ..: lib_target("caret_plugins", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_plugins/src/lib.rs", Edition2021) }
-   0.056946166s  INFO prepare_target{force=false package_id=caret_plugins v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_plugins) target="caret_plugins"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_plugins-09c9ac8a6c1a12a7/test-lib-caret_plugins`
+   0.125654750s  INFO prepare_target{force=false package_id=caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench) target="scheduler_bench"}: cargo::core::compiler::fingerprint: fingerprint error for caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench)/Check { test: true }/TargetInner { kind: "bench", name: "scheduler_bench", tested: false, harness: false, ..: with_path("/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench/benches/scheduler_bench.rs", Edition2021) }
+   0.125658125s  INFO prepare_target{force=false package_id=caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench) target="scheduler_bench"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_bench-9ef786aafa78617d/test-bench-scheduler_bench`
 
 Caused by:
     No such file or directory (os error 2)
@@ -142,17 +619,2452 @@ Stack backtrace:
   15: std::rt::lang_start::<()>::{closure#0}
   16: std::rt::lang_start_internal
   17: _main
-   0.057450333s  INFO prepare_target{force=false package_id=caret_trace v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_trace) target="caret_trace"}: cargo::core::compiler::fingerprint: fingerprint dirty for caret_trace v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_trace)/Check { test: true }/TargetInner { name_inferred: true, ..: lib_target("caret_trace", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_trace/src/lib.rs", Edition2021) }
-   0.057454083s  INFO prepare_target{force=false package_id=caret_trace v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_trace) target="caret_trace"}: cargo::core::compiler::fingerprint:     dirty: FsStatusOutdated(StaleDepFingerprint { name: "caret_metrics" })
+   0.125922333s  INFO prepare_target{force=false package_id=caret_buffers v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_buffers) target="caret_buffers"}: cargo::core::compiler::fingerprint: fingerprint error for caret_buffers v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_buffers)/Check { test: true }/TargetInner { name_inferred: true, ..: lib_target("caret_buffers", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_buffers/src/lib.rs", Edition2021) }
+   0.125926042s  INFO prepare_target{force=false package_id=caret_buffers v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_buffers) target="caret_buffers"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_buffers-7e588a488d50f1e6/test-lib-caret_buffers`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+  17: _main
+   0.128684958s  INFO prepare_target{force=false package_id=caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli) target="caret_cli"}: cargo::core::compiler::fingerprint: fingerprint error for caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("caret_cli", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli/src/lib.rs", Edition2021) }
+   0.128691208s  INFO prepare_target{force=false package_id=caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli) target="caret_cli"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_cli-6474eea9d6bdc2c6/lib-caret_cli`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+  17: _main
+   0.129137000s  INFO prepare_target{force=false package_id=caret_dsl v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_dsl) target="caret_dsl"}: cargo::core::compiler::fingerprint: fingerprint error for caret_dsl v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_dsl)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("caret_dsl", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_dsl/src/lib.rs", Edition2021) }
+   0.129141708s  INFO prepare_target{force=false package_id=caret_dsl v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_dsl) target="caret_dsl"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_dsl-d0e2f83b7be175f8/lib-caret_dsl`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   9: cargo::ops::cargo_compile::compile_ws
+  10: cargo::ops::cargo_compile::compile_with_exec
+  11: cargo::ops::cargo_compile::compile
+  12: cargo::commands::check::exec
+  13: <cargo::cli::Exec>::exec
+  14: cargo::main
+  15: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  16: std::rt::lang_start::<()>::{closure#0}
+  17: std::rt::lang_start_internal
+  18: _main
+   0.129358417s  INFO prepare_target{force=false package_id=caret_io v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_io) target="caret_io"}: cargo::core::compiler::fingerprint: fingerprint error for caret_io v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_io)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("caret_io", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_io/src/lib.rs", Edition2021) }
+   0.129362458s  INFO prepare_target{force=false package_id=caret_io v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_io) target="caret_io"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_io-16e2443e40aee984/lib-caret_io`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  10: cargo::ops::cargo_compile::compile_ws
+  11: cargo::ops::cargo_compile::compile_with_exec
+  12: cargo::ops::cargo_compile::compile
+  13: cargo::commands::check::exec
+  14: <cargo::cli::Exec>::exec
+  15: cargo::main
+  16: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  17: std::rt::lang_start::<()>::{closure#0}
+  18: std::rt::lang_start_internal
+  19: _main
+   0.129825792s  INFO prepare_target{force=false package_id=caret_inspector v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_inspector) target="caret_inspector"}: cargo::core::compiler::fingerprint: fingerprint error for caret_inspector v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_inspector)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("caret_inspector", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_inspector/src/lib.rs", Edition2021) }
+   0.129831792s  INFO prepare_target{force=false package_id=caret_inspector v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_inspector) target="caret_inspector"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_inspector-d6276db70dbb0709/lib-caret_inspector`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   9: cargo::ops::cargo_compile::compile_ws
+  10: cargo::ops::cargo_compile::compile_with_exec
+  11: cargo::ops::cargo_compile::compile
+  12: cargo::commands::check::exec
+  13: <cargo::cli::Exec>::exec
+  14: cargo::main
+  15: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  16: std::rt::lang_start::<()>::{closure#0}
+  17: std::rt::lang_start_internal
+  18: _main
+   0.130565792s  INFO prepare_target{force=false package_id=axum v0.7.9 target="axum"}: cargo::core::compiler::fingerprint: fingerprint error for axum v0.7.9/Check { test: false }/TargetInner { ..: lib_target("axum", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/axum-0.7.9/src/lib.rs", Edition2021) }
+   0.130570667s  INFO prepare_target{force=false package_id=axum v0.7.9 target="axum"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/axum-2e5593daee6bcb4c/lib-axum`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  10: cargo::ops::cargo_compile::compile_ws
+  11: cargo::ops::cargo_compile::compile_with_exec
+  12: cargo::ops::cargo_compile::compile
+  13: cargo::commands::check::exec
+  14: <cargo::cli::Exec>::exec
+  15: cargo::main
+  16: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  17: std::rt::lang_start::<()>::{closure#0}
+  18: std::rt::lang_start_internal
+  19: _main
+   0.131195000s  INFO prepare_target{force=false package_id=axum-core v0.4.5 target="axum_core"}: cargo::core::compiler::fingerprint: fingerprint error for axum-core v0.4.5/Check { test: false }/TargetInner { ..: lib_target("axum_core", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/axum-core-0.4.5/src/lib.rs", Edition2021) }
+   0.131198583s  INFO prepare_target{force=false package_id=axum-core v0.4.5 target="axum_core"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/axum-core-5c7075c4b4271932/lib-axum_core`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  11: cargo::ops::cargo_compile::compile_ws
+  12: cargo::ops::cargo_compile::compile_with_exec
+  13: cargo::ops::cargo_compile::compile
+  14: cargo::commands::check::exec
+  15: <cargo::cli::Exec>::exec
+  16: cargo::main
+  17: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  18: std::rt::lang_start::<()>::{closure#0}
+  19: std::rt::lang_start_internal
+  20: _main
+   0.131521250s  INFO prepare_target{force=false package_id=http v1.4.0 target="http"}: cargo::core::compiler::fingerprint: fingerprint error for http v1.4.0/Check { test: false }/TargetInner { ..: lib_target("http", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/http-1.4.0/src/lib.rs", Edition2021) }
+   0.131524375s  INFO prepare_target{force=false package_id=http v1.4.0 target="http"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/http-ee5aa9fe852b8c50/lib-http`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  12: cargo::ops::cargo_compile::compile_ws
+  13: cargo::ops::cargo_compile::compile_with_exec
+  14: cargo::ops::cargo_compile::compile
+  15: cargo::commands::check::exec
+  16: <cargo::cli::Exec>::exec
+  17: cargo::main
+  18: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  19: std::rt::lang_start::<()>::{closure#0}
+  20: std::rt::lang_start_internal
+  21: _main
+   0.131670917s  INFO prepare_target{force=false package_id=http-body v1.0.1 target="http_body"}: cargo::core::compiler::fingerprint: fingerprint error for http-body v1.0.1/Check { test: false }/TargetInner { ..: lib_target("http_body", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/http-body-1.0.1/src/lib.rs", Edition2018) }
+   0.131673833s  INFO prepare_target{force=false package_id=http-body v1.0.1 target="http_body"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/http-body-08f0e8cf23ef613e/lib-http_body`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  12: cargo::ops::cargo_compile::compile_ws
+  13: cargo::ops::cargo_compile::compile_with_exec
+  14: cargo::ops::cargo_compile::compile
+  15: cargo::commands::check::exec
+  16: <cargo::cli::Exec>::exec
+  17: cargo::main
+  18: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  19: std::rt::lang_start::<()>::{closure#0}
+  20: std::rt::lang_start_internal
+  21: _main
+   0.131820333s  INFO prepare_target{force=false package_id=http-body-util v0.1.3 target="http_body_util"}: cargo::core::compiler::fingerprint: fingerprint error for http-body-util v0.1.3/Check { test: false }/TargetInner { ..: lib_target("http_body_util", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/http-body-util-0.1.3/src/lib.rs", Edition2018) }
+   0.131823500s  INFO prepare_target{force=false package_id=http-body-util v0.1.3 target="http_body_util"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/http-body-util-e11bc1379ab3fadb/lib-http_body_util`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  12: cargo::ops::cargo_compile::compile_ws
+  13: cargo::ops::cargo_compile::compile_with_exec
+  14: cargo::ops::cargo_compile::compile
+  15: cargo::commands::check::exec
+  16: <cargo::cli::Exec>::exec
+  17: cargo::main
+  18: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  19: std::rt::lang_start::<()>::{closure#0}
+  20: std::rt::lang_start_internal
+  21: _main
+   0.132014708s  INFO prepare_target{force=false package_id=mime v0.3.17 target="mime"}: cargo::core::compiler::fingerprint: fingerprint error for mime v0.3.17/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("mime", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/mime-0.3.17/src/lib.rs", Edition2015) }
+   0.132017583s  INFO prepare_target{force=false package_id=mime v0.3.17 target="mime"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/mime-75be28c2813a36fd/lib-mime`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  12: cargo::ops::cargo_compile::compile_ws
+  13: cargo::ops::cargo_compile::compile_with_exec
+  14: cargo::ops::cargo_compile::compile
+  15: cargo::commands::check::exec
+  16: <cargo::cli::Exec>::exec
+  17: cargo::main
+  18: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  19: std::rt::lang_start::<()>::{closure#0}
+  20: std::rt::lang_start_internal
+  21: _main
+   0.132271750s  INFO prepare_target{force=false package_id=sync_wrapper v1.0.2 target="sync_wrapper"}: cargo::core::compiler::fingerprint: fingerprint error for sync_wrapper v1.0.2/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("sync_wrapper", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sync_wrapper-1.0.2/src/lib.rs", Edition2021) }
+   0.132275083s  INFO prepare_target{force=false package_id=sync_wrapper v1.0.2 target="sync_wrapper"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/sync_wrapper-5c9c4aaf049fadb0/lib-sync_wrapper`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  12: cargo::ops::cargo_compile::compile_ws
+  13: cargo::ops::cargo_compile::compile_with_exec
+  14: cargo::ops::cargo_compile::compile
+  15: cargo::commands::check::exec
+  16: <cargo::cli::Exec>::exec
+  17: cargo::main
+  18: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  19: std::rt::lang_start::<()>::{closure#0}
+  20: std::rt::lang_start_internal
+  21: _main
+   0.132385083s  INFO prepare_target{force=false package_id=tower-layer v0.3.3 target="tower_layer"}: cargo::core::compiler::fingerprint: fingerprint error for tower-layer v0.3.3/Check { test: false }/TargetInner { ..: lib_target("tower_layer", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tower-layer-0.3.3/src/lib.rs", Edition2018) }
+   0.132387958s  INFO prepare_target{force=false package_id=tower-layer v0.3.3 target="tower_layer"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/tower-layer-00ce058ba7161670/lib-tower_layer`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  12: cargo::ops::cargo_compile::compile_ws
+  13: cargo::ops::cargo_compile::compile_with_exec
+  14: cargo::ops::cargo_compile::compile
+  15: cargo::commands::check::exec
+  16: <cargo::cli::Exec>::exec
+  17: cargo::main
+  18: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  19: std::rt::lang_start::<()>::{closure#0}
+  20: std::rt::lang_start_internal
+  21: _main
+   0.132492000s  INFO prepare_target{force=false package_id=tower-service v0.3.3 target="tower_service"}: cargo::core::compiler::fingerprint: fingerprint error for tower-service v0.3.3/Check { test: false }/TargetInner { ..: lib_target("tower_service", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tower-service-0.3.3/src/lib.rs", Edition2018) }
+   0.132495083s  INFO prepare_target{force=false package_id=tower-service v0.3.3 target="tower_service"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/tower-service-4a60eee298fbe75b/lib-tower_service`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  12: cargo::ops::cargo_compile::compile_ws
+  13: cargo::ops::cargo_compile::compile_with_exec
+  14: cargo::ops::cargo_compile::compile
+  15: cargo::commands::check::exec
+  16: <cargo::cli::Exec>::exec
+  17: cargo::main
+  18: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  19: std::rt::lang_start::<()>::{closure#0}
+  20: std::rt::lang_start_internal
+  21: _main
+   0.132598458s  INFO prepare_target{force=false package_id=base64 v0.22.1 target="base64"}: cargo::core::compiler::fingerprint: fingerprint error for base64 v0.22.1/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("base64", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/base64-0.22.1/src/lib.rs", Edition2018) }
+   0.132601792s  INFO prepare_target{force=false package_id=base64 v0.22.1 target="base64"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/base64-c78aae63be61ba3a/lib-base64`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  11: cargo::ops::cargo_compile::compile_ws
+  12: cargo::ops::cargo_compile::compile_with_exec
+  13: cargo::ops::cargo_compile::compile
+  14: cargo::commands::check::exec
+  15: <cargo::cli::Exec>::exec
+  16: cargo::main
+  17: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  18: std::rt::lang_start::<()>::{closure#0}
+  19: std::rt::lang_start_internal
+  20: _main
+   0.132707833s  INFO prepare_target{force=false package_id=hyper v1.8.1 target="hyper"}: cargo::core::compiler::fingerprint: fingerprint error for hyper v1.8.1/Check { test: false }/TargetInner { ..: lib_target("hyper", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/hyper-1.8.1/src/lib.rs", Edition2021) }
+   0.132711500s  INFO prepare_target{force=false package_id=hyper v1.8.1 target="hyper"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/hyper-a02021e4104dfeaa/lib-hyper`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  11: cargo::ops::cargo_compile::compile_ws
+  12: cargo::ops::cargo_compile::compile_with_exec
+  13: cargo::ops::cargo_compile::compile
+  14: cargo::commands::check::exec
+  15: <cargo::cli::Exec>::exec
+  16: cargo::main
+  17: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  18: std::rt::lang_start::<()>::{closure#0}
+  19: std::rt::lang_start_internal
+  20: _main
+   0.133094167s  INFO prepare_target{force=false package_id=atomic-waker v1.1.2 target="atomic_waker"}: cargo::core::compiler::fingerprint: fingerprint error for atomic-waker v1.1.2/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("atomic_waker", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/atomic-waker-1.1.2/src/lib.rs", Edition2018) }
+   0.133097750s  INFO prepare_target{force=false package_id=atomic-waker v1.1.2 target="atomic_waker"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/atomic-waker-2ce81777cb728a88/lib-atomic_waker`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  12: cargo::ops::cargo_compile::compile_ws
+  13: cargo::ops::cargo_compile::compile_with_exec
+  14: cargo::ops::cargo_compile::compile
+  15: cargo::commands::check::exec
+  16: <cargo::cli::Exec>::exec
+  17: cargo::main
+  18: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  19: std::rt::lang_start::<()>::{closure#0}
+  20: std::rt::lang_start_internal
+  21: _main
+   0.133440875s  INFO prepare_target{force=false package_id=h2 v0.4.13 target="h2"}: cargo::core::compiler::fingerprint: fingerprint error for h2 v0.4.13/Check { test: false }/TargetInner { ..: lib_target("h2", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/h2-0.4.13/src/lib.rs", Edition2021) }
+   0.133447083s  INFO prepare_target{force=false package_id=h2 v0.4.13 target="h2"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/h2-d99fce75afc868eb/lib-h2`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  12: cargo::ops::cargo_compile::compile_ws
+  13: cargo::ops::cargo_compile::compile_with_exec
+  14: cargo::ops::cargo_compile::compile
+  15: cargo::commands::check::exec
+  16: <cargo::cli::Exec>::exec
+  17: cargo::main
+  18: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  19: std::rt::lang_start::<()>::{closure#0}
+  20: std::rt::lang_start_internal
+  21: _main
+   0.133800083s  INFO prepare_target{force=false package_id=fnv v1.0.7 target="fnv"}: cargo::core::compiler::fingerprint: fingerprint error for fnv v1.0.7/Check { test: false }/TargetInner { ..: lib_target("fnv", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/fnv-1.0.7/lib.rs", Edition2015) }
+   0.133804083s  INFO prepare_target{force=false package_id=fnv v1.0.7 target="fnv"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/fnv-0537d2c1a8f6eb12/lib-fnv`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: cargo::core::compiler::compile
+  12: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  13: cargo::ops::cargo_compile::compile_ws
+  14: cargo::ops::cargo_compile::compile_with_exec
+  15: cargo::ops::cargo_compile::compile
+  16: cargo::commands::check::exec
+  17: <cargo::cli::Exec>::exec
+  18: cargo::main
+  19: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  20: std::rt::lang_start::<()>::{closure#0}
+  21: std::rt::lang_start_internal
+  22: _main
+   0.133935083s  INFO prepare_target{force=false package_id=tokio-util v0.7.18 target="tokio_util"}: cargo::core::compiler::fingerprint: fingerprint error for tokio-util v0.7.18/Check { test: false }/TargetInner { ..: lib_target("tokio_util", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-util-0.7.18/src/lib.rs", Edition2021) }
+   0.133939083s  INFO prepare_target{force=false package_id=tokio-util v0.7.18 target="tokio_util"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/tokio-util-bdbde10e7a3cc4d6/lib-tokio_util`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: cargo::core::compiler::compile
+  12: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  13: cargo::ops::cargo_compile::compile_ws
+  14: cargo::ops::cargo_compile::compile_with_exec
+  15: cargo::ops::cargo_compile::compile
+  16: cargo::commands::check::exec
+  17: <cargo::cli::Exec>::exec
+  18: cargo::main
+  19: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  20: std::rt::lang_start::<()>::{closure#0}
+  21: std::rt::lang_start_internal
+  22: _main
+   0.134177917s  INFO prepare_target{force=false package_id=httparse v1.10.1 target="httparse"}: cargo::core::compiler::fingerprint: fingerprint error for httparse v1.10.1/Check { test: false }/TargetInner { benched: false, ..: lib_target("httparse", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/httparse-1.10.1/src/lib.rs", Edition2018) }
+   0.134183833s  INFO prepare_target{force=false package_id=httparse v1.10.1 target="httparse"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/httparse-e6e485a263eb8453/lib-httparse`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  12: cargo::ops::cargo_compile::compile_ws
+  13: cargo::ops::cargo_compile::compile_with_exec
+  14: cargo::ops::cargo_compile::compile
+  15: cargo::commands::check::exec
+  16: <cargo::cli::Exec>::exec
+  17: cargo::main
+  18: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  19: std::rt::lang_start::<()>::{closure#0}
+  20: std::rt::lang_start_internal
+  21: _main
+   0.134406542s  INFO prepare_target{force=false package_id=httpdate v1.0.3 target="httpdate"}: cargo::core::compiler::fingerprint: fingerprint error for httpdate v1.0.3/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("httpdate", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/httpdate-1.0.3/src/lib.rs", Edition2021) }
+   0.134409958s  INFO prepare_target{force=false package_id=httpdate v1.0.3 target="httpdate"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/httpdate-314695801344b14d/lib-httpdate`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  12: cargo::ops::cargo_compile::compile_ws
+  13: cargo::ops::cargo_compile::compile_with_exec
+  14: cargo::ops::cargo_compile::compile
+  15: cargo::commands::check::exec
+  16: <cargo::cli::Exec>::exec
+  17: cargo::main
+  18: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  19: std::rt::lang_start::<()>::{closure#0}
+  20: std::rt::lang_start_internal
+  21: _main
+   0.134516375s  INFO prepare_target{force=false package_id=want v0.3.1 target="want"}: cargo::core::compiler::fingerprint: fingerprint error for want v0.3.1/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("want", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/want-0.3.1/src/lib.rs", Edition2018) }
+   0.134519458s  INFO prepare_target{force=false package_id=want v0.3.1 target="want"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/want-0b9bbb44a2ec9d8b/lib-want`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  12: cargo::ops::cargo_compile::compile_ws
+  13: cargo::ops::cargo_compile::compile_with_exec
+  14: cargo::ops::cargo_compile::compile
+  15: cargo::commands::check::exec
+  16: <cargo::cli::Exec>::exec
+  17: cargo::main
+  18: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  19: std::rt::lang_start::<()>::{closure#0}
+  20: std::rt::lang_start_internal
+  21: _main
+   0.134646833s  INFO prepare_target{force=false package_id=try-lock v0.2.5 target="try_lock"}: cargo::core::compiler::fingerprint: fingerprint error for try-lock v0.2.5/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("try_lock", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/try-lock-0.2.5/src/lib.rs", Edition2015) }
+   0.134649833s  INFO prepare_target{force=false package_id=try-lock v0.2.5 target="try_lock"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/try-lock-4f985d854b2af6be/lib-try_lock`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: cargo::core::compiler::compile
+  12: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  13: cargo::ops::cargo_compile::compile_ws
+  14: cargo::ops::cargo_compile::compile_with_exec
+  15: cargo::ops::cargo_compile::compile
+  16: cargo::commands::check::exec
+  17: <cargo::cli::Exec>::exec
+  18: cargo::main
+  19: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  20: std::rt::lang_start::<()>::{closure#0}
+  21: std::rt::lang_start_internal
+  22: _main
+   0.134755667s  INFO prepare_target{force=false package_id=hyper-util v0.1.19 target="hyper_util"}: cargo::core::compiler::fingerprint: fingerprint error for hyper-util v0.1.19/Check { test: false }/TargetInner { ..: lib_target("hyper_util", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/hyper-util-0.1.19/src/lib.rs", Edition2021) }
+   0.134758792s  INFO prepare_target{force=false package_id=hyper-util v0.1.19 target="hyper_util"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/hyper-util-fd3c16846b6cc163/lib-hyper_util`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  11: cargo::ops::cargo_compile::compile_ws
+  12: cargo::ops::cargo_compile::compile_with_exec
+  13: cargo::ops::cargo_compile::compile
+  14: cargo::commands::check::exec
+  15: <cargo::cli::Exec>::exec
+  16: cargo::main
+  17: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  18: std::rt::lang_start::<()>::{closure#0}
+  19: std::rt::lang_start_internal
+  20: _main
+   0.135044833s  INFO prepare_target{force=false package_id=matchit v0.7.3 target="matchit"}: cargo::core::compiler::fingerprint: fingerprint error for matchit v0.7.3/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("matchit", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/matchit-0.7.3/src/lib.rs", Edition2021) }
+   0.135048250s  INFO prepare_target{force=false package_id=matchit v0.7.3 target="matchit"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/matchit-1a3df8607010d8bf/lib-matchit`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  11: cargo::ops::cargo_compile::compile_ws
+  12: cargo::ops::cargo_compile::compile_with_exec
+  13: cargo::ops::cargo_compile::compile
+  14: cargo::commands::check::exec
+  15: <cargo::cli::Exec>::exec
+  16: cargo::main
+  17: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  18: std::rt::lang_start::<()>::{closure#0}
+  19: std::rt::lang_start_internal
+  20: _main
+   0.135162083s  INFO prepare_target{force=false package_id=percent-encoding v2.3.2 target="percent_encoding"}: cargo::core::compiler::fingerprint: fingerprint error for percent-encoding v2.3.2/Check { test: false }/TargetInner { ..: lib_target("percent_encoding", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/percent-encoding-2.3.2/src/lib.rs", Edition2018) }
+   0.135165333s  INFO prepare_target{force=false package_id=percent-encoding v2.3.2 target="percent_encoding"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/percent-encoding-0c5d2c6f010e1b7d/lib-percent_encoding`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  11: cargo::ops::cargo_compile::compile_ws
+  12: cargo::ops::cargo_compile::compile_with_exec
+  13: cargo::ops::cargo_compile::compile
+  14: cargo::commands::check::exec
+  15: <cargo::cli::Exec>::exec
+  16: cargo::main
+  17: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  18: std::rt::lang_start::<()>::{closure#0}
+  19: std::rt::lang_start_internal
+  20: _main
+   0.135278333s  INFO prepare_target{force=false package_id=serde_path_to_error v0.1.20 target="serde_path_to_error"}: cargo::core::compiler::fingerprint: fingerprint error for serde_path_to_error v0.1.20/Check { test: false }/TargetInner { ..: lib_target("serde_path_to_error", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde_path_to_error-0.1.20/src/lib.rs", Edition2021) }
+   0.135281583s  INFO prepare_target{force=false package_id=serde_path_to_error v0.1.20 target="serde_path_to_error"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/serde_path_to_error-7d9c1b55d82b05a4/lib-serde_path_to_error`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  11: cargo::ops::cargo_compile::compile_ws
+  12: cargo::ops::cargo_compile::compile_with_exec
+  13: cargo::ops::cargo_compile::compile
+  14: cargo::commands::check::exec
+  15: <cargo::cli::Exec>::exec
+  16: cargo::main
+  17: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  18: std::rt::lang_start::<()>::{closure#0}
+  19: std::rt::lang_start_internal
+  20: _main
+   0.135429333s  INFO prepare_target{force=false package_id=serde_urlencoded v0.7.1 target="serde_urlencoded"}: cargo::core::compiler::fingerprint: fingerprint error for serde_urlencoded v0.7.1/Check { test: false }/TargetInner { name_inferred: true, tested: false, ..: lib_target("serde_urlencoded", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde_urlencoded-0.7.1/src/lib.rs", Edition2018) }
+   0.135432292s  INFO prepare_target{force=false package_id=serde_urlencoded v0.7.1 target="serde_urlencoded"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/serde_urlencoded-9ca7502172561dc4/lib-serde_urlencoded`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  11: cargo::ops::cargo_compile::compile_ws
+  12: cargo::ops::cargo_compile::compile_with_exec
+  13: cargo::ops::cargo_compile::compile
+  14: cargo::commands::check::exec
+  15: <cargo::cli::Exec>::exec
+  16: cargo::main
+  17: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  18: std::rt::lang_start::<()>::{closure#0}
+  19: std::rt::lang_start_internal
+  20: _main
+   0.135610042s  INFO prepare_target{force=false package_id=form_urlencoded v1.2.2 target="form_urlencoded"}: cargo::core::compiler::fingerprint: fingerprint error for form_urlencoded v1.2.2/Check { test: false }/TargetInner { tested: false, ..: lib_target("form_urlencoded", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/form_urlencoded-1.2.2/src/lib.rs", Edition2018) }
+   0.135614792s  INFO prepare_target{force=false package_id=form_urlencoded v1.2.2 target="form_urlencoded"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/form_urlencoded-d2229b62f38fcb2c/lib-form_urlencoded`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  12: cargo::ops::cargo_compile::compile_ws
+  13: cargo::ops::cargo_compile::compile_with_exec
+  14: cargo::ops::cargo_compile::compile
+  15: cargo::commands::check::exec
+  16: <cargo::cli::Exec>::exec
+  17: cargo::main
+  18: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  19: std::rt::lang_start::<()>::{closure#0}
+  20: std::rt::lang_start_internal
+  21: _main
+   0.135742292s  INFO prepare_target{force=false package_id=ryu v1.0.22 target="ryu"}: cargo::core::compiler::fingerprint: fingerprint error for ryu v1.0.22/Check { test: false }/TargetInner { ..: lib_target("ryu", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ryu-1.0.22/src/lib.rs", Edition2021) }
+   0.135745917s  INFO prepare_target{force=false package_id=ryu v1.0.22 target="ryu"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/ryu-78ef6f0a70d000b7/lib-ryu`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  12: cargo::ops::cargo_compile::compile_ws
+  13: cargo::ops::cargo_compile::compile_with_exec
+  14: cargo::ops::cargo_compile::compile
+  15: cargo::commands::check::exec
+  16: <cargo::cli::Exec>::exec
+  17: cargo::main
+  18: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  19: std::rt::lang_start::<()>::{closure#0}
+  20: std::rt::lang_start_internal
+  21: _main
+   0.135862500s  INFO prepare_target{force=false package_id=sha1 v0.10.6 target="sha1"}: cargo::core::compiler::fingerprint: fingerprint error for sha1 v0.10.6/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("sha1", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sha1-0.10.6/src/lib.rs", Edition2018) }
+   0.135865583s  INFO prepare_target{force=false package_id=sha1 v0.10.6 target="sha1"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/sha1-030d2399cbc5e9ea/lib-sha1`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  11: cargo::ops::cargo_compile::compile_ws
+  12: cargo::ops::cargo_compile::compile_with_exec
+  13: cargo::ops::cargo_compile::compile
+  14: cargo::commands::check::exec
+  15: <cargo::cli::Exec>::exec
+  16: cargo::main
+  17: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  18: std::rt::lang_start::<()>::{closure#0}
+  19: std::rt::lang_start_internal
+  20: _main
+   0.136043625s  INFO prepare_target{force=false package_id=cpufeatures v0.2.17 target="cpufeatures"}: cargo::core::compiler::fingerprint: fingerprint error for cpufeatures v0.2.17/Check { test: false }/TargetInner { ..: lib_target("cpufeatures", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cpufeatures-0.2.17/src/lib.rs", Edition2018) }
+   0.136046833s  INFO prepare_target{force=false package_id=cpufeatures v0.2.17 target="cpufeatures"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/cpufeatures-3f7500449fba3f0a/lib-cpufeatures`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  12: cargo::ops::cargo_compile::compile_ws
+  13: cargo::ops::cargo_compile::compile_with_exec
+  14: cargo::ops::cargo_compile::compile
+  15: cargo::commands::check::exec
+  16: <cargo::cli::Exec>::exec
+  17: cargo::main
+  18: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  19: std::rt::lang_start::<()>::{closure#0}
+  20: std::rt::lang_start_internal
+  21: _main
+   0.136176208s  INFO prepare_target{force=false package_id=digest v0.10.7 target="digest"}: cargo::core::compiler::fingerprint: fingerprint error for digest v0.10.7/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("digest", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/digest-0.10.7/src/lib.rs", Edition2018) }
+   0.136179375s  INFO prepare_target{force=false package_id=digest v0.10.7 target="digest"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/digest-47a3c42b3ce5d4cb/lib-digest`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  12: cargo::ops::cargo_compile::compile_ws
+  13: cargo::ops::cargo_compile::compile_with_exec
+  14: cargo::ops::cargo_compile::compile
+  15: cargo::commands::check::exec
+  16: <cargo::cli::Exec>::exec
+  17: cargo::main
+  18: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  19: std::rt::lang_start::<()>::{closure#0}
+  20: std::rt::lang_start_internal
+  21: _main
+   0.136323875s  INFO prepare_target{force=false package_id=block-buffer v0.10.4 target="block_buffer"}: cargo::core::compiler::fingerprint: fingerprint error for block-buffer v0.10.4/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("block_buffer", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4/src/lib.rs", Edition2018) }
+   0.136327125s  INFO prepare_target{force=false package_id=block-buffer v0.10.4 target="block_buffer"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/block-buffer-341fb4c66139aeab/lib-block_buffer`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: cargo::core::compiler::compile
+  12: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  13: cargo::ops::cargo_compile::compile_ws
+  14: cargo::ops::cargo_compile::compile_with_exec
+  15: cargo::ops::cargo_compile::compile
+  16: cargo::commands::check::exec
+  17: <cargo::cli::Exec>::exec
+  18: cargo::main
+  19: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  20: std::rt::lang_start::<()>::{closure#0}
+  21: std::rt::lang_start_internal
+  22: _main
+   0.136447625s  INFO prepare_target{force=false package_id=generic-array v0.14.7 target="generic_array"}: cargo::core::compiler::fingerprint: fingerprint error for generic-array v0.14.7/Check { test: false }/TargetInner { ..: lib_target("generic_array", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/generic-array-0.14.7/src/lib.rs", Edition2015) }
+   0.136450542s  INFO prepare_target{force=false package_id=generic-array v0.14.7 target="generic_array"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/generic-array-cd1a228d65dcb45f/lib-generic_array`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: cargo::core::compiler::compile
+  12: cargo::core::compiler::compile
+  13: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  14: cargo::ops::cargo_compile::compile_ws
+  15: cargo::ops::cargo_compile::compile_with_exec
+  16: cargo::ops::cargo_compile::compile
+  17: cargo::commands::check::exec
+  18: <cargo::cli::Exec>::exec
+  19: cargo::main
+  20: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  21: std::rt::lang_start::<()>::{closure#0}
+  22: std::rt::lang_start_internal
+  23: _main
+   0.136710792s  INFO prepare_target{force=false package_id=typenum v1.19.0 target="typenum"}: cargo::core::compiler::fingerprint: fingerprint error for typenum v1.19.0/Check { test: false }/TargetInner { ..: lib_target("typenum", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/typenum-1.19.0/src/lib.rs", Edition2018) }
+   0.136713500s  INFO prepare_target{force=false package_id=typenum v1.19.0 target="typenum"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/typenum-1683bf25aa5e2c89/lib-typenum`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: cargo::core::compiler::compile
+  12: cargo::core::compiler::compile
+  13: cargo::core::compiler::compile
+  14: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  15: cargo::ops::cargo_compile::compile_ws
+  16: cargo::ops::cargo_compile::compile_with_exec
+  17: cargo::ops::cargo_compile::compile
+  18: cargo::commands::check::exec
+  19: <cargo::cli::Exec>::exec
+  20: cargo::main
+  21: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  22: std::rt::lang_start::<()>::{closure#0}
+  23: std::rt::lang_start_internal
+  24: _main
+   0.136918417s  INFO prepare_target{force=false package_id=crypto-common v0.1.7 target="crypto_common"}: cargo::core::compiler::fingerprint: fingerprint error for crypto-common v0.1.7/Check { test: false }/TargetInner { ..: lib_target("crypto_common", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/crypto-common-0.1.7/src/lib.rs", Edition2018) }
+   0.136921708s  INFO prepare_target{force=false package_id=crypto-common v0.1.7 target="crypto_common"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/crypto-common-aafca3c8bb2524a0/lib-crypto_common`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: cargo::core::compiler::compile
+  12: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  13: cargo::ops::cargo_compile::compile_ws
+  14: cargo::ops::cargo_compile::compile_with_exec
+  15: cargo::ops::cargo_compile::compile
+  16: cargo::commands::check::exec
+  17: <cargo::cli::Exec>::exec
+  18: cargo::main
+  19: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  20: std::rt::lang_start::<()>::{closure#0}
+  21: std::rt::lang_start_internal
+  22: _main
+   0.137074667s  INFO prepare_target{force=false package_id=tokio-tungstenite v0.24.0 target="tokio_tungstenite"}: cargo::core::compiler::fingerprint: fingerprint error for tokio-tungstenite v0.24.0/Check { test: false }/TargetInner { ..: lib_target("tokio_tungstenite", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-tungstenite-0.24.0/src/lib.rs", Edition2018) }
+   0.137077625s  INFO prepare_target{force=false package_id=tokio-tungstenite v0.24.0 target="tokio_tungstenite"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/tokio-tungstenite-fb1e70cf82b510ea/lib-tokio_tungstenite`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  11: cargo::ops::cargo_compile::compile_ws
+  12: cargo::ops::cargo_compile::compile_with_exec
+  13: cargo::ops::cargo_compile::compile
+  14: cargo::commands::check::exec
+  15: <cargo::cli::Exec>::exec
+  16: cargo::main
+  17: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  18: std::rt::lang_start::<()>::{closure#0}
+  19: std::rt::lang_start_internal
+  20: _main
+   0.137305958s  INFO prepare_target{force=false package_id=tungstenite v0.24.0 target="tungstenite"}: cargo::core::compiler::fingerprint: fingerprint error for tungstenite v0.24.0/Check { test: false }/TargetInner { ..: lib_target("tungstenite", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tungstenite-0.24.0/src/lib.rs", Edition2018) }
+   0.137309333s  INFO prepare_target{force=false package_id=tungstenite v0.24.0 target="tungstenite"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/tungstenite-2d51834c666085dd/lib-tungstenite`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  12: cargo::ops::cargo_compile::compile_ws
+  13: cargo::ops::cargo_compile::compile_with_exec
+  14: cargo::ops::cargo_compile::compile
+  15: cargo::commands::check::exec
+  16: <cargo::cli::Exec>::exec
+  17: cargo::main
+  18: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  19: std::rt::lang_start::<()>::{closure#0}
+  20: std::rt::lang_start_internal
+  21: _main
+   0.137604417s  INFO prepare_target{force=false package_id=byteorder v1.5.0 target="byteorder"}: cargo::core::compiler::fingerprint: fingerprint error for byteorder v1.5.0/Check { test: false }/TargetInner { benched: false, ..: lib_target("byteorder", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/byteorder-1.5.0/src/lib.rs", Edition2021) }
+   0.137607167s  INFO prepare_target{force=false package_id=byteorder v1.5.0 target="byteorder"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/byteorder-f537200415d3436c/lib-byteorder`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: cargo::core::compiler::compile
+  12: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  13: cargo::ops::cargo_compile::compile_ws
+  14: cargo::ops::cargo_compile::compile_with_exec
+  15: cargo::ops::cargo_compile::compile
+  16: cargo::commands::check::exec
+  17: <cargo::cli::Exec>::exec
+  18: cargo::main
+  19: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  20: std::rt::lang_start::<()>::{closure#0}
+  21: std::rt::lang_start_internal
+  22: _main
+   0.137716458s  INFO prepare_target{force=false package_id=data-encoding v2.9.0 target="data_encoding"}: cargo::core::compiler::fingerprint: fingerprint error for data-encoding v2.9.0/Check { test: false }/TargetInner { ..: lib_target("data_encoding", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/data-encoding-2.9.0/src/lib.rs", Edition2018) }
+   0.137719292s  INFO prepare_target{force=false package_id=data-encoding v2.9.0 target="data_encoding"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/data-encoding-2b7a20747d400829/lib-data_encoding`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: cargo::core::compiler::compile
+  12: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  13: cargo::ops::cargo_compile::compile_ws
+  14: cargo::ops::cargo_compile::compile_with_exec
+  15: cargo::ops::cargo_compile::compile
+  16: cargo::commands::check::exec
+  17: <cargo::cli::Exec>::exec
+  18: cargo::main
+  19: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  20: std::rt::lang_start::<()>::{closure#0}
+  21: std::rt::lang_start_internal
+  22: _main
+   0.137827625s  INFO prepare_target{force=false package_id=rand v0.8.5 target="rand"}: cargo::core::compiler::fingerprint: fingerprint error for rand v0.8.5/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("rand", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rand-0.8.5/src/lib.rs", Edition2018) }
+   0.137830625s  INFO prepare_target{force=false package_id=rand v0.8.5 target="rand"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/rand-b0bdbb57c56c7878/lib-rand`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: cargo::core::compiler::compile
+  12: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  13: cargo::ops::cargo_compile::compile_ws
+  14: cargo::ops::cargo_compile::compile_with_exec
+  15: cargo::ops::cargo_compile::compile
+  16: cargo::commands::check::exec
+  17: <cargo::cli::Exec>::exec
+  18: cargo::main
+  19: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  20: std::rt::lang_start::<()>::{closure#0}
+  21: std::rt::lang_start_internal
+  22: _main
+   0.138009042s  INFO prepare_target{force=false package_id=rand_chacha v0.3.1 target="rand_chacha"}: cargo::core::compiler::fingerprint: fingerprint error for rand_chacha v0.3.1/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("rand_chacha", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rand_chacha-0.3.1/src/lib.rs", Edition2018) }
+   0.138011875s  INFO prepare_target{force=false package_id=rand_chacha v0.3.1 target="rand_chacha"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/rand_chacha-334a1fb4f6b81e91/lib-rand_chacha`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: cargo::core::compiler::compile
+  12: cargo::core::compiler::compile
+  13: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  14: cargo::ops::cargo_compile::compile_ws
+  15: cargo::ops::cargo_compile::compile_with_exec
+  16: cargo::ops::cargo_compile::compile
+  17: cargo::commands::check::exec
+  18: <cargo::cli::Exec>::exec
+  19: cargo::main
+  20: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  21: std::rt::lang_start::<()>::{closure#0}
+  22: std::rt::lang_start_internal
+  23: _main
+   0.138173042s  INFO prepare_target{force=false package_id=ppv-lite86 v0.2.21 target="ppv_lite86"}: cargo::core::compiler::fingerprint: fingerprint error for ppv-lite86 v0.2.21/Check { test: false }/TargetInner { ..: lib_target("ppv_lite86", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ppv-lite86-0.2.21/src/lib.rs", Edition2021) }
+   0.138176708s  INFO prepare_target{force=false package_id=ppv-lite86 v0.2.21 target="ppv_lite86"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/ppv-lite86-1dd664f196d41793/lib-ppv_lite86`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: cargo::core::compiler::compile
+  12: cargo::core::compiler::compile
+  13: cargo::core::compiler::compile
+  14: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  15: cargo::ops::cargo_compile::compile_ws
+  16: cargo::ops::cargo_compile::compile_with_exec
+  17: cargo::ops::cargo_compile::compile
+  18: cargo::commands::check::exec
+  19: <cargo::cli::Exec>::exec
+  20: cargo::main
+  21: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  22: std::rt::lang_start::<()>::{closure#0}
+  23: std::rt::lang_start_internal
+  24: _main
+   0.138317500s  INFO prepare_target{force=false package_id=rand_core v0.6.4 target="rand_core"}: cargo::core::compiler::fingerprint: fingerprint error for rand_core v0.6.4/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("rand_core", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rand_core-0.6.4/src/lib.rs", Edition2018) }
+   0.138321167s  INFO prepare_target{force=false package_id=rand_core v0.6.4 target="rand_core"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/rand_core-35b8cd537ec8603d/lib-rand_core`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: cargo::core::compiler::compile
+  12: cargo::core::compiler::compile
+  13: cargo::core::compiler::compile
+  14: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  15: cargo::ops::cargo_compile::compile_ws
+  16: cargo::ops::cargo_compile::compile_with_exec
+  17: cargo::ops::cargo_compile::compile
+  18: cargo::commands::check::exec
+  19: <cargo::cli::Exec>::exec
+  20: cargo::main
+  21: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  22: std::rt::lang_start::<()>::{closure#0}
+  23: std::rt::lang_start_internal
+  24: _main
+   0.138458208s  INFO prepare_target{force=false package_id=getrandom v0.2.16 target="getrandom"}: cargo::core::compiler::fingerprint: fingerprint error for getrandom v0.2.16/Check { test: false }/TargetInner { ..: lib_target("getrandom", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.2.16/src/lib.rs", Edition2018) }
+   0.138461000s  INFO prepare_target{force=false package_id=getrandom v0.2.16 target="getrandom"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/getrandom-e2b6a1a7cf32ba29/lib-getrandom`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: cargo::core::compiler::compile
+  12: cargo::core::compiler::compile
+  13: cargo::core::compiler::compile
+  14: cargo::core::compiler::compile
+  15: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  16: cargo::ops::cargo_compile::compile_ws
+  17: cargo::ops::cargo_compile::compile_with_exec
+  18: cargo::ops::cargo_compile::compile
+  19: cargo::commands::check::exec
+  20: <cargo::cli::Exec>::exec
+  21: cargo::main
+  22: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  23: std::rt::lang_start::<()>::{closure#0}
+  24: std::rt::lang_start_internal
+  25: _main
+   0.138615792s  INFO prepare_target{force=false package_id=utf-8 v0.7.6 target="utf8"}: cargo::core::compiler::fingerprint: fingerprint error for utf-8 v0.7.6/Check { test: false }/TargetInner { tested: false, benched: false, ..: lib_target("utf8", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/utf-8-0.7.6/src/lib.rs", Edition2015) }
+   0.138618667s  INFO prepare_target{force=false package_id=utf-8 v0.7.6 target="utf8"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/utf-8-fe92e27822017cb1/lib-utf8`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: cargo::core::compiler::compile
+  12: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  13: cargo::ops::cargo_compile::compile_ws
+  14: cargo::ops::cargo_compile::compile_with_exec
+  15: cargo::ops::cargo_compile::compile
+  16: cargo::commands::check::exec
+  17: <cargo::cli::Exec>::exec
+  18: cargo::main
+  19: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  20: std::rt::lang_start::<()>::{closure#0}
+  21: std::rt::lang_start_internal
+  22: _main
+   0.138723250s  INFO prepare_target{force=false package_id=tower v0.5.2 target="tower"}: cargo::core::compiler::fingerprint: fingerprint error for tower v0.5.2/Check { test: false }/TargetInner { ..: lib_target("tower", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tower-0.5.2/src/lib.rs", Edition2018) }
+   0.138725958s  INFO prepare_target{force=false package_id=tower v0.5.2 target="tower"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/tower-d5031f9359bc5292/lib-tower`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  11: cargo::ops::cargo_compile::compile_ws
+  12: cargo::ops::cargo_compile::compile_with_exec
+  13: cargo::ops::cargo_compile::compile
+  14: cargo::commands::check::exec
+  15: <cargo::cli::Exec>::exec
+  16: cargo::main
+  17: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  18: std::rt::lang_start::<()>::{closure#0}
+  19: std::rt::lang_start_internal
+  20: _main
+   0.138991625s  INFO prepare_target{force=false package_id=caret_metrics v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_metrics) target="caret_metrics"}: cargo::core::compiler::fingerprint: fingerprint error for caret_metrics v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_metrics)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("caret_metrics", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_metrics/src/lib.rs", Edition2021) }
+   0.138995042s  INFO prepare_target{force=false package_id=caret_metrics v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_metrics) target="caret_metrics"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_metrics-cbe961e071a846a3/lib-caret_metrics`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  10: cargo::ops::cargo_compile::compile_ws
+  11: cargo::ops::cargo_compile::compile_with_exec
+  12: cargo::ops::cargo_compile::compile
+  13: cargo::commands::check::exec
+  14: <cargo::cli::Exec>::exec
+  15: cargo::main
+  16: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  17: std::rt::lang_start::<()>::{closure#0}
+  18: std::rt::lang_start_internal
+  19: _main
+   0.139165375s  INFO prepare_target{force=false package_id=caret_trace v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_trace) target="caret_trace"}: cargo::core::compiler::fingerprint: fingerprint error for caret_trace v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_trace)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("caret_trace", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_trace/src/lib.rs", Edition2021) }
+   0.139168667s  INFO prepare_target{force=false package_id=caret_trace v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_trace) target="caret_trace"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_trace-8b1d4dc64803164f/lib-caret_trace`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  10: cargo::ops::cargo_compile::compile_ws
+  11: cargo::ops::cargo_compile::compile_with_exec
+  12: cargo::ops::cargo_compile::compile
+  13: cargo::commands::check::exec
+  14: <cargo::cli::Exec>::exec
+  15: cargo::main
+  16: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  17: std::rt::lang_start::<()>::{closure#0}
+  18: std::rt::lang_start_internal
+  19: _main
+   0.139399667s  INFO prepare_target{force=false package_id=tracing-subscriber v0.3.22 target="tracing_subscriber"}: cargo::core::compiler::fingerprint: fingerprint error for tracing-subscriber v0.3.22/Check { test: false }/TargetInner { ..: lib_target("tracing_subscriber", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tracing-subscriber-0.3.22/src/lib.rs", Edition2018) }
+   0.139402875s  INFO prepare_target{force=false package_id=tracing-subscriber v0.3.22 target="tracing_subscriber"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/tracing-subscriber-2c3bb6db0c4f6aa5/lib-tracing_subscriber`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  11: cargo::ops::cargo_compile::compile_ws
+  12: cargo::ops::cargo_compile::compile_with_exec
+  13: cargo::ops::cargo_compile::compile
+  14: cargo::commands::check::exec
+  15: <cargo::cli::Exec>::exec
+  16: cargo::main
+  17: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  18: std::rt::lang_start::<()>::{closure#0}
+  19: std::rt::lang_start_internal
+  20: _main
+   0.140135542s  INFO prepare_target{force=false package_id=tower v0.4.13 target="tower"}: cargo::core::compiler::fingerprint: fingerprint error for tower v0.4.13/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("tower", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tower-0.4.13/src/lib.rs", Edition2018) }
+   0.140139917s  INFO prepare_target{force=false package_id=tower v0.4.13 target="tower"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/tower-766661374cb0cdeb/lib-tower`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  10: cargo::ops::cargo_compile::compile_ws
+  11: cargo::ops::cargo_compile::compile_with_exec
+  12: cargo::ops::cargo_compile::compile
+  13: cargo::commands::check::exec
+  14: <cargo::cli::Exec>::exec
+  15: cargo::main
+  16: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  17: std::rt::lang_start::<()>::{closure#0}
+  18: std::rt::lang_start_internal
+  19: _main
+   0.140498250s  INFO prepare_target{force=false package_id=hdrhistogram v7.5.4 target="hdrhistogram"}: cargo::core::compiler::fingerprint: fingerprint error for hdrhistogram v7.5.4/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("hdrhistogram", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/hdrhistogram-7.5.4/src/lib.rs", Edition2018) }
+   0.140505292s  INFO prepare_target{force=false package_id=hdrhistogram v7.5.4 target="hdrhistogram"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/hdrhistogram-e5bb46438be2cfdd/lib-hdrhistogram`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  11: cargo::ops::cargo_compile::compile_ws
+  12: cargo::ops::cargo_compile::compile_with_exec
+  13: cargo::ops::cargo_compile::compile
+  14: cargo::commands::check::exec
+  15: <cargo::cli::Exec>::exec
+  16: cargo::main
+  17: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  18: std::rt::lang_start::<()>::{closure#0}
+  19: std::rt::lang_start_internal
+  20: _main
+   0.140654625s  INFO prepare_target{force=false package_id=indexmap v1.9.3 target="indexmap"}: cargo::core::compiler::fingerprint: fingerprint error for indexmap v1.9.3/Check { test: false }/TargetInner { name_inferred: true, benched: false, ..: lib_target("indexmap", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/indexmap-1.9.3/src/lib.rs", Edition2021) }
+   0.140657750s  INFO prepare_target{force=false package_id=indexmap v1.9.3 target="indexmap"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/indexmap-659c571bef358414/lib-indexmap`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  11: cargo::ops::cargo_compile::compile_ws
+  12: cargo::ops::cargo_compile::compile_with_exec
+  13: cargo::ops::cargo_compile::compile
+  14: cargo::commands::check::exec
+  15: <cargo::cli::Exec>::exec
+  16: cargo::main
+  17: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  18: std::rt::lang_start::<()>::{closure#0}
+  19: std::rt::lang_start_internal
+  20: _main
+   0.140788792s  INFO prepare_target{force=false package_id=hashbrown v0.12.3 target="hashbrown"}: cargo::core::compiler::fingerprint: fingerprint error for hashbrown v0.12.3/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("hashbrown", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/hashbrown-0.12.3/src/lib.rs", Edition2021) }
+   0.140791708s  INFO prepare_target{force=false package_id=hashbrown v0.12.3 target="hashbrown"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/hashbrown-a7ebbd6d5b88a724/lib-hashbrown`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  12: cargo::ops::cargo_compile::compile_ws
+  13: cargo::ops::cargo_compile::compile_with_exec
+  14: cargo::ops::cargo_compile::compile
+  15: cargo::commands::check::exec
+  16: <cargo::cli::Exec>::exec
+  17: cargo::main
+  18: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  19: std::rt::lang_start::<()>::{closure#0}
+  20: std::rt::lang_start_internal
+  21: _main
+   0.141002292s  INFO prepare_target{force=false package_id=pin-project v1.1.10 target="pin_project"}: cargo::core::compiler::fingerprint: fingerprint error for pin-project v1.1.10/Check { test: false }/TargetInner { doc_scrape_examples: Disabled, ..: lib_target("pin_project", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pin-project-1.1.10/src/lib.rs", Edition2021) }
+   0.141005667s  INFO prepare_target{force=false package_id=pin-project v1.1.10 target="pin_project"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/pin-project-4026eb58fdd5ea9a/lib-pin_project`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  11: cargo::ops::cargo_compile::compile_ws
+  12: cargo::ops::cargo_compile::compile_with_exec
+  13: cargo::ops::cargo_compile::compile
+  14: cargo::commands::check::exec
+  15: <cargo::cli::Exec>::exec
+  16: cargo::main
+  17: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  18: std::rt::lang_start::<()>::{closure#0}
+  19: std::rt::lang_start_internal
+  20: _main
+   0.141177458s  INFO prepare_target{force=false package_id=tower-http v0.5.2 target="tower_http"}: cargo::core::compiler::fingerprint: fingerprint error for tower-http v0.5.2/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("tower_http", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tower-http-0.5.2/src/lib.rs", Edition2018) }
+   0.141180208s  INFO prepare_target{force=false package_id=tower-http v0.5.2 target="tower_http"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/tower-http-a23c3a5c0ccaf8f4/lib-tower_http`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  10: cargo::ops::cargo_compile::compile_ws
+  11: cargo::ops::cargo_compile::compile_with_exec
+  12: cargo::ops::cargo_compile::compile
+  13: cargo::commands::check::exec
+  14: <cargo::cli::Exec>::exec
+  15: cargo::main
+  16: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  17: std::rt::lang_start::<()>::{closure#0}
+  18: std::rt::lang_start_internal
+  19: _main
+   0.141687792s  INFO prepare_target{force=false package_id=http-range-header v0.4.2 target="http_range_header"}: cargo::core::compiler::fingerprint: fingerprint error for http-range-header v0.4.2/Check { test: false }/TargetInner { ..: lib_target("http_range_header", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/http-range-header-0.4.2/src/lib.rs", Edition2018) }
+   0.141691042s  INFO prepare_target{force=false package_id=http-range-header v0.4.2 target="http_range_header"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/http-range-header-84690d94ec497868/lib-http_range_header`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  11: cargo::ops::cargo_compile::compile_ws
+  12: cargo::ops::cargo_compile::compile_with_exec
+  13: cargo::ops::cargo_compile::compile
+  14: cargo::commands::check::exec
+  15: <cargo::cli::Exec>::exec
+  16: cargo::main
+  17: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  18: std::rt::lang_start::<()>::{closure#0}
+  19: std::rt::lang_start_internal
+  20: _main
+   0.141796708s  INFO prepare_target{force=false package_id=mime_guess v2.0.5 target="mime_guess"}: cargo::core::compiler::fingerprint: fingerprint error for mime_guess v2.0.5/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("mime_guess", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/mime_guess-2.0.5/src/lib.rs", Edition2015) }
+   0.141799708s  INFO prepare_target{force=false package_id=mime_guess v2.0.5 target="mime_guess"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/mime_guess-2bcb7b52ffde4c9f/lib-mime_guess`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  11: cargo::ops::cargo_compile::compile_ws
+  12: cargo::ops::cargo_compile::compile_with_exec
+  13: cargo::ops::cargo_compile::compile
+  14: cargo::commands::check::exec
+  15: <cargo::cli::Exec>::exec
+  16: cargo::main
+  17: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  18: std::rt::lang_start::<()>::{closure#0}
+  19: std::rt::lang_start_internal
+  20: _main
+   0.142055250s  INFO prepare_target{force=false package_id=unicase v2.9.0 target="unicase"}: cargo::core::compiler::fingerprint: fingerprint error for unicase v2.9.0/Check { test: false }/TargetInner { ..: lib_target("unicase", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/unicase-2.9.0/src/lib.rs", Edition2018) }
+   0.142058042s  INFO prepare_target{force=false package_id=unicase v2.9.0 target="unicase"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/unicase-b96f430ca75ed626/lib-unicase`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: cargo::core::compiler::compile
+  11: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  12: cargo::ops::cargo_compile::compile_ws
+  13: cargo::ops::cargo_compile::compile_with_exec
+  14: cargo::ops::cargo_compile::compile
+  15: cargo::commands::check::exec
+  16: <cargo::cli::Exec>::exec
+  17: cargo::main
+  18: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  19: std::rt::lang_start::<()>::{closure#0}
+  20: std::rt::lang_start_internal
+  21: _main
+   0.142189125s  INFO prepare_target{force=false package_id=caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli) target="caret_cli"}: cargo::core::compiler::fingerprint: fingerprint error for caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli)/Check { test: true }/TargetInner { name_inferred: true, ..: lib_target("caret_cli", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli/src/lib.rs", Edition2021) }
+   0.142192708s  INFO prepare_target{force=false package_id=caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli) target="caret_cli"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_cli-3be34ad46d1939e5/test-lib-caret_cli`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+  17: _main
+   0.142663917s  INFO prepare_target{force=false package_id=caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli) target="caret"}: cargo::core::compiler::fingerprint: fingerprint error for caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli)/Check { test: false }/TargetInner { name: "caret", doc: true, ..: with_path("/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli/src/main.rs", Edition2021) }
+   0.142667292s  INFO prepare_target{force=false package_id=caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli) target="caret"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_cli-aa168de921d7c209/bin-caret`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+  17: _main
+   0.143120417s  INFO prepare_target{force=false package_id=caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli) target="caret"}: cargo::core::compiler::fingerprint: fingerprint error for caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli)/Check { test: true }/TargetInner { name: "caret", doc: true, ..: with_path("/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli/src/main.rs", Edition2021) }
+   0.143123250s  INFO prepare_target{force=false package_id=caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli) target="caret"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_cli-c528de898472846d/test-bin-caret`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+  17: _main
+   0.143759583s  INFO prepare_target{force=false package_id=caret_codec v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_codec) target="caret_codec"}: cargo::core::compiler::fingerprint: fingerprint error for caret_codec v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_codec)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("caret_codec", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_codec/src/lib.rs", Edition2021) }
+   0.143765000s  INFO prepare_target{force=false package_id=caret_codec v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_codec) target="caret_codec"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_codec-0aef5196c71f56d5/lib-caret_codec`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+  17: _main
+   0.144169667s  INFO prepare_target{force=false package_id=caret_codec v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_codec) target="caret_codec"}: cargo::core::compiler::fingerprint: fingerprint error for caret_codec v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_codec)/Check { test: true }/TargetInner { name_inferred: true, ..: lib_target("caret_codec", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_codec/src/lib.rs", Edition2021) }
+   0.144175167s  INFO prepare_target{force=false package_id=caret_codec v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_codec) target="caret_codec"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_codec-bc7bdadbd82da93b/test-lib-caret_codec`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+  17: _main
+   0.144427833s  INFO prepare_target{force=false package_id=caret_core v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_core) target="caret_core"}: cargo::core::compiler::fingerprint: fingerprint error for caret_core v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_core)/Check { test: true }/TargetInner { name_inferred: true, ..: lib_target("caret_core", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_core/src/lib.rs", Edition2021) }
+   0.144431875s  INFO prepare_target{force=false package_id=caret_core v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_core) target="caret_core"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_core-4aff2006f919fc67/test-lib-caret_core`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+  17: _main
+   0.146281375s  INFO prepare_target{force=false package_id=caret_dsl v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_dsl) target="caret_dsl"}: cargo::core::compiler::fingerprint: fingerprint error for caret_dsl v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_dsl)/Check { test: true }/TargetInner { name_inferred: true, ..: lib_target("caret_dsl", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_dsl/src/lib.rs", Edition2021) }
+   0.146285625s  INFO prepare_target{force=false package_id=caret_dsl v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_dsl) target="caret_dsl"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_dsl-6e2f14a338773a36/test-lib-caret_dsl`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+  17: _main
+   0.147169583s  INFO prepare_target{force=false package_id=caret_ffi v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_ffi) target="caret_ffi"}: cargo::core::compiler::fingerprint: fingerprint error for caret_ffi v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_ffi)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("caret_ffi", ["cdylib", "staticlib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_ffi/src/lib.rs", Edition2021) }
+   0.147174125s  INFO prepare_target{force=false package_id=caret_ffi v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_ffi) target="caret_ffi"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_ffi-c9c06b7313910474/lib-caret_ffi`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+  17: _main
+   0.147346333s  INFO prepare_target{force=false package_id=caret_ffi v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_ffi) target="caret_ffi"}: cargo::core::compiler::fingerprint: fingerprint error for caret_ffi v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_ffi)/Check { test: true }/TargetInner { name_inferred: true, ..: lib_target("caret_ffi", ["cdylib", "staticlib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_ffi/src/lib.rs", Edition2021) }
+   0.147349750s  INFO prepare_target{force=false package_id=caret_ffi v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_ffi) target="caret_ffi"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_ffi-357ed4f74c6704c0/test-lib-caret_ffi`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+  17: _main
+   0.147516292s  INFO prepare_target{force=false package_id=caret_graph v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_graph) target="caret_graph"}: cargo::core::compiler::fingerprint: fingerprint error for caret_graph v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_graph)/Check { test: true }/TargetInner { name_inferred: true, ..: lib_target("caret_graph", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_graph/src/lib.rs", Edition2021) }
+   0.147520250s  INFO prepare_target{force=false package_id=caret_graph v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_graph) target="caret_graph"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_graph-64b0e7d917ed5ccd/test-lib-caret_graph`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+  17: _main
+   0.147833000s  INFO prepare_target{force=false package_id=caret_inspector v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_inspector) target="caret_inspector"}: cargo::core::compiler::fingerprint: fingerprint error for caret_inspector v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_inspector)/Check { test: true }/TargetInner { name_inferred: true, ..: lib_target("caret_inspector", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_inspector/src/lib.rs", Edition2021) }
+   0.147837208s  INFO prepare_target{force=false package_id=caret_inspector v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_inspector) target="caret_inspector"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_inspector-a3e89658d0006758/test-lib-caret_inspector`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+  17: _main
+   0.148307583s  INFO prepare_target{force=false package_id=tokio-test v0.4.5 target="tokio_test"}: cargo::core::compiler::fingerprint: fingerprint error for tokio-test v0.4.5/Check { test: false }/TargetInner { ..: lib_target("tokio_test", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-test-0.4.5/src/lib.rs", Edition2021) }
+   0.148311167s  INFO prepare_target{force=false package_id=tokio-test v0.4.5 target="tokio_test"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/tokio-test-4027ae32ba1c0e04/lib-tokio_test`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   9: cargo::ops::cargo_compile::compile_ws
+  10: cargo::ops::cargo_compile::compile_with_exec
+  11: cargo::ops::cargo_compile::compile
+  12: cargo::commands::check::exec
+  13: <cargo::cli::Exec>::exec
+  14: cargo::main
+  15: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  16: std::rt::lang_start::<()>::{closure#0}
+  17: std::rt::lang_start_internal
+  18: _main
+   0.148471792s  INFO prepare_target{force=false package_id=tokio-stream v0.1.18 target="tokio_stream"}: cargo::core::compiler::fingerprint: fingerprint error for tokio-stream v0.1.18/Check { test: false }/TargetInner { ..: lib_target("tokio_stream", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-stream-0.1.18/src/lib.rs", Edition2021) }
+   0.148475167s  INFO prepare_target{force=false package_id=tokio-stream v0.1.18 target="tokio_stream"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/tokio-stream-30df69f05dc1edd0/lib-tokio_stream`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: cargo::core::compiler::compile
+   9: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  10: cargo::ops::cargo_compile::compile_ws
+  11: cargo::ops::cargo_compile::compile_with_exec
+  12: cargo::ops::cargo_compile::compile
+  13: cargo::commands::check::exec
+  14: <cargo::cli::Exec>::exec
+  15: cargo::main
+  16: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  17: std::rt::lang_start::<()>::{closure#0}
+  18: std::rt::lang_start_internal
+  19: _main
+   0.148643125s  INFO prepare_target{force=false package_id=tower-test v0.4.0 target="tower_test"}: cargo::core::compiler::fingerprint: fingerprint error for tower-test v0.4.0/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("tower_test", ["lib"], "/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tower-test-0.4.0/src/lib.rs", Edition2018) }
+   0.148646167s  INFO prepare_target{force=false package_id=tower-test v0.4.0 target="tower_test"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/tower-test-142a799a21a4d75c/lib-tower_test`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: cargo::core::compiler::compile
+   8: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   9: cargo::ops::cargo_compile::compile_ws
+  10: cargo::ops::cargo_compile::compile_with_exec
+  11: cargo::ops::cargo_compile::compile
+  12: cargo::commands::check::exec
+  13: <cargo::cli::Exec>::exec
+  14: cargo::main
+  15: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  16: std::rt::lang_start::<()>::{closure#0}
+  17: std::rt::lang_start_internal
+  18: _main
+   0.148873542s  INFO prepare_target{force=false package_id=caret_io v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_io) target="caret_io"}: cargo::core::compiler::fingerprint: fingerprint error for caret_io v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_io)/Check { test: true }/TargetInner { name_inferred: true, ..: lib_target("caret_io", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_io/src/lib.rs", Edition2021) }
+   0.148877000s  INFO prepare_target{force=false package_id=caret_io v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_io) target="caret_io"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_io-9c30d95c717b38cd/test-lib-caret_io`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+  17: _main
+   0.149158292s  INFO prepare_target{force=false package_id=caret_metrics v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_metrics) target="caret_metrics"}: cargo::core::compiler::fingerprint: fingerprint error for caret_metrics v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_metrics)/Check { test: true }/TargetInner { name_inferred: true, ..: lib_target("caret_metrics", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_metrics/src/lib.rs", Edition2021) }
+   0.149161792s  INFO prepare_target{force=false package_id=caret_metrics v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_metrics) target="caret_metrics"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_metrics-2b799afd0debd19e/test-lib-caret_metrics`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+  17: _main
+   0.150823917s  INFO prepare_target{force=false package_id=caret_plugins v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_plugins) target="caret_plugins"}: cargo::core::compiler::fingerprint: fingerprint error for caret_plugins v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_plugins)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("caret_plugins", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_plugins/src/lib.rs", Edition2021) }
+   0.150827833s  INFO prepare_target{force=false package_id=caret_plugins v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_plugins) target="caret_plugins"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_plugins-d8c20ec5094ca94e/lib-caret_plugins`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+  17: _main
+   0.152011000s  INFO prepare_target{force=false package_id=caret_plugins v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_plugins) target="caret_plugins"}: cargo::core::compiler::fingerprint: fingerprint error for caret_plugins v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_plugins)/Check { test: true }/TargetInner { name_inferred: true, ..: lib_target("caret_plugins", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_plugins/src/lib.rs", Edition2021) }
+   0.152014417s  INFO prepare_target{force=false package_id=caret_plugins v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_plugins) target="caret_plugins"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_plugins-025d015c4e472a55/test-lib-caret_plugins`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+  17: _main
+   0.152272333s  INFO prepare_target{force=false package_id=caret_sched v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_sched) target="caret_sched"}: cargo::core::compiler::fingerprint: fingerprint error for caret_sched v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_sched)/Check { test: true }/TargetInner { name_inferred: true, ..: lib_target("caret_sched", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_sched/src/lib.rs", Edition2021) }
+   0.152275500s  INFO prepare_target{force=false package_id=caret_sched v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_sched) target="caret_sched"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_sched-7cd2417ceb77536f/test-lib-caret_sched`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+  17: _main
+   0.152552792s  INFO prepare_target{force=false package_id=caret_testkit v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_testkit) target="caret_testkit"}: cargo::core::compiler::fingerprint: fingerprint error for caret_testkit v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_testkit)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("caret_testkit", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_testkit/src/lib.rs", Edition2021) }
+   0.152555708s  INFO prepare_target{force=false package_id=caret_testkit v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_testkit) target="caret_testkit"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_testkit-dee4921dea7c4a2a/lib-caret_testkit`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+  17: _main
+   0.152751792s  INFO prepare_target{force=false package_id=caret_testkit v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_testkit) target="caret_testkit"}: cargo::core::compiler::fingerprint: fingerprint error for caret_testkit v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_testkit)/Check { test: true }/TargetInner { name_inferred: true, ..: lib_target("caret_testkit", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_testkit/src/lib.rs", Edition2021) }
+   0.152754750s  INFO prepare_target{force=false package_id=caret_testkit v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_testkit) target="caret_testkit"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_testkit-ee6368f6c99a6a0a/test-lib-caret_testkit`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+  17: _main
+   0.152964500s  INFO prepare_target{force=false package_id=caret_trace v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_trace) target="caret_trace"}: cargo::core::compiler::fingerprint: fingerprint error for caret_trace v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_trace)/Check { test: true }/TargetInner { name_inferred: true, ..: lib_target("caret_trace", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_trace/src/lib.rs", Edition2021) }
+   0.152967458s  INFO prepare_target{force=false package_id=caret_trace v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_trace) target="caret_trace"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_trace-6b0416dfee81f1b8/test-lib-caret_trace`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+  17: _main
+   0.153205750s  INFO prepare_target{force=false package_id=caret_transform v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_transform) target="caret_transform"}: cargo::core::compiler::fingerprint: fingerprint error for caret_transform v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_transform)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("caret_transform", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_transform/src/lib.rs", Edition2021) }
+   0.153208792s  INFO prepare_target{force=false package_id=caret_transform v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_transform) target="caret_transform"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_transform-54d4903e19e76833/lib-caret_transform`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+  17: _main
+   0.153405708s  INFO prepare_target{force=false package_id=caret_transform v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_transform) target="caret_transform"}: cargo::core::compiler::fingerprint: fingerprint error for caret_transform v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_transform)/Check { test: true }/TargetInner { name_inferred: true, ..: lib_target("caret_transform", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_transform/src/lib.rs", Edition2021) }
+   0.153408708s  INFO prepare_target{force=false package_id=caret_transform v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_transform) target="caret_transform"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_transform-f4921e9cee1e0e45/test-lib-caret_transform`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+  17: _main
+    Checking smallvec v1.15.1
+    Checking futures-core v0.3.31
+    Checking futures-sink v0.3.31
+    Checking tracing v0.1.44
+    Checking serde_json v1.0.149
+    Checking http v1.4.0
+    Checking typenum v1.19.0
+    Checking getrandom v0.2.16
+    Checking tower-service v0.3.3
+    Checking ppv-lite86 v0.2.21
+    Checking tower-layer v0.3.3
+    Checking futures-channel v0.3.31
+    Checking httparse v1.10.1
+    Checking rand_core v0.6.4
+    Checking byteorder v1.5.0
+    Checking parking_lot_core v0.9.12
+    Checking cpufeatures v0.2.17
+    Checking try-lock v0.2.5
+    Checking futures-util v0.3.31
+    Checking rand_chacha v0.3.1
+    Checking atomic-waker v1.1.2
+    Checking parking_lot v0.12.5
+    Checking httpdate v1.0.3
+    Checking mime v0.3.17
+    Checking percent-encoding v2.3.2
+    Checking fnv v1.0.7
+    Checking rand v0.8.5
+    Checking tokio v1.49.0
+    Checking caret_core v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_core)
+    Checking generic-array v0.14.7
+    Checking want v0.3.1
+    Checking sync_wrapper v1.0.2
+    Checking data-encoding v2.9.0
+    Checking utf-8 v0.7.6
+    Checking tracing-subscriber v0.3.22
+    Checking http-body v1.0.1
+    Checking caret_buffers v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_buffers)
     Checking caret_metrics v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_metrics)
-    Checking caret_dsl v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_dsl)
-    Checking caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench)
-    Checking caret_plugins v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_plugins)
+    Checking pin-project v1.1.10
+    Checking http-body-util v0.1.3
+    Checking caret_graph v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_graph)
+    Checking form_urlencoded v1.2.2
+    Checking unicase v2.9.0
+    Checking hashbrown v0.12.3
+    Checking ryu v1.0.22
+    Checking mime_guess v2.0.5
+    Checking hdrhistogram v7.5.4
+    Checking serde_path_to_error v0.1.20
+    Checking base64 v0.22.1
+    Checking crypto-common v0.1.7
+    Checking block-buffer v0.10.4
+    Checking serde_urlencoded v0.7.1
+    Checking http-range-header v0.4.2
+    Checking matchit v0.7.3
+    Checking tinytemplate v1.2.1
+    Checking digest v0.10.7
+    Checking caret_codec v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_codec)
+    Checking indexmap v1.9.3
+    Checking criterion v0.5.1
+    Checking sha1 v0.10.6
     Checking caret_trace v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_trace)
-error: could not compile `caret_bench` (bench "queue_bench") due to 1 previous error
-warning: build failed, waiting for other jobs to finish...
-error: could not compile `caret_bench` (bench "buffer_pool_bench") due to 1 previous error
+    Checking caret_ffi v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_ffi)
+    Checking tungstenite v0.24.0
+    Checking futures-executor v0.3.31
+    Checking axum-core v0.4.5
+    Checking futures v0.3.31
+    Checking caret_sched v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_sched)
+    Checking tokio-util v0.7.18
+    Checking tokio-tungstenite v0.24.0
+    Checking tower v0.5.2
+    Checking tokio-stream v0.1.18
+    Checking caret_io v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_io)
+    Checking caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench)
+    Checking caret_testkit v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_testkit)
+    Checking caret_plugins v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_plugins)
+    Checking tokio-test v0.4.5
+    Checking caret_dsl v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_dsl)
+    Checking caret_transform v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_transform)
 error: could not compile `caret_bench` (bench "scheduler_bench") due to 1 previous error
+warning: build failed, waiting for other jobs to finish...
+error: could not compile `caret_bench` (bench "queue_bench") due to 1 previous error
+error: could not compile `caret_bench` (bench "buffer_pool_bench") due to 1 previous error
+    Checking h2 v0.4.13
+    Checking tower-http v0.5.2
+    Checking tower v0.4.13
+    Checking tower-test v0.4.0
+    Checking hyper v1.8.1
+    Checking hyper-util v0.1.19
+    Checking axum v0.7.9
+    Checking caret_inspector v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_inspector)
     Checking caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli)
-error: could not compile `caret_plugins` (lib) due to 3 previous errors; 8 warnings emitted
-error: could not compile `caret_plugins` (lib test) due to 3 previous errors; 7 warnings emitted
+error: could not compile `caret_cli` (lib) due to 1 previous error; 1 warning emitted
+error: could not compile `caret_cli` (lib test) due to 1 previous error; 1 warning emitted

@@ -1,0 +1,39 @@
+# Caret Inspector - Runtime introspection and debugging API
+#
+# Copyright (c) 2025 Caret Contributors
+#
+# Licensed under the MIT License:
+# https://opensource.org/licenses/MIT
+
+[package]
+name = "caret_inspector"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+
+[dependencies]
+caret_core.workspace = true
+caret_graph.workspace = true
+caret_sched.workspace = true
+caret_metrics.workspace = true
+caret_trace.workspace = true
+
+axum = { version = "0.7", features = ["ws", "json"] }
+tokio.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+tower = { version = "0.4", features = ["full"] }
+tower-http = { version = "0.5", features = ["cors", "fs"] }
+hyper = { version = "1.0", features = ["full"] }
+async-trait = "0.1"
+tracing.workspace = true
+futures.workspace = true
+parking_lot.workspace = true
+
+[dev-dependencies]
+tokio-test = "0.4"
+tower-test = "0.4"

@@ -14,7 +14,7 @@ mod error;
 pub use error::{Error, Result};
 
 use clap::{Parser, Subcommand};
-use commands::{RunCommand, ValidateCommand, GraphCommand, BenchCommand};
+use commands::{RunCommand, ValidateCommand, GraphCommand, BenchCommand, InspectCommand};
 
 /// Caret - A high performance stream and graph runtime
 #[derive(Parser, Debug, Clone)]
@@ -44,6 +44,9 @@ pub enum Command {
 
     /// Run benchmarks
     Bench(BenchCommand),
+
+    /// Start inspector server for runtime introspection
+    Inspect(InspectCommand),
 }
 
 /// Run a Caret command
@@ -53,5 +56,6 @@ pub async fn run_command(cli: Cli) -> Result<()> {
         Command::Validate(cmd) => commands::validate(cmd, cli.verbose).await,
         Command::Graph(cmd) => commands::graph(cmd, cli.verbose).await,
         Command::Bench(cmd) => commands::bench(cmd, cli.verbose).await,
+        Command::Inspect(cmd) => commands::inspect(cmd, cli.verbose).await,
     }
 }

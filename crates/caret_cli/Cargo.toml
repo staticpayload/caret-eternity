@@ -21,6 +21,7 @@ caret_io.workspace = true
 caret_dsl.workspace = true
 caret_metrics.workspace = true
 caret_trace.workspace = true
+caret_inspector.workspace = true
 thiserror.workspace = true
 anyhow.workspace = true
 tokio.workspace = true
