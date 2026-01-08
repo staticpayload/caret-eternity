@@ -29,7 +29,7 @@ mod graph_proto;
 
 pub use codec::{FrameCodec, FrameDecoder, FRAME_HEADER_SIZE, FRAME_MAGIC, FRAME_VERSION};
 pub use error::{Error, Result};
-pub use transport::{Transport, TransportConfig, TransportEvent};
+pub use transport::{Transport, TransportConfig, TransportEvent, TcpTransport, MemoryTransport};
 pub use node::{NodeId, NodeInfo, NodeState, LocalNode};
 pub use discovery::{Discovery, DiscoveryConfig, DiscoveryEvent};
 pub use coordinator::{Coordinator, CoordinatorConfig, ExecutionMode, ExecutionStatus, GraphState};
