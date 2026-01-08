@@ -632,6 +632,33 @@ impl GraphPartitioner {
     }
 }
 
+impl GraphPartition {
+    /// Get a list of local node IDs in this partition
+    pub fn node_ids(&self) -> &[u64] {
+        &self.nodes
+    }
+
+    /// Get the number of nodes in this partition
+    pub fn node_count(&self) -> usize {
+        self.nodes.len()
+    }
+
+    /// Get the number of internal edges (within this partition)
+    pub fn internal_edge_count(&self) -> usize {
+        self.internal_edges.len()
+    }
+
+    /// Get the number of input edges (from other partitions)
+    pub fn input_edge_count(&self) -> usize {
+        self.input_edges.len()
+    }
+
+    /// Get the number of output edges (to other partitions)
+    pub fn output_edge_count(&self) -> usize {
+        self.output_edges.len()
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
