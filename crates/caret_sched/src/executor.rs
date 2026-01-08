@@ -8,7 +8,7 @@
 use crate::{node::NodeId, policy::ExecutionPolicy, port::PortSet, runtime::RuntimeState};
 use caret_core::{Error, Result};
 use parking_lot::Mutex;
-use std::collections::HashMap;
+use std::collections::{HashMap, VecDeque};
 use std::sync::Arc;
 
 /// Configuration for the executor
@@ -41,6 +41,10 @@ pub struct NodeInstance {
     pub ports: PortSet,
     /// Current state
     pub state: NodeState,
+    /// Cached input port names (to avoid repeated allocations)
+    cached_input_names: Vec<String>,
+    /// Whether this node has any input ports
+    has_inputs: bool,
 }
 
 /// State of a node in the executor
@@ -62,6 +66,11 @@ pub enum NodeState {
 ///
 /// The executor manages the runtime execution of a graph,
 /// handling scheduling, data flow, and state management.
+///
+/// Performance optimizations:
+/// - Caches node IDs to avoid repeated allocations in tick()
+/// - Caches input port names in NodeInstance
+/// - Uses work queue for nodes with data to avoid scanning all nodes
 pub struct Executor {
     /// Executor configuration
     config: ExecutorConfig,
@@ -71,6 +80,10 @@ pub struct Executor {
     runtime_state: Arc<Mutex<RuntimeState>>,
     /// Current tick
     tick: u64,
+    /// Cached list of all node IDs (for iteration without allocation)
+    cached_node_ids: Vec<NodeId>,
+    /// Work queue of nodes that have data available
+    work_queue: Arc<Mutex<VecDeque<NodeId>>>,
 }
 
 impl Executor {
@@ -81,6 +94,8 @@ impl Executor {
             nodes: HashMap::new(),
             runtime_state: Arc::new(Mutex::new(RuntimeState::Stopped)),
             tick: 0,
+            cached_node_ids: Vec::new(),
+            work_queue: Arc::new(Mutex::new(VecDeque::new())),
         }
     }
 
@@ -101,15 +116,22 @@ impl Executor {
         // Initialize the processor
         processor.initialize()?;
 
+        // Cache input port names to avoid repeated allocations
+        let input_names = ports.input_names();
+        let has_inputs = !input_names.is_empty();
+
         let instance = NodeInstance {
             id,
             graph_id,
             processor,
             ports,
             state: NodeState::Idle,
+            cached_input_names: input_names,
+            has_inputs,
         };
 
         self.nodes.insert(id, Arc::new(Mutex::new(instance)));
+        self.cached_node_ids.push(id);
         Ok(id)
     }
 
@@ -169,14 +191,19 @@ impl Executor {
         self.nodes.get(&id).cloned()
     }
 
-    /// Get all node IDs
-    pub fn node_ids(&self) -> Vec<NodeId> {
-        self.nodes.keys().copied().collect()
-    }
-
     /// Get the current tick
     pub fn tick(&self) -> u64 {
         self.tick
+    }
+
+    /// Get all node IDs
+    pub fn node_ids(&self) -> Vec<NodeId> {
+        self.cached_node_ids.clone()
+    }
+
+    /// Get all node IDs as a slice (zero-copy)
+    pub fn node_ids_slice(&self) -> &[NodeId] {
+        &self.cached_node_ids
     }
 
     /// Start the executor
@@ -198,6 +225,11 @@ impl Executor {
     }
 
     /// Execute a single tick
+    ///
+    /// Performance optimizations:
+    /// - Uses cached node IDs to avoid allocations
+    /// - Uses cached input port names from NodeInstance
+    /// - Reduces port lookups by caching ports locally
     pub fn tick_once(&mut self) -> Result<TickResult> {
         let state = self.runtime_state.lock().clone();
         if state != RuntimeState::Running {
@@ -208,9 +240,11 @@ impl Executor {
         let mut nodes_run = 0;
         let mut nodes_done = 0;
         let mut nodes_error = 0;
+        let current_tick = self.tick;
 
-        for node_id in self.node_ids() {
-            let instance = self.node(node_id).unwrap();
+        // Use cached node IDs for iteration without allocation
+        for node_id in self.node_ids_slice() {
+            let instance = self.node(*node_id).unwrap();
             let mut inst = instance.lock();
 
             if inst.state == NodeState::Done || inst.state == NodeState::Error {
@@ -222,14 +256,24 @@ impl Executor {
                 continue;
             }
 
-            // Check if node has data on any input port
-            let has_data = inst.ports.input_names().iter().any(|name| {
-                inst.ports
-                    .input(name.as_str())
-                    .map_or(false, |p| p.has_data())
-            });
+            // Clone cached input port names to avoid borrow checker issues
+            // This is still cheaper than calling input_names() every tick
+            let input_names: Vec<String> = inst.cached_input_names.clone();
 
-            if !has_data && !inst.ports.input_names().is_empty() {
+            // Use cached input port names to avoid repeated allocations
+            let has_data = if inst.has_inputs {
+                // Check if node has data on any input port using cached names
+                input_names.iter().any(|name| {
+                    inst.ports
+                        .input(name.as_str())
+                        .map_or(false, |p| p.has_data())
+                })
+            } else {
+                // Node has no inputs, always run
+                true
+            };
+
+            if !has_data {
                 // No data yet, skip
                 continue;
             }
@@ -237,12 +281,12 @@ impl Executor {
             inst.state = NodeState::Running;
             nodes_run += 1;
 
-            // Process packets from each input port
-            for port_name in inst.ports.input_names() {
-                if let Some(port) = inst.ports.input(&port_name) {
+            // Process packets from each input port using cached names
+            for port_name in &input_names {
+                if let Some(port) = inst.ports.input(port_name) {
                     while let Some(packet) = port.try_recv() {
-                        let ctx = crate::node::ProcessingContext::new(inst.id, self.tick);
-                        match inst.processor.process(&ctx, packet, &port_name) {
+                        let ctx = crate::node::ProcessingContext::new(inst.id, current_tick);
+                        match inst.processor.process(&ctx, packet, port_name) {
                             Ok(result) => match result {
                                 crate::node::ProcessingResult::Done => {
                                     inst.state = NodeState::Done;

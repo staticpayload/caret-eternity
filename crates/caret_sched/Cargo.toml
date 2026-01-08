@@ -20,3 +20,7 @@ crossbeam.workspace = true
 parking_lot.workspace = true
 tracing.workspace = true
 num_cpus.workspace = true
+
+[[bin]]
+name = "executor_perf"
+path = "benches/executor_perf.rs"

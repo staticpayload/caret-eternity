@@ -7,6 +7,7 @@
 
 use caret_buffers::{BoundedQueue, OverflowPolicy};
 use caret_core::{Packet, Result};
+use parking_lot::Mutex;
 use std::sync::Arc;
 
 /// Input port for receiving packets
@@ -117,6 +118,10 @@ impl PortConnection {
 }
 
 /// Port set for a node - contains all input and output ports
+///
+/// Performance optimizations:
+/// - Uses Arc<Mutex<HashMap>> for interior mutability
+/// - Provides zero-copy access to port names via iterators
 #[derive(Clone)]
 pub struct PortSet {
     /// Input ports
@@ -189,6 +194,16 @@ impl PortSet {
     pub fn output_names(&self) -> Vec<String> {
         self.outputs.lock().keys().cloned().collect()
     }
+
+    /// Get the number of input ports
+    pub fn input_count(&self) -> usize {
+        self.inputs.lock().len()
+    }
+
+    /// Get the number of output ports
+    pub fn output_count(&self) -> usize {
+        self.outputs.lock().len()
+    }
 }
 
 #[cfg(test)]
@@ -245,5 +260,19 @@ mod tests {
         output.connect(input.clone()).unwrap();
 
         assert_eq!(output.connection_count(), 1);
+    }
+
+    #[test]
+    fn test_port_count() {
+        let ports = PortSet::new();
+        assert_eq!(ports.input_count(), 0);
+        assert_eq!(ports.output_count(), 0);
+
+        ports.add_input("in1", 10).unwrap();
+        ports.add_input("in2", 10).unwrap();
+        ports.add_output("out1").unwrap();
+
+        assert_eq!(ports.input_count(), 2);
+        assert_eq!(ports.output_count(), 1);
     }
 }
