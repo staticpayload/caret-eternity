@@ -1,0 +1,22 @@
+[package]
+name = "caret_stream"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+description = "Stream processing primitives for Caret"
+
+[dependencies]
+caret_core.workspace = true
+caret_buffers.workspace = true
+tokio.workspace = true
+parking_lot.workspace = true
+futures.workspace = true
+pin-project-lite = "0.2"
+serde.workspace = true
+
+[dev-dependencies]
+caret_testkit.workspace = true

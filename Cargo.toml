@@ -18,6 +18,7 @@ members = [
     "crates/caret_inspector",
     "crates/caret_record",
     "crates/caret_recovery",
+    # "crates/caret_stream",  # TODO: Fix pin-project-lite usage (Milestone 19 in progress)
 ]
 resolver = "2"
 
@@ -46,6 +47,9 @@ caret_codec = { path = "crates/caret_codec" }
 caret_testkit = { path = "crates/caret_testkit" }
 caret_inspector = { path = "crates/caret_inspector" }
 caret_record = { path = "crates/caret_record" }
+caret_bench = { path = "crates/caret_bench" }
+caret_recovery = { path = "crates/caret_recovery" }
+caret_stream = { path = "crates/caret_stream" }
 
 # External dependencies
 thiserror = "1.0"
@@ -56,6 +60,7 @@ toml = "0.8"
 bincode = "1.3"
 tokio = { version = "1.35", features = ["full"] }
 futures = "0.3"
+pin-project-lite = "0.2"
 tracing = "0.1"
 fastrand = "2.0"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
