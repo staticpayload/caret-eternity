@@ -25,3 +25,4 @@ uuid = { version = "1.10", features = ["v4", "serde"] }
 hostname = "0.4"
 num_cpus.workspace = true
 async-trait = "0.1"
+mdns-sd = "0.11"

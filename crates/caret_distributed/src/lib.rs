@@ -24,6 +24,7 @@ mod coordinator;
 mod message;
 mod error;
 mod executor;
+mod mdns;
 
 pub use codec::{FrameCodec, FrameDecoder, FRAME_HEADER_SIZE, FRAME_MAGIC, FRAME_VERSION};
 pub use error::{Error, Result};
@@ -33,6 +34,7 @@ pub use discovery::{Discovery, DiscoveryConfig, DiscoveryEvent};
 pub use coordinator::{Coordinator, CoordinatorConfig, ExecutionMode};
 pub use message::{Message, MessagePayload, MessageType};
 pub use executor::{DistributedExecutor, ExecutorConfig};
+pub use mdns::{MdnsDiscovery, MdnsDiscoveryConfig, CARET_SERVICE_TYPE};
 
 /// Version of the distributed protocol
 pub const PROTOCOL_VERSION: &str = "0.1.0";
