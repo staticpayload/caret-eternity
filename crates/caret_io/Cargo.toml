@@ -13,6 +13,7 @@ description = "IO nodes and codecs for Caret"
 caret_core.workspace = true
 caret_graph.workspace = true
 caret_buffers.workspace = true
+caret_sched.workspace = true
 thiserror.workspace = true
 tokio.workspace = true
 futures.workspace = true

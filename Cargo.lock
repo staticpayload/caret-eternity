@@ -177,6 +177,7 @@ dependencies = [
  "caret_buffers",
  "caret_core",
  "caret_graph",
+ "caret_sched",
  "futures",
  "thiserror",
  "tokio",
