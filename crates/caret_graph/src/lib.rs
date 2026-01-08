@@ -8,11 +8,15 @@
 #![warn(missing_docs)]
 #![warn(clippy::all)]
 
+mod dynamic;
 mod graph;
 mod node;
 mod port;
 mod topology;
 
+pub use dynamic::{
+    ChangeListener, ChangeResult, DynamicGraph, GraphChange, GraphTransaction, NopListener,
+};
 pub use graph::Graph;
 pub use node::{Node, NodeHandle, NodeId, NodeType};
 pub use port::{Port, PortDirection, PortId};

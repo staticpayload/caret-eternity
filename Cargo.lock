@@ -295,6 +295,7 @@ dependencies = [
  "caret_buffers",
  "caret_core",
  "indexmap 2.13.0",
+ "parking_lot",
  "petgraph",
  "serde",
  "thiserror",
