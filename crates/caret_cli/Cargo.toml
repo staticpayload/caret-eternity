@@ -18,6 +18,7 @@ caret_core.workspace = true
 caret_graph.workspace = true
 caret_sched.workspace = true
 caret_io.workspace = true
+caret_dsl.workspace = true
 caret_metrics.workspace = true
 caret_trace.workspace = true
 thiserror.workspace = true

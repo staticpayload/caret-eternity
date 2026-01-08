@@ -17,8 +17,8 @@ pub use error::{Error, Result, Span};
 pub use lexer::{Lexer, Token, TokenKind};
 pub use parser::Parser;
 pub use ast::{
-    AstNode, Statement, NodeDecl, Property, PropertyKey, PropertyValue,
-    PipelineDecl, Connection, Expr,
+    AstNode, AstNodeKind, Statement, NodeDecl, Property, PropertyKey, PropertyValue,
+    PipelineDecl, Connection, ConnectionEndpoint, Expr, NodeType, BinaryOp,
 };
 
 /// Parse a DSL string into an AST

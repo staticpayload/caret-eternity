@@ -1,21 +1,29 @@
 # Caret State
 
-**Last updated:** 2025-01-08T19:00:00Z
+**Last updated:** 2025-01-08T20:00:00Z
 
 ## Current milestone
-Milestone 8: CLI tool commands
+Milestone 9: Metrics and tracing v0
 
 ## Current objective
-Implementing CLI tool commands (run, validate, graph, bench)
+Implementing metrics and tracing v0 for observability
 
 ## In progress
-- Designing CLI command structure
-- Implementing run command for executing pipelines
-- Implementing validate command for checking DSL files
-- Implementing graph command for visualizing pipelines
-- Implementing bench command for performance testing
+- Designing metrics API
+- Implementing tracing integration
+- Adding telemetry hooks
 
 ## Done since last update
+### Milestone 8: CLI tool commands - COMPLETE
+- `caret` CLI binary with clap argument parsing
+- `run` command structure for executing pipelines
+- `validate` command for checking DSL files (human and JSON output)
+- `graph` command for visualizing pipelines (dot, JSON, mermaid formats)
+- `bench` command for performance testing (table and JSON output)
+- Error handling with proper error types
+- Verbose logging support with tracing-subscriber
+- Updated workspace Cargo.toml with env-filter feature
+
 ### Milestone 7: DSL v0 grammar and parser - COMPLETE
 - Token definitions and lexer for the Caret DSL
 - AST nodes for statements, node declarations, connections, and pipelines
@@ -65,10 +73,10 @@ Implementing CLI tool commands (run, validate, graph, bench)
 - Added CI workflows for formatting, linting, and testing
 
 ## Next objectives
-1. Complete CLI tool commands (run, validate, graph, bench) - Milestone 8
-2. Add metrics and tracing v0 - Milestone 9
-3. Add codec system for serialization - Milestone 10
-4. Implement plugin loading system - Milestone 11
+1. Complete metrics and tracing v0 - Milestone 9
+2. Add codec system for serialization - Milestone 10
+3. Implement plugin loading system - Milestone 11
+4. Add transform nodes for common operations - Milestone 12
 
 ## Risks
 - None identified yet

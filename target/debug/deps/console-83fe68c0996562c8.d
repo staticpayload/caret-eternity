@@ -1,0 +1,10 @@
+/Users/staticpayload/Mainframe/caret-eternity/target/debug/deps/console-83fe68c0996562c8.d: /Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.15.11/src/lib.rs /Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.15.11/src/common_term.rs /Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.15.11/src/kb.rs /Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.15.11/src/term.rs /Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.15.11/src/unix_term.rs /Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.15.11/src/utils.rs
+
+/Users/staticpayload/Mainframe/caret-eternity/target/debug/deps/libconsole-83fe68c0996562c8.rmeta: /Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.15.11/src/lib.rs /Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.15.11/src/common_term.rs /Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.15.11/src/kb.rs /Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.15.11/src/term.rs /Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.15.11/src/unix_term.rs /Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.15.11/src/utils.rs
+
+/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.15.11/src/lib.rs:
+/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.15.11/src/common_term.rs:
+/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.15.11/src/kb.rs:
+/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.15.11/src/term.rs:
+/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.15.11/src/unix_term.rs:
+/Users/staticpayload/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/console-0.15.11/src/utils.rs:
