@@ -2,16 +2,16 @@
 name = "caret_trace"
 version.workspace = true
 edition.workspace = true
-rust-version.workspace = true
+description = "Tracing and observability for Caret"
 license.workspace = true
-authors.workspace = true
 repository.workspace = true
-homepage.workspace = true
-description = "Distributed tracing for Caret"
+authors.workspace = true
 
 [dependencies]
 caret_core.workspace = true
-thiserror.workspace = true
-tracing.workspace = true
-tracing-subscriber.workspace = true
-serde.workspace = true
+caret_metrics.workspace = true
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+tracing-core = "0.1"
+parking_lot = "0.12"
+serde_json = "1.0"

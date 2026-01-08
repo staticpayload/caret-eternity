@@ -1,19 +1,29 @@
 # Caret State
 
-**Last updated:** 2025-01-08T20:00:00Z
+**Last updated:** 2025-01-08T21:00:00Z
 
 ## Current milestone
-Milestone 9: Metrics and tracing v0
+Milestone 10: Codec system for serialization
 
 ## Current objective
-Implementing metrics and tracing v0 for observability
+Implementing codec system for packet serialization
 
 ## In progress
-- Designing metrics API
-- Implementing tracing integration
-- Adding telemetry hooks
+- Designing codec API
+- Implementing binary codec
+- Adding JSON codec support
 
 ## Done since last update
+### Milestone 9: Metrics and tracing v0 - COMPLETE
+- `caret_metrics` crate with Counter, Gauge, Histogram metric types
+- MetricRegistry with thread-safe metric storage
+- Prometheus-style text export format
+- Builder pattern for all metric types
+- `caret_trace` crate with TraceContext for propagation
+- W3C traceparent format support (v0 using 64-bit IDs)
+- CaretLayer for tracing span collection
+- TraceRegistry for JSON export of spans
+- 163 total tests passing across workspace
 ### Milestone 8: CLI tool commands - COMPLETE
 - `caret` CLI binary with clap argument parsing
 - `run` command structure for executing pipelines

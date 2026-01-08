@@ -248,9 +248,11 @@ name = "caret_trace"
 version = "0.1.0"
 dependencies = [
  "caret_core",
- "serde",
- "thiserror",
+ "caret_metrics",
+ "parking_lot",
+ "serde_json",
  "tracing",
+ "tracing-core",
  "tracing-subscriber",
 ]
 
