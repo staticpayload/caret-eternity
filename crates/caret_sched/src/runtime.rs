@@ -221,7 +221,6 @@ pub struct RunResult {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::node::PassthroughNode;
 
     #[test]
     fn test_runtime_create() {

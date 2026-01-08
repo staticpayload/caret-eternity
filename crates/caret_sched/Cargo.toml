@@ -19,3 +19,4 @@ futures.workspace = true
 crossbeam.workspace = true
 parking_lot.workspace = true
 tracing.workspace = true
+num_cpus.workspace = true

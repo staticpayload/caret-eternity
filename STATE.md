@@ -1,14 +1,28 @@
 # Caret State
 
-**Last updated:** 2025-01-09T00:45:00Z
+**Last updated:** 2025-01-09T01:30:00Z
 
 ## Current milestone
-Milestone 17: Advanced scheduling strategies
+Milestone 18: Dynamic graph modification
 
 ## Current objective
-Implementing advanced scheduling strategies for improved performance
+Implementing dynamic graph modification for runtime reconfiguration
 
 ## Done since last update
+### Milestone 17: Advanced scheduling strategies - COMPLETE
+- Advanced scheduling strategies in caret_sched
+- Scheduler trait for pluggable scheduling strategies
+- PriorityScheduler with recency bonuses to prevent starvation
+- FairScheduler with round-robin for fair CPU time
+- DeadlineScheduler for deadline-aware scheduling
+- WorkStealingScheduler for multi-threaded parallel execution
+- SchedulingChoice enum (Single, Multiple, None, Stop)
+- NodeMetadata with priority_score, urgency_score, fairness_score
+- WorkStealingConfig for configuring work-stealing behavior
+- SchedulerConfig enum for creating schedulers
+- 41 tests passing in caret_sched
+- 381 total tests passing across workspace
+
 ### Milestone 16: Enhanced error handling and recovery - COMPLETE
 - `caret_recovery` crate with error recovery and resilience mechanisms
 - CircuitBreaker with states (Closed, Open, HalfOpen) and configurable thresholds
@@ -100,9 +114,9 @@ Implementing advanced scheduling strategies for improved performance
 - Complete governance documentation and repo structure
 
 ## Next objectives
-1. Enhanced error handling and recovery - Milestone 16
-2. Advanced scheduling strategies - Milestone 17
-3. Dynamic graph modification - Milestone 18
+1. Dynamic graph modification - Milestone 18
+2. Stream processing primitives - Milestone 19
+3. Performance optimization and profiling - Milestone 20
 
 ## Risks
 - Plugin system uses unsafe code for dynamic loading - needs audit
@@ -110,7 +124,7 @@ Implementing advanced scheduling strategies for improved performance
 
 ## Quality gates status
 - Build: Passing
-- Tests: 332 tests passing across workspace
+- Tests: 381 tests passing across workspace
 - Docs: Core APIs documented
 - Lint: Passes (some warnings for missing docs on internal items)
 - Format: Passing
