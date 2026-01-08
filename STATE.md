@@ -1,15 +1,15 @@
 # Caret State
 
-**Last updated:** 2025-01-08T19:00:00Z
+**Last updated:** 2025-01-08T23:00:00Z
 
 ## Current milestone
-Milestone 21: Distributed execution support (IN PROGRESS - 80% complete)
+Milestone 21: Distributed execution support (IN PROGRESS - 90% complete)
 
 ## Current objective
 Implementing distributed execution infrastructure for Caret pipelines
 
 ## Done since last update
-### Milestone 21: Distributed execution support - IN PROGRESS (80%)
+### Milestone 21: Distributed execution support - IN PROGRESS (90%)
 - Created `caret_distributed` crate with:
   - Transport layer abstraction (`Transport`, `MemoryTransport` for testing, `TcpTransport` for real networking)
   - Message framing codec (`FrameCodec`, `FrameDecoder`) with CARET magic bytes
@@ -32,6 +32,10 @@ Implementing distributed execution infrastructure for Caret pipelines
   - Event loop for transport events and message handling
 - Transport configuration with customizable buffers and message sizes
 - Node discovery with support for static and multicast modes
+- mDNS-based service discovery (`MdnsDiscovery`, `MdnsDiscoveryConfig`)
+  - Service type `_caret._tcp.local.` for Caret node discovery
+  - Node lifecycle tracking with discovery events
+  - Builder pattern for configuration
 - Worker registration and assignment logic
 - Graph execution state management
 - 27 tests passing in caret_distributed
@@ -73,8 +77,8 @@ Implementing distributed execution infrastructure for Caret pipelines
 - Complete governance documentation and repo structure
 
 ## Next objectives
-1. Continue Milestone 21: Add distributed integration tests and benchmarks
-2. Implement network discovery with mDNS
+1. Complete Milestone 21: Add distributed integration tests and benchmarks
+2. Implement actual mDNS functionality (currently using simplified implementation)
 3. Add TLS support for secure transport
 4. Implement distributed graph execution with real Caret graphs
 
