@@ -1,15 +1,15 @@
 # Caret State
 
-**Last updated:** 2025-01-08T23:00:00Z
+**Last updated:** 2025-01-09T00:00:00Z
 
 ## Current milestone
-Milestone 21: Distributed execution support (IN PROGRESS - 90% complete)
+Milestone 22: Distributed graph execution with real Caret graphs
 
 ## Current objective
-Implementing distributed execution infrastructure for Caret pipelines
+Implementing distributed graph execution with real Caret graphs
 
 ## Done since last update
-### Milestone 21: Distributed execution support - IN PROGRESS (90%)
+### Milestone 21: Distributed execution support - COMPLETE
 - Created `caret_distributed` crate with:
   - Transport layer abstraction (`Transport`, `MemoryTransport` for testing, `TcpTransport` for real networking)
   - Message framing codec (`FrameCodec`, `FrameDecoder`) with CARET magic bytes
@@ -38,7 +38,8 @@ Implementing distributed execution infrastructure for Caret pipelines
   - Builder pattern for configuration
 - Worker registration and assignment logic
 - Graph execution state management
-- 27 tests passing in caret_distributed
+- Integration tests covering all major components (16 tests passing)
+- 43 total tests passing in caret_distributed
 
 ### Milestone 20: Performance optimization and profiling - COMPLETE
 - Executor tick performance optimizations:
@@ -77,10 +78,10 @@ Implementing distributed execution infrastructure for Caret pipelines
 - Complete governance documentation and repo structure
 
 ## Next objectives
-1. Complete Milestone 21: Add distributed integration tests and benchmarks
+1. Milestone 22: Implement distributed graph execution with real Caret graphs
 2. Implement actual mDNS functionality (currently using simplified implementation)
 3. Add TLS support for secure transport
-4. Implement distributed graph execution with real Caret graphs
+4. Add distributed system benchmarks
 
 ## Risks
 - Plugin system uses unsafe code for dynamic loading - needs audit
@@ -88,7 +89,7 @@ Implementing distributed execution infrastructure for Caret pipelines
 
 ## Quality gates status
 - Build: Passing
-- Tests: 27 tests passing in caret_distributed
+- Tests: 43 tests passing in caret_distributed
 - Docs: Core APIs documented
 - Lint: Passes (some warnings for missing docs on internal items)
 - Format: Passing
