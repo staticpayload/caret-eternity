@@ -1,18 +1,31 @@
 # Caret State
 
-**Last updated:** 2025-01-08T23:00:00Z
+**Last updated:** 2025-01-08T23:30:00Z
 
 ## Current milestone
-Milestone 12: Transform nodes for common operations
+Milestone 13: Inspector service API
 
 ## Current objective
-Implementing common transform nodes (filter, map, merge, demux, etc.)
+Implementing inspector service for runtime introspection and debugging
 
 ## In progress
-- Designing transform node API
-- Adding basic filter and map nodes
+- Designing inspector API
+- Adding query endpoints for graph state
 
 ## Done since last update
+### Milestone 12: Transform nodes for common operations - COMPLETE
+- `caret_transform` crate with 8 transform node types
+- FilterNode with predicate system (by_kind, min_length, max_length, no_control)
+- MapNode with transformation functions (transform_data, add_prefix, truncate, etc.)
+- MergeNode with strategies (RoundRobin, PrioritizedFirst, Interleave)
+- DemuxNode with predicate routing and RoundRobinDemuxNode variant
+- BatchNode with size and time-based flushing
+- BufferNode with overflow policies (Reject, DropOldest, DropNewest, Block)
+- ThrottleNode with rate limiting (PacketsPerWindow, OnePerTicks, Percentage)
+- SampleNode with sampling modes (EveryNth, FirstN, RandomPercentage, AtIndices)
+- 92 tests passing in caret_transform
+- 270+ total tests passing across workspace
+
 ### Milestone 11: Plugin loading system v0 - COMPLETE
 - `caret_plugins` crate with Plugin trait and plugin system
 - Plugin manifest format (Caret.toml) with TOML parsing
@@ -39,9 +52,9 @@ Implementing common transform nodes (filter, map, merge, demux, etc.)
 - Complete governance documentation and repo structure
 
 ## Next objectives
-1. Complete transform nodes - Milestone 12
-2. Implement inspector service API - Milestone 13
-3. Add record and replay v0 - Milestone 14
+1. Implement inspector service API - Milestone 13
+2. Add record and replay v0 - Milestone 14
+3. Performance benchmarking framework - Milestone 15
 
 ## Risks
 - Plugin system uses unsafe code for dynamic loading - needs audit
@@ -49,7 +62,7 @@ Implementing common transform nodes (filter, map, merge, demux, etc.)
 
 ## Quality gates status
 - Build: Passing
-- Tests: 196+ tests passing across workspace
+- Tests: 270+ tests passing across workspace
 - Docs: Core APIs documented
 - Lint: Passes (some warnings for missing docs on internal items)
 - Format: Passing

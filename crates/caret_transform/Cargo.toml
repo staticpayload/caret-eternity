@@ -1,0 +1,18 @@
+[package]
+name = "caret_transform"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+
+[dependencies]
+caret_core.workspace = true
+caret_sched.workspace = true
+caret_io.workspace = true
+bytes.workspace = true
+
+[dev-dependencies]
+caret_testkit.workspace = true
