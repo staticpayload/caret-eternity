@@ -1,14 +1,27 @@
 # Caret State
 
-**Last updated:** 2025-01-09T00:15:00Z
+**Last updated:** 2025-01-09T00:30:00Z
 
 ## Current milestone
-Milestone 15: Performance benchmarking framework
+Milestone 16: Enhanced error handling and recovery
 
 ## Current objective
-Implementing benchmarking infrastructure for performance testing
+Implementing improved error handling and recovery mechanisms
 
 ## Done since last update
+### Milestone 15: Performance benchmarking framework - COMPLETE
+- `caret_bench` benchmark framework library
+- BenchResult with timing statistics (avg, min, max, std_dev, throughput)
+- BenchConfig for warmup and measurement configuration
+- BenchGroup for running multiple related benchmarks
+- run_bench, run_bench_ret, run_bench_with_config functions
+- MemStats for memory usage tracking (Linux support)
+- Buffer pool benchmarks: acquire_4k, acquire_64k, pooled_reuse, comparison with direct alloc
+- Queue benchmarks: push_pop, push_only, pop_only, overflow policy comparisons
+- Scheduler benchmarks: tick_empty, tick with 1/10/100 nodes, add_node, node_lookup
+- 4 tests passing in caret_bench
+- 332 total tests passing across workspace
+
 ### Milestone 14: Record and replay v0 - COMPLETE
 - `caret_record` crate with event recording and replay
 - Event types: PacketEvent, StateChangeEvent, MetricEvent, ErrorEvent
@@ -73,9 +86,9 @@ Implementing benchmarking infrastructure for performance testing
 - Complete governance documentation and repo structure
 
 ## Next objectives
-1. Performance benchmarking framework - Milestone 15
-2. Enhanced error handling and recovery - Milestone 16
-3. Advanced scheduling strategies - Milestone 17
+1. Enhanced error handling and recovery - Milestone 16
+2. Advanced scheduling strategies - Milestone 17
+3. Dynamic graph modification - Milestone 18
 
 ## Risks
 - Plugin system uses unsafe code for dynamic loading - needs audit
@@ -83,13 +96,17 @@ Implementing benchmarking infrastructure for performance testing
 
 ## Quality gates status
 - Build: Passing
-- Tests: 236 tests passing across workspace
+- Tests: 332 tests passing across workspace
 - Docs: Core APIs documented
 - Lint: Passes (some warnings for missing docs on internal items)
 - Format: Passing
 
 ## Bench notes
-None yet - benchmarks will be added in Milestone 15
+Benchmark framework is now available in caret_bench crate with:
+- Buffer pool benchmarks for acquire/reuse operations
+- Queue benchmarks for push/pop operations and overflow policies
+- Scheduler benchmarks for tick execution with varying node counts
+- Run benchmarks with `cargo test -p caret_bench --bins` or `cargo run --bin buffer_pool_bench --release`
 
 ## Open ADRs
 None yet - ADRs will be created as needed for architectural decisions
