@@ -88,15 +88,15 @@ struct WorkerState {
 
 /// Graph execution state
 #[derive(Clone, Debug)]
-struct GraphState {
+pub struct GraphState {
     /// Graph ID
-    id: String,
+    pub id: String,
     /// Execution mode
-    mode: ExecutionMode,
+    pub mode: ExecutionMode,
     /// Worker assignments (node_id -> worker_node_id)
-    assignments: HashMap<u64, NodeId>,
+    pub assignments: HashMap<u64, NodeId>,
     /// Current state
-    status: ExecutionStatus,
+    pub status: ExecutionStatus,
 }
 
 /// Execution status
@@ -119,7 +119,8 @@ pub struct Coordinator {
     config: CoordinatorConfig,
     local_node: NodeId,
     workers: Arc<Mutex<HashMap<NodeId, WorkerState>>>,
-    graphs: Arc<Mutex<HashMap<String, GraphState>>>,
+    /// Graph states (exposed for testing)
+    pub graphs: Arc<Mutex<HashMap<String, GraphState>>>,
     event_tx: Arc<Mutex<mpsc::Sender<CoordinatorEvent>>>,
     running: Arc<Mutex<bool>>,
 }
