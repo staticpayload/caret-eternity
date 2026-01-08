@@ -16,6 +16,7 @@ members = [
     "crates/caret_bench",
     "crates/caret_ffi",
     "crates/caret_inspector",
+    "crates/caret_record",
 ]
 resolver = "2"
 
@@ -43,6 +44,7 @@ caret_trace = { path = "crates/caret_trace" }
 caret_codec = { path = "crates/caret_codec" }
 caret_testkit = { path = "crates/caret_testkit" }
 caret_inspector = { path = "crates/caret_inspector" }
+caret_record = { path = "crates/caret_record" }
 
 # External dependencies
 thiserror = "1.0"

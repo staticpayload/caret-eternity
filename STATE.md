@@ -1,14 +1,28 @@
 # Caret State
 
-**Last updated:** 2025-01-08T23:59:00Z
+**Last updated:** 2025-01-09T00:15:00Z
 
 ## Current milestone
-Milestone 14: Record and replay v0
+Milestone 15: Performance benchmarking framework
 
 ## Current objective
-Implementing event recording and replay functionality
+Implementing benchmarking infrastructure for performance testing
 
 ## Done since last update
+### Milestone 14: Record and replay v0 - COMPLETE
+- `caret_record` crate with event recording and replay
+- Event types: PacketEvent, StateChangeEvent, MetricEvent, ErrorEvent
+- EventRecorder with configurable recording (max events, packet/metric/state filtering)
+- EventReplayer with real-time replay and speed control
+- EventStore trait with MemoryStore and FileStore implementations
+- RecordingManager for managing recording sessions
+- SessionId and RecordingMetadata for tracking recordings
+- ReplayHandler trait for custom replay behavior
+- TestHandler for testing replay functionality
+- JSON-based event serialization using JsonCodec
+- 20 tests passing in caret_record
+- 236 total tests passing across workspace
+
 ### Milestone 13: Inspector service API - COMPLETE
 - `caret_inspector` crate with HTTP/WebSocket server
 - REST API endpoints: /api/runtime, /api/graph, /api/nodes, /api/metrics, /api/stats
@@ -59,9 +73,9 @@ Implementing event recording and replay functionality
 - Complete governance documentation and repo structure
 
 ## Next objectives
-1. Implement record and replay v0 - Milestone 14
-2. Performance benchmarking framework - Milestone 15
-3. Enhanced error handling and recovery - Milestone 16
+1. Performance benchmarking framework - Milestone 15
+2. Enhanced error handling and recovery - Milestone 16
+3. Advanced scheduling strategies - Milestone 17
 
 ## Risks
 - Plugin system uses unsafe code for dynamic loading - needs audit
@@ -69,7 +83,7 @@ Implementing event recording and replay functionality
 
 ## Quality gates status
 - Build: Passing
-- Tests: 216 tests passing across workspace
+- Tests: 236 tests passing across workspace
 - Docs: Core APIs documented
 - Lint: Passes (some warnings for missing docs on internal items)
 - Format: Passing

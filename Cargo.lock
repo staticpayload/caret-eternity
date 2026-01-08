@@ -363,6 +363,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "caret_record"
+version = "0.1.0"
+dependencies = [
+ "caret_codec",
+ "caret_core",
+ "caret_sched",
+ "caret_testkit",
+ "parking_lot",
+ "serde",
+ "serde_json",
+ "thiserror",
+ "tokio",
+ "tracing",
+]
+
+[[package]]
 name = "caret_sched"
 version = "0.1.0"
 dependencies = [
