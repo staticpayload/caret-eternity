@@ -53,32 +53,40 @@ where
     type Item = A::Item;
 
     fn poll_next(mut self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Option<Self::Item>> {
-        let this = self.project();
+        loop {
+            let this = self.as_mut().project();
 
-        match this.state {
-            MergeState::A => {
-                match this.a.poll_next(cx) {
-                    Poll::Ready(item) => {
-                        *this.state = MergeState::B;
-                        Poll::Ready(item)
-                    }
-                    Poll::Pending => {
-                        *this.state = MergeState::B;
-                        // Try stream B
-                        Pin::get_mut(self).poll_next(cx)
+            match this.state {
+                MergeState::A => {
+                    match this.a.poll_next(cx) {
+                        Poll::Pending => {
+                            *this.state = MergeState::B;
+                            // Continue to try B
+                        }
+                        Poll::Ready(None) => {
+                            *this.state = MergeState::B;
+                            // Continue to try B
+                        }
+                        Poll::Ready(Some(item)) => {
+                            *this.state = MergeState::B;
+                            return Poll::Ready(Some(item));
+                        }
                     }
                 }
-            }
-            MergeState::B => {
-                match this.b.poll_next(cx) {
-                    Poll::Ready(item) => {
-                        *this.state = MergeState::A;
-                        Poll::Ready(item)
-                    }
-                    Poll::Pending => {
-                        *this.state = MergeState::A;
-                        // Try stream A
-                        Pin::get_mut(self).poll_next(cx)
+                MergeState::B => {
+                    match this.b.poll_next(cx) {
+                        Poll::Pending => {
+                            *this.state = MergeState::A;
+                            // Continue to try A
+                        }
+                        Poll::Ready(None) => {
+                            *this.state = MergeState::A;
+                            // Continue to try A
+                        }
+                        Poll::Ready(Some(item)) => {
+                            *this.state = MergeState::A;
+                            return Poll::Ready(Some(item));
+                        }
                     }
                 }
             }
@@ -134,28 +142,17 @@ where
     fn poll_next(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Option<Self::Item>> {
         let this = self.project();
 
-        // Poll both streams and return whichever is ready first
-        let mut a_pending = false;
-        let mut b_pending = false;
-
-        // Try stream A
+        // Try stream A first
         match this.a.poll_next(cx) {
-            Poll::Ready(item) => return Poll::Ready(item),
-            Poll::Pending => a_pending = true,
+            Poll::Ready(Some(item)) => return Poll::Ready(Some(item)),
+            Poll::Ready(None) => {}
+            Poll::Pending => {}
         }
 
         // Try stream B
         match this.b.poll_next(cx) {
             Poll::Ready(item) => return Poll::Ready(item),
-            Poll::Pending => b_pending = true,
-        }
-
-        // Both pending
-        if a_pending && b_pending {
-            Poll::Pending
-        } else {
-            // One stream is exhausted, check the other
-            Poll::Pending
+            Poll::Pending => Poll::Pending,
         }
     }
 

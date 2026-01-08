@@ -18,7 +18,7 @@ members = [
     "crates/caret_inspector",
     "crates/caret_record",
     "crates/caret_recovery",
-    # "crates/caret_stream",  # TODO: Fix pin-project-lite usage (Milestone 19 in progress)
+    "crates/caret_stream",
 ]
 resolver = "2"
 

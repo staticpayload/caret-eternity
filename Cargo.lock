@@ -412,6 +412,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "caret_stream"
+version = "0.1.0"
+dependencies = [
+ "caret_buffers",
+ "caret_core",
+ "caret_testkit",
+ "futures",
+ "parking_lot",
+ "pin-project-lite",
+ "serde",
+ "tokio",
+]
+
+[[package]]
 name = "caret_testkit"
 version = "0.1.0"
 dependencies = [

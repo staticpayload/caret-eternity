@@ -232,8 +232,11 @@ impl<T> VecSink<T> {
     }
 
     /// Extract the collected vector
-    pub fn into_vec(self) -> Vec<T> {
-        self.vec
+    pub fn into_vec(mut self) -> Vec<T> {
+        // Use a helper to extract
+        let mut result = Vec::new();
+        std::mem::swap(&mut self.vec, &mut result);
+        result
     }
 
     /// Get a reference to the collected items
@@ -279,20 +282,19 @@ impl<T> Sink for VecSink<T> {
         mut self: Pin<&mut Self>,
         _cx: &mut Context<'_>,
     ) -> Poll<Result<(), SinkError>> {
-        self.closed = true;
+        *self.as_mut().project().closed = true;
         Poll::Ready(Ok(()))
     }
 
     fn start_send(
-        self: Pin<&mut Self>,
+        mut self: Pin<&mut Self>,
         item: Self::Item,
     ) -> Result<(), Self::Item> {
         if self.closed {
             Err(item)
         } else {
-            // Safety: we have mutable access to self
-            let mut_ref = unsafe { self.map_unchecked_mut(|s| s) };
-            mut_ref.vec.push(item);
+            // Use the projection to get mutable access to vec
+            self.project().vec.push(item);
             Ok(())
         }
     }
@@ -354,20 +356,24 @@ where
         mut self: Pin<&mut Self>,
         _cx: &mut Context<'_>,
     ) -> Poll<Result<(), SinkError>> {
-        self.closed = true;
+        *self.as_mut().project().closed = true;
         Poll::Ready(Ok(()))
     }
 
     fn start_send(
-        self: Pin<&mut Self>,
+        mut self: Pin<&mut Self>,
         item: Self::Item,
     ) -> Result<(), Self::Item> {
         if self.closed {
             Err(item)
         } else {
-            // Safety: we have mutable access to self
-            let mut_ref = unsafe { self.map_unchecked_mut(|s| &mut s.func) };
-            (mut_ref)(item);
+            // Get mutable reference to the function using projection
+            let func = unsafe {
+                std::ptr::addr_of_mut!(*self.as_mut().project().func)
+                    .as_mut()
+                    .unwrap()
+            };
+            func(item);
             Ok(())
         }
     }
@@ -434,10 +440,14 @@ where
         self: Pin<&mut Self>,
         item: Self::Item,
     ) -> Result<(), Self::Item> {
-        let this = self.project();
+        let mut this = self.project();
         let transformed = (this.func)(item);
+        // Try to send to inner sink
+        // Note: this.sink is already Pin<&mut Si>, just call the method
         this.sink.start_send(transformed)
-            .map_err(|_| SinkError::Error)
+            .map_err(|_| loop {
+                panic!("With sink: inner sink failed, item lost");
+            })
     }
 }
 
@@ -502,11 +512,18 @@ where
         self: Pin<&mut Self>,
         item: Self::Item,
     ) -> Result<(), Self::Item> {
-        let this = self.project();
-        let transformed = (this.func)(item).map_err(|_| SinkError::Error)?;
+        let mut this = self.project();
+        let transformed = match (this.func)(item) {
+            Ok(t) => t,
+            Err(_) => loop {
+                panic!("SinkFlatMap: function returned error, cannot recover item");
+            },
+        };
+        // this.sink is already Pin<&mut Si>, just call the method
         this.sink.start_send(transformed)
-            .map_err(|_| SinkError::Error)?;
-        Ok(())
+            .map_err(|_| loop {
+                panic!("SinkFlatMap: inner sink failed");
+            })
     }
 }
 
@@ -541,13 +558,13 @@ mod tests {
     fn test_drain_sink() {
         let mut sink = Drain::new();
         assert!(sink.is_ready());
-        sink.start_send(42).unwrap();
+        Pin::new(&mut sink).start_send(42).unwrap();
         assert!(!sink.closed);
     }
 
     #[test]
     fn test_vec_sink() {
-        let sink = VecSink::new();
+        let sink = VecSink::<i32>::new();
         assert!(!sink.closed);
     }
 
@@ -563,7 +580,7 @@ mod tests {
         let mut sink = FnSink::new(|x: i32| {
             count += x;
         });
-        sink.start_send(5).unwrap();
+        Pin::new(&mut sink).start_send(5).unwrap();
         assert_eq!(count, 5);
     }
 

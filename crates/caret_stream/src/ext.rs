@@ -7,6 +7,7 @@
 
 use std::pin::Pin;
 use std::task::{Context, Poll};
+use futures::Future;
 use pin_project_lite::pin_project;
 use crate::stream::Stream;
 use crate::combinators::*;
@@ -129,10 +130,10 @@ pub trait StreamExt: Stream {
     }
 
     /// Collect all items into a vector
-    fn collect<Vec>(self) -> Collect<Self, Vec>
+    fn collect<C>(self) -> Collect<Self, C>
     where
         Self: Sized,
-        Vec: FromIterator<Self::Item>,
+        C: Default + Extend<Self::Item>,
     {
         Collect::new(self)
     }
@@ -239,52 +240,34 @@ pin_project! {
 impl<St, C> Collect<St, C>
 where
     St: Stream,
-    C: FromIterator<St::Item>,
+    C: Default + Extend<St::Item>,
 {
     pub fn new(stream: St) -> Self {
         Self {
             stream,
-            items: None,
+            items: Some(C::default()),
         }
     }
 }
 
-impl<St, C> futures::Future for Collect<St, C>
+impl<St, C> Future for Collect<St, C>
 where
     St: Stream,
-    C: FromIterator<St::Item>,
+    C: Default + Extend<St::Item>,
 {
     type Output = C;
 
     fn poll(mut self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output> {
-        use std::iter;
-
-        // Initialize the collector on first poll
-        if self.items.is_none() {
-            self.as_mut().project().items = Some(iter::empty().collect());
-        }
-
-        let mut buffer = Vec::new();
         loop {
             match self.as_mut().project().stream.poll_next(cx) {
-                Poll::Pending => {
-                    // Accumulate buffered items
-                    if !buffer.is_empty() {
-                        if let Some(items) = self.as_mut().project().items.as_mut() {
-                            *items = items.iter().cloned().chain(buffer.drain(..)).collect();
-                        }
-                    }
-                    return Poll::Pending;
-                }
+                Poll::Pending => return Poll::Pending,
                 Poll::Ready(None) => {
-                    // Stream exhausted, return collected items
-                    if let Some(items) = self.as_mut().project().items.take() {
-                        return Poll::Ready(items);
-                    }
-                    return Poll::Ready(iter::empty().collect());
+                    return Poll::Ready(self.project().items.take().unwrap());
                 }
                 Poll::Ready(Some(item)) => {
-                    buffer.push(item);
+                    let items = self.as_mut().project().items.as_mut().unwrap();
+                    items.extend(std::iter::once(item));
+                    // Continue loop
                 }
             }
         }
@@ -306,7 +289,7 @@ impl<St> Count<St> {
     }
 }
 
-impl<St> futures::Future for Count<St>
+impl<St> Future for Count<St>
 where
     St: Stream,
 {
@@ -316,7 +299,7 @@ where
         loop {
             match self.as_mut().project().stream.poll_next(cx) {
                 Poll::Pending => return Poll::Pending,
-                Poll::Ready(None) => return Poll::Ready(*self.count),
+                Poll::Ready(None) => return Poll::Ready(self.count),
                 Poll::Ready(Some(_)) => {
                     *self.as_mut().project().count += 1;
                 }
@@ -339,7 +322,7 @@ impl<St> First<St> {
     }
 }
 
-impl<St> futures::Future for First<St>
+impl<St> Future for First<St>
 where
     St: Stream,
 {
@@ -368,7 +351,7 @@ impl<St> Last<St> {
     }
 }
 
-impl<St> futures::Future for Last<St>
+impl<St> Future for Last<St>
 where
     St: Stream,
     St::Item: Clone,
@@ -380,14 +363,14 @@ where
         loop {
             match self.as_mut().project().stream.poll_next(cx) {
                 Poll::Pending => {
-                    if self.last {
+                    if *self.as_mut().project().last {
                         return Poll::Ready(last_item);
                     }
                     return Poll::Pending;
                 }
                 Poll::Ready(None) => return Poll::Ready(last_item),
                 Poll::Ready(Some(item)) => {
-                    self.as_mut().project().last = true;
+                    *self.as_mut().project().last = true;
                     last_item = Some(item);
                 }
             }
@@ -410,7 +393,7 @@ impl<St, P> Find<St, P> {
     }
 }
 
-impl<St, P> futures::Future for Find<St, P>
+impl<St, P> Future for Find<St, P>
 where
     St: Stream,
     P: FnMut(&St::Item) -> bool,
@@ -419,11 +402,12 @@ where
 
     fn poll(mut self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output> {
         loop {
-            match self.as_mut().project().stream.poll_next(cx) {
+            let mut this = self.as_mut().project();
+            match this.stream.poll_next(cx) {
                 Poll::Pending => return Poll::Pending,
                 Poll::Ready(None) => return Poll::Ready(None),
                 Poll::Ready(Some(item)) => {
-                    let predicate = self.project().predicate;
+                    let predicate = this.predicate;
                     if predicate(&item) {
                         return Poll::Ready(Some(item));
                     }
@@ -453,7 +437,7 @@ impl<St, P> FindPosition<St, P> {
     }
 }
 
-impl<St, P> futures::Future for FindPosition<St, P>
+impl<St, P> Future for FindPosition<St, P>
 where
     St: Stream,
     P: FnMut(&St::Item) -> bool,
@@ -462,15 +446,17 @@ where
 
     fn poll(mut self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output> {
         loop {
-            match self.as_mut().project().stream.poll_next(cx) {
+            let mut this = self.as_mut().project();
+            match this.stream.poll_next(cx) {
                 Poll::Pending => return Poll::Pending,
                 Poll::Ready(None) => return Poll::Ready(None),
-                Poll::Ready(Some(item)) => {
-                    let predicate = self.project().predicate;
-                    if predicate(&item) {
-                        return Poll::Ready(Some(*self.index));
+                Poll::Ready(Some(_item)) => {
+                    let idx = *this.index;
+                    let predicate = this.predicate;
+                    if predicate(&_item) {
+                        return Poll::Ready(Some(idx));
                     }
-                    *self.as_mut().project().index += 1;
+                    *this.index = idx + 1;
                 }
             }
         }
@@ -492,7 +478,7 @@ impl<St, P> Any<St, P> {
     }
 }
 
-impl<St, P> futures::Future for Any<St, P>
+impl<St, P> Future for Any<St, P>
 where
     St: Stream,
     P: FnMut(&St::Item) -> bool,
@@ -501,11 +487,12 @@ where
 
     fn poll(mut self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output> {
         loop {
-            match self.as_mut().project().stream.poll_next(cx) {
+            let mut this = self.as_mut().project();
+            match this.stream.poll_next(cx) {
                 Poll::Pending => return Poll::Pending,
                 Poll::Ready(None) => return Poll::Ready(false),
                 Poll::Ready(Some(item)) => {
-                    let predicate = self.project().predicate;
+                    let predicate = this.predicate;
                     if predicate(&item) {
                         return Poll::Ready(true);
                     }
@@ -530,7 +517,7 @@ impl<St, P> All<St, P> {
     }
 }
 
-impl<St, P> futures::Future for All<St, P>
+impl<St, P> Future for All<St, P>
 where
     St: Stream,
     P: FnMut(&St::Item) -> bool,
@@ -539,11 +526,12 @@ where
 
     fn poll(mut self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output> {
         loop {
-            match self.as_mut().project().stream.poll_next(cx) {
+            let mut this = self.as_mut().project();
+            match this.stream.poll_next(cx) {
                 Poll::Pending => return Poll::Pending,
                 Poll::Ready(None) => return Poll::Ready(true),
                 Poll::Ready(Some(item)) => {
-                    let predicate = self.project().predicate;
+                    let predicate = this.predicate;
                     if !predicate(&item) {
                         return Poll::Ready(false);
                     }
@@ -568,7 +556,7 @@ impl<St, F> ForEach<St, F> {
     }
 }
 
-impl<St, F> futures::Future for ForEach<St, F>
+impl<St, F> Future for ForEach<St, F>
 where
     St: Stream,
     F: FnMut(St::Item),
@@ -577,11 +565,12 @@ where
 
     fn poll(mut self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output> {
         loop {
-            match self.as_mut().project().stream.poll_next(cx) {
+            let mut this = self.as_mut().project();
+            match this.stream.poll_next(cx) {
                 Poll::Pending => return Poll::Pending,
                 Poll::Ready(None) => return Poll::Ready(()),
                 Poll::Ready(Some(item)) => {
-                    let func = self.project().func;
+                    let func = this.func;
                     func(item);
                 }
             }
@@ -609,7 +598,7 @@ impl<St, P> Partition<St, P> {
     }
 }
 
-impl<St, P> futures::Future for Partition<St, P>
+impl<St, P> Future for Partition<St, P>
 where
     St: Stream,
     P: FnMut(&St::Item) -> bool,
@@ -620,7 +609,8 @@ where
         let mut left = Vec::new();
         let mut right = Vec::new();
         loop {
-            match self.as_mut().project().stream.poll_next(cx) {
+            let mut this = self.as_mut().project();
+            match this.stream.poll_next(cx) {
                 Poll::Pending => {
                     if !left.is_empty() || !right.is_empty() {
                         return Poll::Ready((left, right));
@@ -629,7 +619,7 @@ where
                 }
                 Poll::Ready(None) => return Poll::Ready((left, right)),
                 Poll::Ready(Some(item)) => {
-                    let predicate = self.project().predicate;
+                    let predicate = this.predicate;
                     if predicate(&item) {
                         left.push(item);
                     } else {

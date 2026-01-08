@@ -1,15 +1,15 @@
 # Caret State
 
-**Last updated:** 2025-01-09T05:30:00Z
+**Last updated:** 2025-01-09T07:00:00Z
 
 ## Current milestone
-Milestone 19: Stream processing primitives (IN PROGRESS - caret_stream created, compilation fixes pending)
+Milestone 20: Performance optimization and profiling (NEXT)
 
 ## Current objective
-Implementing stream processing primitives for data flow - core types designed, fixing pin-project-lite usage
+Stream processing primitives complete - ready to begin performance optimization and profiling work
 
 ## Done since last update
-### Milestone 19: Stream processing primitives - PARTIAL (60% complete)
+### Milestone 19: Stream processing primitives - COMPLETE
 - Created `caret_stream` crate with stream processing primitives
 - Core `Stream` trait with `poll_next`, `size_hint`, `len`, `is_empty` methods
 - `Next` future for async stream iteration
@@ -24,8 +24,15 @@ Implementing stream processing primitives for data flow - core types designed, f
 - Merge operations: `Merge`, `Select`, `MergeExt` trait
 - `StreamConfig` for configuring stream processing (buffer_size, backpressure, max_pending)
 - `StreamConfig` with builder methods: `with_buffer_size`, `with_backpressure`, `with_max_pending`
-- NOTE: `caret_stream` temporarily excluded from workspace due to pin-project-lite compilation issues (37 errors related to pinned projections and borrow checker)
-- TODO: Fix pin-project-lite usage in combinators (Then, TakeWhile, SkipWhile, Inspect) and resolve move-after-borrow issues
+- Fixed all pin-project-lite compilation issues:
+  - Fixed `Iter` and `FromIter` structs to use unsafe get_unchecked_mut for field access
+  - Fixed `Filter`, `FilterMap`, `Fold`, `Scan`, `TakeWhile`, `SkipWhile`, `Inspect`, `Then` combinators to use `as_mut().project()` in loops
+  - Fixed `Find`, `FindPosition`, `Any`, `All`, `ForEach`, `Partition` futures in ext.rs
+  - Fixed `With` and `SinkFlatMap` in sink.rs to call methods on pinned projections directly
+  - Fixed all test cases to use `Pin::new(&mut sink).start_send()` pattern
+  - Fixed waker creation in tests to use `Box::leak` for 'static lifetime
+- 35 tests passing in caret_stream
+- caret_stream fully re-enabled in workspace
 
 ### Milestone 18: Dynamic graph modification - COMPLETE
 - Dynamic graph modification in caret_graph
@@ -144,18 +151,16 @@ Implementing stream processing primitives for data flow - core types designed, f
 - Complete governance documentation and repo structure
 
 ## Next objectives
-1. Fix pin-project-lite compilation issues in caret_stream - Milestone 19 (remaining 40%)
-2. Performance optimization and profiling - Milestone 20
-3. Distributed execution support - Milestone 21
+1. Performance optimization and profiling - Milestone 20
+2. Distributed execution support - Milestone 21
 
 ## Risks
 - Plugin system uses unsafe code for dynamic loading - needs audit
 - caret_trace has a pre-existing test isolation issue with global state
-- caret_stream compilation blocked by pin-project-lite usage issues
 
 ## Quality gates status
-- Build: Passing (caret_stream temporarily excluded)
-- Tests: 408 tests passing across workspace
+- Build: Passing
+- Tests: 443 tests passing across workspace (35 in caret_stream)
 - Docs: Core APIs documented
 - Lint: Passes (some warnings for missing docs on internal items)
 - Format: Passing

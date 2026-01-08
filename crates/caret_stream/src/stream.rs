@@ -125,19 +125,33 @@ impl<St: Stream + Unpin> Iterator for StreamIterator<St> {
     fn next(&mut self) -> Option<Self::Item> {
         // This is a blocking iterator for streams
         // In practice, you'd use the async interface
-        use std::task::Waker;
         use std::task::RawWaker;
         use std::task::RawWakerVTable;
         use std::task::Waker as StdWaker;
+        use std::sync::atomic::{AtomicUsize, Ordering};
 
-        // Create a no-op waker
-        static VTABLE: RawWakerVTable = RawWakerVTable::new(
-            |_: *const ()| unsafe { std::mem::transmute::<(), RawWaker>(()) },
-            |_: *const ()| {},
-            |_: *const ()| {},
-            |_: *const ()| {},
-        );
-        let raw = RawWaker::new(std::ptr::null(), &VTABLE);
+        // Use a counter as our waker data - each waker is unique
+        static COUNTER: AtomicUsize = AtomicUsize::new(0);
+        let ptr = COUNTER.fetch_add(1, Ordering::Relaxed) as *const ();
+
+        // Create a vtable that doesn't actually do anything
+        // The clone function creates a new RawWaker with a new pointer
+        unsafe fn raw_waker_clone_fn(ptr: *const ()) -> RawWaker {
+            // Create a new unique pointer for each clone
+            let new_ptr = (ptr as usize + 1) as *const ();
+            RawWaker::new(new_ptr, raw_waker_vtable())
+        }
+
+        unsafe fn raw_waker_vtable() -> &'static RawWakerVTable {
+            &RawWakerVTable::new(
+                raw_waker_clone_fn,
+                |_| {},
+                |_| {},
+                |_| {},
+            )
+        }
+
+        let raw = unsafe { RawWaker::new(ptr, raw_waker_vtable()) };
         let waker = unsafe { StdWaker::from_raw(raw) };
         let mut cx = Context::from_waker(&waker);
 
@@ -176,13 +190,10 @@ impl<S: Stream + Unpin + Sized> Stream for Box<S> {
     }
 }
 
-pin_project! {
-    /// A stream that yields items from an iterator
-    #[derive(Debug, Clone)]
-    pub struct Iter<I> {
-        #[pin]
-        iter: I,
-    }
+/// A stream that yields items from an iterator
+#[derive(Debug, Clone)]
+pub struct Iter<I> {
+    iter: I,
 }
 
 impl<I> Iter<I>
@@ -201,13 +212,14 @@ where
 {
     type Item = I::Item;
 
-    fn poll_next(self: Pin<&mut Self>, _cx: &mut Context<'_>) -> Poll<Option<Self::Item>> {
-        Poll::Ready(self.project().iter.next())
+    fn poll_next(mut self: Pin<&mut Self>, _cx: &mut Context<'_>) -> Poll<Option<Self::Item>> {
+        // SAFETY: Iter has no pinned fields, so we can get mutable access
+        let this = unsafe { Pin::get_unchecked_mut(self) };
+        Poll::Ready(this.iter.next())
     }
 
     fn size_hint(&self) -> (usize, Option<usize>) {
-        let iter = unsafe { self.map_unchecked_mut(|s| &mut s.iter) };
-        iter.size_hint()
+        self.iter.size_hint()
     }
 }
 
@@ -250,7 +262,6 @@ pin_project! {
     /// A stream that yields a single value
     #[derive(Debug, Clone)]
     pub struct Once<T> {
-        #[pin]
         value: Option<T>,
     }
 }
@@ -271,12 +282,11 @@ impl<T> Stream for Once<T> {
     type Item = T;
 
     fn poll_next(mut self: Pin<&mut Self>, _cx: &mut Context<'_>) -> Poll<Option<Self::Item>> {
-        Poll::Ready(self.project().value.take())
+        Poll::Ready(self.as_mut().project().value.take())
     }
 
     fn size_hint(&self) -> (usize, Option<usize>) {
-        let has_value = unsafe { self.map_unchecked(|s| &s.value).is_some() };
-        if has_value {
+        if self.value.is_some() {
             (1, Some(1))
         } else {
             (0, Some(0))
@@ -284,13 +294,10 @@ impl<T> Stream for Once<T> {
     }
 }
 
-pin_project! {
-    /// A stream that yields values from a vector
-    #[derive(Debug)]
-    pub struct FromIter<T> {
-        #[pin]
-        iter: std::vec::IntoIter<T>,
-    }
+/// A stream that yields values from a vector
+#[derive(Debug)]
+pub struct FromIter<T> {
+    iter: std::vec::IntoIter<T>,
 }
 
 impl<T> FromIter<T> {
@@ -306,12 +313,13 @@ impl<T> Stream for FromIter<T> {
     type Item = T;
 
     fn poll_next(mut self: Pin<&mut Self>, _cx: &mut Context<'_>) -> Poll<Option<Self::Item>> {
-        Poll::Ready(self.project().iter.next())
+        // SAFETY: FromIter has no pinned fields, so we can get mutable access
+        let this = unsafe { Pin::get_unchecked_mut(self) };
+        Poll::Ready(this.iter.next())
     }
 
     fn size_hint(&self) -> (usize, Option<usize>) {
-        let iter = unsafe { self.map_unchecked_mut(|s| &mut s.iter) };
-        iter.size_hint()
+        self.iter.size_hint()
     }
 }
 
@@ -363,8 +371,12 @@ where
 {
     type Item = T;
 
-    fn poll_next(mut self: Pin<&mut Self>, _cx: &mut Context<'_>) -> Poll<Option<Self::Item>> {
-        Poll::Ready(Some(self.project().func()))
+    fn poll_next(self: Pin<&mut Self>, _cx: &mut Context<'_>) -> Poll<Option<Self::Item>> {
+        // Get mutable reference to the function
+        let this = self.project();
+        // SAFETY: F doesn't care about pinning
+        let func = unsafe { std::ptr::addr_of_mut!(*this.func).as_mut().unwrap() };
+        Poll::Ready(Some(func()))
     }
 
     fn size_hint(&self) -> (usize, Option<usize>) {
