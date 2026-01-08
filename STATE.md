@@ -1,6 +1,6 @@
 # Caret State
 
-**Last updated:** 2025-01-09T02:00:00Z
+**Last updated:** 2025-01-09T03:00:00Z
 
 ## Current milestone
 Milestone 22: Distributed graph execution with real Caret graphs - IN PROGRESS
@@ -19,7 +19,7 @@ Implementing distributed graph execution with real Caret graphs
   - `GraphPartitioner`: Partitions graphs across worker nodes
   - `PartitionStrategy`: RoundRobin, Contiguous, MinimizeCrossEdges, Manual
   - `PartitionAssignment`: Complete partition with cross-node routes
-  - `GraphPartition`: Per-worker node and edge assignment
+  - `GraphPartition`: Per-worker node and edge assignment with helper methods
   - `CrossPartitionEdge`: Edge crossing partition boundaries
   - `CrossNodeRoute`: Route for cross-node packet delivery
 - Integration with caret_graph:
@@ -33,8 +33,13 @@ Implementing distributed graph execution with real Caret graphs
   - Enhanced cross-node packet routing with node:port format
 - Protocol message types:
   - `PartitionAssign`: Message type for assigning partitions to workers
+  - `Message::is_from()`: Helper to check message source
   - Worker-side partition deserialization and route setup
-- 43 tests passing in caret_distributed (10 new graph_proto/integration tests)
+- GraphPartition helper methods:
+  - `node_ids()`: Get list of local node IDs
+  - `node_count()`: Get number of nodes in partition
+  - `internal_edge_count()`, `input_edge_count()`, `output_edge_count()`
+- 43 tests passing in caret_distributed
 
 ### Milestone 21: Distributed execution support - COMPLETE
 - Created `caret_distributed` crate with:
