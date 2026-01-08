@@ -1,14 +1,37 @@
 # Caret State
 
-**Last updated:** 2025-01-09T00:00:00Z
+**Last updated:** 2025-01-09T01:00:00Z
 
 ## Current milestone
-Milestone 22: Distributed graph execution with real Caret graphs
+Milestone 22: Distributed graph execution with real Caret graphs - IN PROGRESS
 
 ## Current objective
 Implementing distributed graph execution with real Caret graphs
 
 ## Done since last update
+### Milestone 22: Distributed graph execution with real Caret graphs (IN PROGRESS)
+- Graph serialization for distributed transmission:
+  - `SerializableGraph`: Network-transmittable graph representation
+  - `SerializableNode`: Node definition with ports and type
+  - `SerializableEdge`: Connection between node ports
+  - JSON and binary serialization via serde
+- Graph partitioning for multi-worker execution:
+  - `GraphPartitioner`: Partitions graphs across worker nodes
+  - `PartitionStrategy`: RoundRobin, Contiguous, MinimizeCrossEdges, Manual
+  - `PartitionAssignment`: Complete partition with cross-node routes
+  - `GraphPartition`: Per-worker node and edge assignment
+  - `CrossPartitionEdge`: Edge crossing partition boundaries
+  - `CrossNodeRoute`: Route for cross-node packet delivery
+- Integration with caret_graph:
+  - `SerializableGraph::from_caret_graph()`: Convert from caret_graph Graph
+  - Preserves nodes, edges, ports, and topological order
+  - Port name resolution for proper routing
+- DistributedExecutor enhancements:
+  - `setup_routes_from_partition()`: Configure routing from partition assignment
+  - `get_routes()`: Query configured routes
+  - Enhanced cross-node packet routing with node:port format
+- 42 tests passing in caret_distributed (9 new graph_proto tests)
+
 ### Milestone 21: Distributed execution support - COMPLETE
 - Created `caret_distributed` crate with:
   - Transport layer abstraction (`Transport`, `MemoryTransport` for testing, `TcpTransport` for real networking)
@@ -89,7 +112,7 @@ Implementing distributed graph execution with real Caret graphs
 
 ## Quality gates status
 - Build: Passing
-- Tests: 43 tests passing in caret_distributed
+- Tests: 42 tests passing in caret_distributed (9 new graph_proto tests)
 - Docs: Core APIs documented
 - Lint: Passes (some warnings for missing docs on internal items)
 - Format: Passing

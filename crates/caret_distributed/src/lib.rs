@@ -25,6 +25,7 @@ mod message;
 mod error;
 mod executor;
 mod mdns;
+mod graph_proto;
 
 pub use codec::{FrameCodec, FrameDecoder, FRAME_HEADER_SIZE, FRAME_MAGIC, FRAME_VERSION};
 pub use error::{Error, Result};
@@ -35,6 +36,11 @@ pub use coordinator::{Coordinator, CoordinatorConfig, ExecutionMode, ExecutionSt
 pub use message::{Message, MessagePayload, MessageType};
 pub use executor::{DistributedExecutor, ExecutorConfig};
 pub use mdns::{MdnsDiscovery, MdnsDiscoveryConfig, CARET_SERVICE_TYPE};
+pub use graph_proto::{
+    CrossNodeRoute, CrossPartitionEdge, GraphPartition, GraphPartitioner, NodeType as GraphNodeType,
+    PartitionAssignment, PartitionError, PartitionStrategy, PortDirection, SerializableEdge,
+    SerializableGraph, SerializableNode,
+};
 
 /// Version of the distributed protocol
 pub const PROTOCOL_VERSION: &str = "0.1.0";
