@@ -1,6 +1,6 @@
 # Caret State
 
-**Last updated:** 2025-01-09T03:00:00Z
+**Last updated:** 2025-01-09T12:00:00Z
 
 ## Current milestone
 Milestone 22: Distributed graph execution with real Caret graphs - IN PROGRESS
@@ -39,7 +39,10 @@ Implementing distributed graph execution with real Caret graphs
   - `node_ids()`: Get list of local node IDs
   - `node_count()`: Get number of nodes in partition
   - `internal_edge_count()`, `input_edge_count()`, `output_edge_count()`
-- 43 tests passing in caret_distributed
+- Test fixes:
+  - Fixed deadlock in `test_distributed_execution_integration` by releasing graphs lock
+  - Fixed async coordinator tests by awaiting `start()` futures
+- 60 tests passing in caret_distributed (44 lib + 16 integration)
 
 ### Milestone 21: Distributed execution support - COMPLETE
 - Created `caret_distributed` crate with:
@@ -121,7 +124,7 @@ Implementing distributed graph execution with real Caret graphs
 
 ## Quality gates status
 - Build: Passing
-- Tests: 43 tests passing in caret_distributed (10 new graph_proto/integration tests)
+- Tests: 60 tests passing in caret_distributed (44 lib + 16 integration)
 - Docs: Core APIs documented
 - Lint: Passes (some warnings for missing docs on internal items)
 - Format: Passing
