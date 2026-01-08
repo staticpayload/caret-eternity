@@ -1,14 +1,28 @@
 # Caret State
 
-**Last updated:** 2025-01-09T00:30:00Z
+**Last updated:** 2025-01-09T00:45:00Z
 
 ## Current milestone
-Milestone 16: Enhanced error handling and recovery
+Milestone 17: Advanced scheduling strategies
 
 ## Current objective
-Implementing improved error handling and recovery mechanisms
+Implementing advanced scheduling strategies for improved performance
 
 ## Done since last update
+### Milestone 16: Enhanced error handling and recovery - COMPLETE
+- `caret_recovery` crate with error recovery and resilience mechanisms
+- CircuitBreaker with states (Closed, Open, HalfOpen) and configurable thresholds
+- RecoveryPolicy with configurable actions for retryable and non-retryable errors
+- RecoveryStrategy trait with DefaultRecoveryStrategy, AggressiveRecoveryStrategy, ConservativeRecoveryStrategy
+- RetryStrategy with BackoffStrategy (Fixed, Linear, Exponential, ExponentialWithJitter)
+- ErrorHandler for recording and responding to errors with per-node tracking
+- ErrorContext for tracking errors (node_id, port, tick, packet_id)
+- RecoveryAction (Retry, Skip, Fallback, Fail)
+- RecoveryManager for coordinating recovery across pipeline
+- RecoveryStats for tracking recovery operations
+- 28 tests passing in caret_recovery
+- 268 total tests passing across workspace
+
 ### Milestone 15: Performance benchmarking framework - COMPLETE
 - `caret_bench` benchmark framework library
 - BenchResult with timing statistics (avg, min, max, std_dev, throughput)
