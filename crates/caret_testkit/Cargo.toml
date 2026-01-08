@@ -1,0 +1,16 @@
+[package]
+name = "caret_testkit"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+description = "Testing utilities for Caret"
+
+[dependencies]
+caret_core.workspace = true
+caret_graph.workspace = true
+caret_buffers.workspace = true
+caret_sched.workspace = true

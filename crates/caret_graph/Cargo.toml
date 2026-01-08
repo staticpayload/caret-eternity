@@ -1,0 +1,18 @@
+[package]
+name = "caret_graph"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+description = "Graph representation and topology for Caret"
+
+[dependencies]
+caret_core.workspace = true
+caret_buffers.workspace = true
+thiserror.workspace = true
+serde.workspace = true
+petgraph = "0.6"
+indexmap = "2.1"

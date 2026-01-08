@@ -1,0 +1,16 @@
+[package]
+name = "caret_metrics"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+description = "Metrics collection for Caret"
+
+[dependencies]
+caret_core.workspace = true
+thiserror.workspace = true
+serde.workspace = true
+parking_lot.workspace = true

@@ -1,0 +1,20 @@
+[package]
+name = "caret_io"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+description = "IO nodes and codecs for Caret"
+
+[dependencies]
+caret_core.workspace = true
+caret_graph.workspace = true
+caret_buffers.workspace = true
+thiserror.workspace = true
+tokio.workspace = true
+futures.workspace = true
+bytes.workspace = true
+tracing.workspace = true

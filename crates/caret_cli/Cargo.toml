@@ -1,0 +1,30 @@
+[package]
+name = "caret_cli"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+description = "Command line interface for Caret"
+
+[[bin]]
+name = "caret"
+path = "src/main.rs"
+
+[dependencies]
+caret_core.workspace = true
+caret_graph.workspace = true
+caret_sched.workspace = true
+caret_io.workspace = true
+caret_metrics.workspace = true
+caret_trace.workspace = true
+thiserror.workspace = true
+anyhow.workspace = true
+tokio.workspace = true
+clap = { version = "4.4", features = ["derive"] }
+serde.workspace = true
+serde_json.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true

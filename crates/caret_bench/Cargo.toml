@@ -1,0 +1,29 @@
+[package]
+name = "caret_bench"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+description = "Benchmark suite for Caret"
+
+[dependencies]
+caret_core.workspace = true
+caret_graph.workspace = true
+caret_buffers.workspace = true
+caret_sched.workspace = true
+criterion = "0.5"
+
+[[bench]]
+name = "queue_bench"
+harness = false
+
+[[bench]]
+name = "buffer_pool_bench"
+harness = false
+
+[[bench]]
+name = "scheduler_bench"
+harness = false

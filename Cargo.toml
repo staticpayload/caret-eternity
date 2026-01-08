@@ -1,0 +1,58 @@
+[workspace]
+members = [
+    "crates/caret_core",
+    "crates/caret_graph",
+    "crates/caret_buffers",
+    "crates/caret_sched",
+    "crates/caret_plugins",
+    "crates/caret_io",
+    "crates/caret_metrics",
+    "crates/caret_trace",
+    "crates/caret_cli",
+    "crates/caret_testkit",
+    "crates/caret_bench",
+    "crates/caret_ffi",
+]
+resolver = "2"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.75"
+license = "MIT"
+authors = ["Caret Contributors"]
+repository = "https://github.com/caret-dev/caret"
+homepage = "https://caret.dev"
+
+[workspace.dependencies]
+# Caret internal crates
+caret_core = { path = "crates/caret_core" }
+caret_graph = { path = "crates/caret_graph" }
+caret_buffers = { path = "crates/caret_buffers" }
+caret_sched = { path = "crates/caret_sched" }
+caret_plugins = { path = "crates/caret_plugins" }
+caret_io = { path = "crates/caret_io" }
+caret_metrics = { path = "crates/caret_metrics" }
+caret_trace = { path = "crates/caret_trace" }
+caret_testkit = { path = "crates/caret_testkit" }
+
+# External dependencies
+thiserror = "1.0"
+anyhow = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tokio = { version = "1.35", features = ["full"] }
+futures = "0.3"
+tracing = "0.1"
+tracing-subscriber = "0.3"
+bytes = "1.5"
+parking_lot = "0.12"
+crossbeam = "0.8"
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+
+[profile.bench]
+inherits = "release"
