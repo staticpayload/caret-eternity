@@ -83,7 +83,7 @@ async fn coordinator_worker_registration() {
     let local_id = test_node_id(1);
 
     let coordinator = Coordinator::new(config, local_id);
-    coordinator.start();
+    coordinator.start().await.unwrap();
 
     // Register a worker
     let worker_id = test_node_id(2);
@@ -103,7 +103,7 @@ async fn coordinator_graph_lifecycle() {
     let local_id = test_node_id(1);
 
     let coordinator = Coordinator::new(config, local_id);
-    coordinator.start();
+    coordinator.start().await.unwrap();
 
     // Submit a graph
     let graph_id = "test-graph";

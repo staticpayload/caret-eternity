@@ -807,7 +807,6 @@ mod tests {
 
     /// Integration test for distributed execution
     #[test]
-    #[ignore = "TODO: Fix hanging test - potential lock contention"]
     fn test_distributed_execution_integration() {
         // Create a coordinator/executor
         let coordinator_executor = DistributedExecutor::new(ExecutorConfig::default());
@@ -863,9 +862,11 @@ mod tests {
         assert!(result.is_ok());
 
         // Verify assignment
-        let graphs = coordinator_executor.coordinator.graphs.lock();
-        let graph_state = graphs.get(&graph_id).unwrap();
-        assert_eq!(graph_state.assignments.get(&12345), Some(&worker_id));
+        {
+            let graphs = coordinator_executor.coordinator.graphs.lock();
+            let graph_state = graphs.get(&graph_id).unwrap();
+            assert_eq!(graph_state.assignments.get(&12345), Some(&worker_id));
+        } // Lock released here
 
         // Stop the graph
         coordinator_executor.stop_graph(&graph_id, false).unwrap();
