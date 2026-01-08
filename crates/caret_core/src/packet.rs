@@ -86,6 +86,31 @@ pub enum AudioFormat {
     F64,
 }
 
+impl AudioFormat {
+    /// Convert to u8 for serialization
+    pub fn as_u8(self) -> u8 {
+        match self {
+            AudioFormat::U8 => 0,
+            AudioFormat::S16 => 1,
+            AudioFormat::S32 => 2,
+            AudioFormat::F32 => 3,
+            AudioFormat::F64 => 4,
+        }
+    }
+
+    /// Convert from u8
+    pub fn from_u8(v: u8) -> Option<Self> {
+        match v {
+            0 => Some(AudioFormat::U8),
+            1 => Some(AudioFormat::S16),
+            2 => Some(AudioFormat::S32),
+            3 => Some(AudioFormat::F32),
+            4 => Some(AudioFormat::F64),
+            _ => None,
+        }
+    }
+}
+
 /// Pixel format for video frames
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum PixelFormat {
@@ -99,6 +124,31 @@ pub enum PixelFormat {
     Yuv420p,
     /// YUV 4:2:2 planar
     Yuv422p,
+}
+
+impl PixelFormat {
+    /// Convert to u8 for serialization
+    pub fn as_u8(self) -> u8 {
+        match self {
+            PixelFormat::Rgb8 => 0,
+            PixelFormat::Rgba8 => 1,
+            PixelFormat::Gray8 => 2,
+            PixelFormat::Yuv420p => 3,
+            PixelFormat::Yuv422p => 4,
+        }
+    }
+
+    /// Convert from u8
+    pub fn from_u8(v: u8) -> Option<Self> {
+        match v {
+            0 => Some(PixelFormat::Rgb8),
+            1 => Some(PixelFormat::Rgba8),
+            2 => Some(PixelFormat::Gray8),
+            3 => Some(PixelFormat::Yuv420p),
+            4 => Some(PixelFormat::Yuv422p),
+            _ => None,
+        }
+    }
 }
 
 /// Data type for tensor elements
@@ -120,6 +170,35 @@ pub enum TensorDtype {
     F64,
 }
 
+impl TensorDtype {
+    /// Convert to u8 for serialization
+    pub fn as_u8(self) -> u8 {
+        match self {
+            TensorDtype::U8 => 0,
+            TensorDtype::S8 => 1,
+            TensorDtype::U16 => 2,
+            TensorDtype::S16 => 3,
+            TensorDtype::S32 => 4,
+            TensorDtype::F32 => 5,
+            TensorDtype::F64 => 6,
+        }
+    }
+
+    /// Convert from u8
+    pub fn from_u8(v: u8) -> Option<Self> {
+        match v {
+            0 => Some(TensorDtype::U8),
+            1 => Some(TensorDtype::S8),
+            2 => Some(TensorDtype::U16),
+            3 => Some(TensorDtype::S16),
+            4 => Some(TensorDtype::S32),
+            5 => Some(TensorDtype::F32),
+            6 => Some(TensorDtype::F64),
+            _ => None,
+        }
+    }
+}
+
 /// Event kind for control events
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum EventKind {
@@ -135,6 +214,31 @@ pub enum EventKind {
     Custom(u32),
 }
 
+impl EventKind {
+    /// Convert to u8 for serialization
+    pub fn as_u8(self) -> u8 {
+        match self {
+            EventKind::Start => 0,
+            EventKind::End => 1,
+            EventKind::Flush => 2,
+            EventKind::Marker => 3,
+            EventKind::Custom(v) => 128 + (v % 128) as u8,
+        }
+    }
+
+    /// Convert from u8
+    pub fn from_u8(v: u8) -> Option<Self> {
+        match v {
+            0 => Some(EventKind::Start),
+            1 => Some(EventKind::End),
+            2 => Some(EventKind::Flush),
+            3 => Some(EventKind::Marker),
+            v if v >= 128 => Some(EventKind::Custom((v - 128) as u32)),
+            _ => None,
+        }
+    }
+}
+
 /// Control signal kind
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum ControlKind {
@@ -148,6 +252,31 @@ pub enum ControlKind {
     Stop,
     /// Custom control
     Custom(u32),
+}
+
+impl ControlKind {
+    /// Convert to u8 for serialization
+    pub fn as_u8(self) -> u8 {
+        match self {
+            ControlKind::Pause => 0,
+            ControlKind::Resume => 1,
+            ControlKind::Seek => 2,
+            ControlKind::Stop => 3,
+            ControlKind::Custom(v) => 128 + (v % 128) as u8,
+        }
+    }
+
+    /// Convert from u8
+    pub fn from_u8(v: u8) -> Option<Self> {
+        match v {
+            0 => Some(ControlKind::Pause),
+            1 => Some(ControlKind::Resume),
+            2 => Some(ControlKind::Seek),
+            3 => Some(ControlKind::Stop),
+            v if v >= 128 => Some(ControlKind::Custom((v - 128) as u32)),
+            _ => None,
+        }
+    }
 }
 
 /// A packet of data flowing through the pipeline
@@ -314,6 +443,28 @@ impl Packet {
     /// Check if this is an event packet
     pub fn is_event(&self) -> bool {
         matches!(self.kind, PacketKind::Event(_))
+    }
+
+    /// Reconstruct a packet from its component parts.
+    ///
+    /// This is primarily used by codecs when deserializing packets.
+    /// The metadata is consumed and wrapped in an Arc.
+    pub fn from_parts(
+        kind: PacketKind,
+        data: impl Into<Bytes>,
+        timestamp: Timestamp,
+        duration: Option<u64>,
+        stream_id: StreamId,
+        metadata: Metadata,
+    ) -> Self {
+        Self {
+            kind,
+            data: data.into(),
+            timestamp,
+            duration,
+            stream_id,
+            metadata: Arc::new(metadata),
+        }
     }
 }
 

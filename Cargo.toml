@@ -9,6 +9,7 @@ members = [
     "crates/caret_dsl",
     "crates/caret_metrics",
     "crates/caret_trace",
+    "crates/caret_codec",
     "crates/caret_cli",
     "crates/caret_testkit",
     "crates/caret_bench",
@@ -36,6 +37,7 @@ caret_io = { path = "crates/caret_io" }
 caret_dsl = { path = "crates/caret_dsl" }
 caret_metrics = { path = "crates/caret_metrics" }
 caret_trace = { path = "crates/caret_trace" }
+caret_codec = { path = "crates/caret_codec" }
 caret_testkit = { path = "crates/caret_testkit" }
 
 # External dependencies
@@ -43,6 +45,7 @@ thiserror = "1.0"
 anyhow = "1.0"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
+bincode = "1.3"
 tokio = { version = "1.35", features = ["full"] }
 futures = "0.3"
 tracing = "0.1"

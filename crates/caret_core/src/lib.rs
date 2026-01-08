@@ -15,7 +15,12 @@ mod time;
 
 pub use error::{Error, ErrorKind, Result};
 pub use metadata::{Metadata, MetadataValue};
-pub use packet::{Packet, PacketKind};
+pub use packet::{
+    Packet, PacketKind,
+    StreamId,
+    AudioFormat, PixelFormat, TensorDtype,
+    EventKind, ControlKind,
+};
 pub use time::{Duration, TimeBase, Timestamp};
 
 /// Core version of Caret

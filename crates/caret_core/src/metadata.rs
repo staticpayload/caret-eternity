@@ -6,6 +6,7 @@
 // https://opensource.org/licenses/MIT
 
 use std::collections::HashMap;
+use std::fmt;
 use std::sync::Arc;
 
 /// A typed value in metadata
@@ -174,6 +175,40 @@ impl From<&str> for MetadataValue {
 impl From<Vec<u8>> for MetadataValue {
     fn from(value: Vec<u8>) -> Self {
         Self::Bytes(value)
+    }
+}
+
+impl fmt::Display for MetadataValue {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            MetadataValue::Null => write!(f, "null"),
+            MetadataValue::Bool(b) => write!(f, "{}", b),
+            MetadataValue::Int(i) => write!(f, "{}", i),
+            MetadataValue::Uint(u) => write!(f, "{}", u),
+            MetadataValue::Float(n) => write!(f, "{}", n),
+            MetadataValue::String(s) => write!(f, "{}", s),
+            MetadataValue::Bytes(b) => write!(f, "<bytes {}>", b.len()),
+            MetadataValue::Array(a) => {
+                write!(f, "[")?;
+                for (i, v) in a.iter().enumerate() {
+                    if i > 0 {
+                        write!(f, ", ")?;
+                    }
+                    write!(f, "{}", v)?;
+                }
+                write!(f, "]")
+            }
+            MetadataValue::Map(m) => {
+                write!(f, "{{")?;
+                for (i, (k, v)) in m.iter().enumerate() {
+                    if i > 0 {
+                        write!(f, ", ")?;
+                    }
+                    write!(f, "{}: {}", k, v)?;
+                }
+                write!(f, "}}")
+            }
+        }
     }
 }
 
