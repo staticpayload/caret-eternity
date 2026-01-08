@@ -14,3 +14,7 @@ caret_core.workspace = true
 thiserror.workspace = true
 bytes.workspace = true
 parking_lot.workspace = true
+
+[[bin]]
+name = "buffer_perf"
+path = "benches/buffer_perf.rs"

@@ -8,6 +8,7 @@
 use caret_core::Error;
 use parking_lot::Mutex;
 use std::collections::VecDeque;
+use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::Arc;
 
 /// Policy for handling queue overflow
@@ -28,10 +29,16 @@ pub enum OverflowPolicy {
 /// This queue provides thread-safe bounded capacity with various
 /// overflow handling strategies. It is designed for use between
 /// graph nodes to implement backpressure.
+///
+/// Performance optimizations:
+/// - Uses atomic length for lock-free len(), is_empty(), is_full() checks
+/// - Arc<Mutex> for interior mutability
 pub struct BoundedQueue<T> {
     inner: Arc<Mutex<QueueInner<T>>>,
     capacity: usize,
     policy: OverflowPolicy,
+    /// Atomic length for lock-free size queries
+    len: AtomicUsize,
 }
 
 struct QueueInner<T> {
@@ -52,6 +59,7 @@ impl<T> BoundedQueue<T> {
             })),
             capacity,
             policy: OverflowPolicy::Block,
+            len: AtomicUsize::new(0),
         }
     }
 
@@ -64,6 +72,7 @@ impl<T> BoundedQueue<T> {
             })),
             capacity,
             policy,
+            len: AtomicUsize::new(0),
         }
     }
 
@@ -86,9 +95,11 @@ impl<T> BoundedQueue<T> {
                     return Ok(());
                 }
                 OverflowPolicy::DropOldest => {
-                    // Remove oldest to make room
+                    // Remove oldest to make room - length stays same (one out, one in)
                     inner.items.pop_front();
                     inner.dropped_count += 1;
+                    inner.items.push_back(item);
+                    return Ok(());
                 }
                 OverflowPolicy::Error => {
                     return Err(Error::resource_exhausted("queue is full"));
@@ -97,6 +108,7 @@ impl<T> BoundedQueue<T> {
         }
 
         inner.items.push_back(item);
+        self.len.fetch_add(1, Ordering::Release);
         Ok(())
     }
 
@@ -112,22 +124,26 @@ impl<T> BoundedQueue<T> {
     /// Returns None if the queue is empty.
     pub fn pop(&self) -> Option<T> {
         let mut inner = self.inner.lock();
-        inner.items.pop_front()
+        let item = inner.items.pop_front();
+        if item.is_some() {
+            self.len.fetch_sub(1, Ordering::Release);
+        }
+        item
     }
 
-    /// Get the current length of the queue
+    /// Get the current length of the queue (lock-free)
     pub fn len(&self) -> usize {
-        self.inner.lock().items.len()
+        self.len.load(Ordering::Acquire)
     }
 
-    /// Check if the queue is empty
+    /// Check if the queue is empty (lock-free)
     pub fn is_empty(&self) -> bool {
-        self.inner.lock().items.is_empty()
+        self.len.load(Ordering::Acquire) == 0
     }
 
-    /// Check if the queue is full
+    /// Check if the queue is full (lock-free)
     pub fn is_full(&self) -> bool {
-        self.len() >= self.capacity
+        self.len.load(Ordering::Acquire) >= self.capacity
     }
 
     /// Get the capacity of the queue
@@ -147,7 +163,9 @@ impl<T> BoundedQueue<T> {
 
     /// Clear all items from the queue
     pub fn clear(&self) {
-        self.inner.lock().items.clear();
+        let mut inner = self.inner.lock();
+        inner.items.clear();
+        self.len.store(0, Ordering::Release);
     }
 
     /// Get the overflow policy
@@ -162,6 +180,7 @@ impl<T> Clone for BoundedQueue<T> {
             inner: Arc::clone(&self.inner),
             capacity: self.capacity,
             policy: self.policy,
+            len: AtomicUsize::new(self.len.load(Ordering::Acquire)),
         }
     }
 }
