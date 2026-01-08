@@ -1,15 +1,15 @@
 # Caret State
 
-**Last updated:** 2025-01-08T18:00:00Z
+**Last updated:** 2025-01-08T19:00:00Z
 
 ## Current milestone
-Milestone 21: Distributed execution support (IN PROGRESS - 60% complete)
+Milestone 21: Distributed execution support (IN PROGRESS - 80% complete)
 
 ## Current objective
 Implementing distributed execution infrastructure for Caret pipelines
 
 ## Done since last update
-### Milestone 21: Distributed execution support - IN PROGRESS (60%)
+### Milestone 21: Distributed execution support - IN PROGRESS (80%)
 - Created `caret_distributed` crate with:
   - Transport layer abstraction (`Transport`, `MemoryTransport` for testing, `TcpTransport` for real networking)
   - Message framing codec (`FrameCodec`, `FrameDecoder`) with CARET magic bytes
@@ -17,17 +17,24 @@ Implementing distributed execution infrastructure for Caret pipelines
   - Node types (`NodeId`, `NodeInfo`, `NodeState`, `LocalNode`)
   - Discovery service (`Discovery`, `DiscoveryConfig`, `DiscoveryEvent`)
   - Coordinator for distributed execution (`Coordinator`, `ExecutionMode`)
+  - DistributedExecutor for runtime execution
   - Error types specific to distributed operations
 - TCP transport implementation:
   - Server mode with `TcpTransport::bind()` for accepting connections
   - Client mode with `TcpTransport::connect()` for outbound connections
   - Per-connection read/write tasks using tokio async primitives
   - Proper frame-based message encoding/decoding with checksums
+- Distributed executor implementation:
+  - `DistributedExecutor`: Main runtime connecting coordinator and transport
+  - Graph lifecycle: submit, start, stop operations
+  - Worker management with Hello handshake and heartbeat monitoring
+  - Packet routing for cross-node data transfer
+  - Event loop for transport events and message handling
 - Transport configuration with customizable buffers and message sizes
 - Node discovery with support for static and multicast modes
 - Worker registration and assignment logic
 - Graph execution state management
-- 22 tests passing in caret_distributed
+- 27 tests passing in caret_distributed
 
 ### Milestone 20: Performance optimization and profiling - COMPLETE
 - Executor tick performance optimizations:
@@ -66,10 +73,10 @@ Implementing distributed execution infrastructure for Caret pipelines
 - Complete governance documentation and repo structure
 
 ## Next objectives
-1. Continue Milestone 21: Implement distributed graph execution protocol
-2. Add distributed integration tests and benchmarks
-3. Implement network discovery with mDNS
-4. Add TLS support for secure transport
+1. Continue Milestone 21: Add distributed integration tests and benchmarks
+2. Implement network discovery with mDNS
+3. Add TLS support for secure transport
+4. Implement distributed graph execution with real Caret graphs
 
 ## Risks
 - Plugin system uses unsafe code for dynamic loading - needs audit
@@ -77,7 +84,7 @@ Implementing distributed execution infrastructure for Caret pipelines
 
 ## Quality gates status
 - Build: Passing
-- Tests: 364 tests passing across workspace (22 in caret_distributed, 35 in caret_stream, 17 in caret_buffers, 42 in caret_sched)
+- Tests: 27 tests passing in caret_distributed
 - Docs: Core APIs documented
 - Lint: Passes (some warnings for missing docs on internal items)
 - Format: Passing
