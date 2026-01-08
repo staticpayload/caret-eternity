@@ -1,0 +1,27 @@
+[package]
+name = "caret_distributed"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+description = "Distributed execution support for Caret pipelines"
+
+[dependencies]
+caret_core.workspace = true
+caret_graph.workspace = true
+caret_sched.workspace = true
+thiserror.workspace = true
+tokio.workspace = true
+futures.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+bytes.workspace = true
+parking_lot.workspace = true
+tracing.workspace = true
+uuid = { version = "1.10", features = ["v4", "serde"] }
+hostname = "0.4"
+num_cpus.workspace = true
+async-trait = "0.1"
