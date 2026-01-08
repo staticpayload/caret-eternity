@@ -8,13 +8,11 @@
 use crate::{NodeInfo, NodeId, Result};
 use parking_lot::Mutex;
 use std::collections::HashMap;
-use std::hash::{Hash, Hasher};
-use std::net::{Ipv4Addr, SocketAddr, SocketAddrV4};
-use std::str::FromStr;
+use std::net::SocketAddr;
 use std::sync::Arc;
 use std::time::Duration;
 use tokio::sync::mpsc;
-use tracing::{debug, info, warn};
+use tracing::{debug, info};
 
 /// mDNS service type for Caret nodes
 pub const CARET_SERVICE_TYPE: &str = "_caret._tcp.local.";
@@ -111,9 +109,9 @@ impl MdnsDiscovery {
 
         // Start browsing for other services
         let running = Arc::clone(&self.running);
-        let known_nodes = Arc::clone(&self.known_nodes);
-        let event_tx = Arc::clone(&self.event_tx);
-        let local_node = self.local_node;
+        let _known_nodes = Arc::clone(&self.known_nodes);
+        let _event_tx = Arc::clone(&self.event_tx);
+        let _local_node = self.local_node;
         let service_type = self.config.service_type.clone();
         let browse_interval = self.config.browse_interval;
 
@@ -198,7 +196,7 @@ impl MdnsDiscovery {
         }
 
         let is_new = {
-            let mut nodes = self.known_nodes.lock();
+            let nodes = self.known_nodes.lock();
             !nodes.contains_key(&info.id)
         };
 

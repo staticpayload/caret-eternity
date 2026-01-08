@@ -31,7 +31,7 @@ pub use error::{Error, Result};
 pub use transport::{Transport, TransportConfig, TransportEvent};
 pub use node::{NodeId, NodeInfo, NodeState, LocalNode};
 pub use discovery::{Discovery, DiscoveryConfig, DiscoveryEvent};
-pub use coordinator::{Coordinator, CoordinatorConfig, ExecutionMode};
+pub use coordinator::{Coordinator, CoordinatorConfig, ExecutionMode, ExecutionStatus, GraphState};
 pub use message::{Message, MessagePayload, MessageType};
 pub use executor::{DistributedExecutor, ExecutorConfig};
 pub use mdns::{MdnsDiscovery, MdnsDiscoveryConfig, CARET_SERVICE_TYPE};
