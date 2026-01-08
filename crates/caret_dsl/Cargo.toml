@@ -1,0 +1,20 @@
+[package]
+name = "caret_dsl"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+description = "DSL for Caret pipeline definitions"
+
+[dependencies]
+caret_core.workspace = true
+caret_graph.workspace = true
+caret_io.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+
+[dev-dependencies]
+insta = "1.34"

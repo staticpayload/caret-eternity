@@ -6,6 +6,7 @@ members = [
     "crates/caret_sched",
     "crates/caret_plugins",
     "crates/caret_io",
+    "crates/caret_dsl",
     "crates/caret_metrics",
     "crates/caret_trace",
     "crates/caret_cli",
@@ -32,6 +33,7 @@ caret_buffers = { path = "crates/caret_buffers" }
 caret_sched = { path = "crates/caret_sched" }
 caret_plugins = { path = "crates/caret_plugins" }
 caret_io = { path = "crates/caret_io" }
+caret_dsl = { path = "crates/caret_dsl" }
 caret_metrics = { path = "crates/caret_metrics" }
 caret_trace = { path = "crates/caret_trace" }
 caret_testkit = { path = "crates/caret_testkit" }
