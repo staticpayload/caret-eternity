@@ -19,6 +19,7 @@ members = [
     "crates/caret_record",
     "crates/caret_recovery",
     "crates/caret_stream",
+    "crates/caret_distributed",
 ]
 resolver = "2"
 
@@ -50,6 +51,7 @@ caret_record = { path = "crates/caret_record" }
 caret_bench = { path = "crates/caret_bench" }
 caret_recovery = { path = "crates/caret_recovery" }
 caret_stream = { path = "crates/caret_stream" }
+caret_distributed = { path = "crates/caret_distributed" }
 
 # External dependencies
 thiserror = "1.0"
