@@ -6,8 +6,8 @@
 // https://opensource.org/licenses/MIT
 
 use crate::{
-    codec::FrameCodec, coordinator::Coordinator, error::Result, message::*,
-    node::NodeId, transport::{Transport, TransportConfig, TransportEvent},
+    codec::FrameCodec, coordinator::Coordinator, error::Result, graph_proto::*,
+    message::*, node::NodeId, transport::{Transport, TransportConfig, TransportEvent},
     Error, Message,
 };
 use parking_lot::Mutex;
@@ -15,7 +15,6 @@ use std::collections::HashMap;
 use std::net::SocketAddr;
 use std::sync::Arc;
 use std::time::{Duration, Instant};
-use tokio::sync::mpsc;
 
 /// Configuration for the distributed executor
 #[derive(Clone, Debug)]
@@ -202,6 +201,98 @@ impl DistributedExecutor {
 
             transport.broadcast(msg)?;
         }
+
+        Ok(())
+    }
+
+    /// Submit a Caret graph for distributed execution
+    ///
+    /// This method converts the Caret graph to a serializable format,
+    /// partitions it across available workers, and distributes the partitions.
+    ///
+    /// # Arguments
+    /// * `graph_id` - Unique identifier for this graph
+    /// * `graph` - The Caret graph to execute
+    /// * `strategy` - Partitioning strategy to use
+    pub fn submit_caret_graph(
+        &self,
+        graph_id: String,
+        graph: &caret_graph::Graph,
+        strategy: PartitionStrategy,
+    ) -> Result<()> {
+        // Convert to serializable graph
+        let serializable = SerializableGraph::from_caret_graph(&graph_id, graph);
+
+        // Get available workers
+        let workers: Vec<NodeId> = self.coordinator.workers();
+
+        if workers.is_empty() {
+            return Err(Error::Execution(
+                "No workers available for distributed execution".into(),
+            ));
+        }
+
+        // Partition the graph
+        let assignment = GraphPartitioner::partition(&serializable, &workers, strategy)
+            .map_err(|e| Error::Execution(format!("Partition failed: {}", e)))?;
+
+        // Set up routes from the partition assignment
+        self.setup_routes_from_partition(&assignment);
+
+        // Submit the graph to the coordinator
+        let mode = self.config.coordinator_config.mode;
+        self.coordinator.submit_graph(graph_id.clone(), mode)?;
+
+        // Send each partition to its assigned worker
+        if let Some(transport) = &self.transport {
+            for (worker_id, partition) in &assignment.partitions {
+                // Skip the local partition (handled by coordinator)
+                if *worker_id == self.local_id {
+                    continue;
+                }
+
+                // Get the worker's address
+                let addr = {
+                    let connections = self.connections.lock();
+                    connections.get(worker_id).map(|c| c.addr)
+                };
+
+                if let Some(addr) = addr {
+                    // Serialize the partition
+                    let partition_bytes = serde_json::to_vec(partition)
+                        .map_err(|e| Error::Serialization(format!("Failed to serialize partition: {}", e)))?;
+
+                    // Serialize the routes
+                    let routes_bytes = serde_json::to_vec(&assignment.routes)
+                        .map_err(|e| Error::Serialization(format!("Failed to serialize routes: {}", e)))?;
+
+                    let msg = Message::new(
+                        self.local_id,
+                        Some(*worker_id),
+                        MessagePayload::PartitionAssign {
+                            graph_id: graph_id.clone(),
+                            partition: partition_bytes,
+                            routes: routes_bytes,
+                        },
+                    );
+
+                    transport.send(addr, msg)?;
+                    tracing::info!(
+                        "Sent partition for graph {} to worker {} ({} nodes)",
+                        graph_id,
+                        worker_id,
+                        partition.nodes.len()
+                    );
+                }
+            }
+        }
+
+        tracing::info!(
+            "Submitted graph {} with {} nodes partitioned across {} workers",
+            graph_id,
+            serializable.node_count(),
+            workers.len()
+        );
 
         Ok(())
     }
@@ -535,6 +626,58 @@ impl DistributedExecutor {
                 self.coordinator.release_node(graph_id, node_id);
             }
 
+            MessagePayload::PartitionAssign {
+                ref graph_id,
+                ref partition,
+                ref routes,
+            } => {
+                tracing::info!(
+                    "Received partition assignment: graph={}, partition_size={} bytes",
+                    graph_id,
+                    partition.len()
+                );
+
+                // Deserialize the partition
+                let graph_partition: GraphPartition = match serde_json::from_slice(partition) {
+                    Ok(p) => p,
+                    Err(e) => {
+                        tracing::error!("Failed to deserialize partition: {}", e);
+                        return Err(Error::Serialization(format!("Invalid partition: {}", e)));
+                    }
+                };
+
+                // Deserialize the routes
+                let partition_routes: Vec<CrossNodeRoute> = match serde_json::from_slice(routes) {
+                    Ok(r) => r,
+                    Err(e) => {
+                        tracing::error!("Failed to deserialize routes: {}", e);
+                        return Err(Error::Serialization(format!("Invalid routes: {}", e)));
+                    }
+                };
+
+                // Create a partition assignment for the local routes
+                let local_assignment = PartitionAssignment {
+                    graph_id: graph_id.clone(),
+                    partitions: std::collections::HashMap::new(),
+                    routes: partition_routes,
+                };
+
+                // Set up routes from the partition assignment
+                self.setup_routes_from_partition(&local_assignment);
+
+                tracing::info!(
+                    "Partition assigned with {} nodes, {} routes configured",
+                    graph_partition.nodes.len(),
+                    local_assignment.routes.len()
+                );
+
+                // In a real implementation, this would:
+                // 1. Create local node instances for the assigned nodes
+                // 2. Set up cross-node packet routing
+                // 3. Initialize input/output queues
+                // For now, we just log the assignment
+            }
+
             MessagePayload::Packet {
                 ref from_port,
                 ref to_port,
@@ -821,5 +964,99 @@ mod tests {
         assert_eq!(routes[0].0, "1:output"); // from_port format: "node_id:port_name"
         assert_eq!(routes[0].1, worker2);
         assert_eq!(routes[0].2, "3:input");
+    }
+
+    /// Test submitting a Caret graph for distributed execution
+    #[test]
+    fn test_submit_caret_graph() {
+        use caret_graph::{Graph, Node, NodeType};
+
+        let executor = DistributedExecutor::new(ExecutorConfig::default());
+
+        // Register some workers
+        let worker1 = uuid::Uuid::from_u128(100);
+        let worker2 = uuid::Uuid::from_u128(101);
+
+        executor.coordinator.register_worker(worker1).unwrap();
+        executor.coordinator.register_worker(worker2).unwrap();
+
+        // Set up connections for the workers
+        let addr1: SocketAddr = "127.0.0.1:9001".parse().unwrap();
+        let addr2: SocketAddr = "127.0.0.1:9002".parse().unwrap();
+
+        executor.connections.lock().insert(
+            worker1,
+            crate::executor::ConnectionState {
+                node_id: worker1,
+                addr: addr1,
+                last_heartbeat: std::time::Instant::now(),
+                node_info: crate::NodeInfo::local(addr1).unwrap(),
+            },
+        );
+        executor.connections.lock().insert(
+            worker2,
+            crate::executor::ConnectionState {
+                node_id: worker2,
+                addr: addr2,
+                last_heartbeat: std::time::Instant::now(),
+                node_info: crate::NodeInfo::local(addr2).unwrap(),
+            },
+        );
+
+        // Create a simple Caret graph
+        let mut graph = Graph::new();
+
+        // Add some nodes
+        let source = Node::new("source", NodeType::Source);
+        let transform = Node::new("transform", NodeType::Transform);
+        let sink = Node::new("sink", NodeType::Sink);
+
+        // Get the node IDs before adding
+        let source_id = source.id().as_u64();
+        let transform_id = transform.id().as_u64();
+        let sink_id = sink.id().as_u64();
+
+        // Add output to source
+        let mut source_with_port = source;
+        let _ = source_with_port.add_output("output");
+
+        // Add input and output to transform
+        let mut transform_with_ports = transform;
+        let _ = transform_with_ports.add_input("input");
+        let _ = transform_with_ports.add_output("output");
+
+        // Add input to sink
+        let mut sink_with_port = sink;
+        let _ = sink_with_port.add_input("input");
+
+        // Add nodes to graph
+        let _ = graph.add_node(source_with_port);
+        let _ = graph.add_node(transform_with_ports);
+        let _ = graph.add_node(sink_with_port);
+
+        // Connect the nodes
+        let _ = graph.connect(source_id, "output", transform_id, "input");
+        let _ = graph.connect(transform_id, "output", sink_id, "input");
+
+        // Submit the graph for distributed execution
+        let result = executor.submit_caret_graph(
+            "test-graph".to_string(),
+            &graph,
+            PartitionStrategy::RoundRobin,
+        );
+
+        assert!(result.is_ok());
+
+        // Verify the graph was submitted to the coordinator
+        assert_eq!(
+            executor.coordinator.graph_status("test-graph"),
+            Some(crate::coordinator::ExecutionStatus::Pending)
+        );
+
+        // Verify routes were set up
+        let routes = executor.get_routes();
+        // Round-robin partitioning with 3 nodes and 2 workers should create
+        // at least one cross-partition edge
+        assert!(!routes.is_empty());
     }
 }

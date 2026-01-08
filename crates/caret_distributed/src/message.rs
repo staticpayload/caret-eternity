@@ -53,6 +53,7 @@ impl Message {
             MessagePayload::GraphStop { .. } => MessageType::GraphStop,
             MessagePayload::NodeAssign { .. } => MessageType::NodeAssign,
             MessagePayload::NodeRelease { .. } => MessageType::NodeRelease,
+            MessagePayload::PartitionAssign { .. } => MessageType::PartitionAssign,
             MessagePayload::Packet { .. } => MessageType::Packet,
             MessagePayload::StatusRequest => MessageType::StatusRequest,
             MessagePayload::StatusReply { .. } => MessageType::StatusReply,
@@ -68,6 +69,11 @@ impl Message {
     /// Check if this message is addressed to the given node
     pub fn is_addressed_to(&self, node_id: &NodeId) -> bool {
         self.to.as_ref().map_or(false, |id| id == node_id)
+    }
+
+    /// Check if message is from the given node
+    pub fn is_from(&self, node_id: &NodeId) -> bool {
+        self.from == *node_id
     }
 }
 
@@ -94,6 +100,8 @@ pub enum MessageType {
     NodeAssign,
     /// Release node from worker
     NodeRelease,
+    /// Assign partition to worker
+    PartitionAssign,
     /// Data packet
     Packet,
     /// Status request
@@ -181,6 +189,16 @@ pub enum MessagePayload {
         graph_id: String,
         /// Node ID to release
         node_id: u64,
+    },
+
+    /// Assign a graph partition to a worker
+    PartitionAssign {
+        /// Graph ID
+        graph_id: String,
+        /// Partition assignment (serialized)
+        partition: Vec<u8>,
+        /// Partition routes (serialized)
+        routes: Vec<u8>,
     },
 
     /// Data packet between nodes

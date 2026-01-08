@@ -1,6 +1,6 @@
 # Caret State
 
-**Last updated:** 2025-01-09T01:00:00Z
+**Last updated:** 2025-01-09T02:00:00Z
 
 ## Current milestone
 Milestone 22: Distributed graph execution with real Caret graphs - IN PROGRESS
@@ -27,10 +27,14 @@ Implementing distributed graph execution with real Caret graphs
   - Preserves nodes, edges, ports, and topological order
   - Port name resolution for proper routing
 - DistributedExecutor enhancements:
+  - `submit_caret_graph()`: Submit Caret graph for distributed execution
   - `setup_routes_from_partition()`: Configure routing from partition assignment
   - `get_routes()`: Query configured routes
   - Enhanced cross-node packet routing with node:port format
-- 42 tests passing in caret_distributed (9 new graph_proto tests)
+- Protocol message types:
+  - `PartitionAssign`: Message type for assigning partitions to workers
+  - Worker-side partition deserialization and route setup
+- 43 tests passing in caret_distributed (10 new graph_proto/integration tests)
 
 ### Milestone 21: Distributed execution support - COMPLETE
 - Created `caret_distributed` crate with:
@@ -112,7 +116,7 @@ Implementing distributed graph execution with real Caret graphs
 
 ## Quality gates status
 - Build: Passing
-- Tests: 42 tests passing in caret_distributed (9 new graph_proto tests)
+- Tests: 43 tests passing in caret_distributed (10 new graph_proto/integration tests)
 - Docs: Core APIs documented
 - Lint: Passes (some warnings for missing docs on internal items)
 - Format: Passing
