@@ -1,5 +1,8 @@
-   0.057598500s  INFO prepare_target{force=false package_id=caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench) target="buffer_pool_bench"}: cargo::core::compiler::fingerprint: fingerprint error for caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench)/Check { test: true }/TargetInner { kind: "bench", name: "buffer_pool_bench", tested: false, harness: false, ..: with_path("/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench/benches/buffer_pool_bench.rs", Edition2021) }
-   0.057611833s  INFO prepare_target{force=false package_id=caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench) target="buffer_pool_bench"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_bench-4cb60409e6aa297f/test-bench-buffer_pool_bench`
+   0.044606083s  INFO prepare_target{force=false package_id=caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench) target="caret_bench"}: cargo::core::compiler::fingerprint: dependency on `caret_graph` is newer than we are 1767874065.344212711s > 1767870992.724244457s "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench"
+   0.044694291s  INFO prepare_target{force=false package_id=caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench) target="caret_bench"}: cargo::core::compiler::fingerprint: fingerprint dirty for caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("caret_bench", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench/src/lib.rs", Edition2021) }
+   0.044701791s  INFO prepare_target{force=false package_id=caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench) target="caret_bench"}: cargo::core::compiler::fingerprint:     dirty: FsStatusOutdated(StaleDependency { name: "caret_graph", dep_mtime: FileTime { seconds: 1767874065, nanos: 344212711 }, max_mtime: FileTime { seconds: 1767870992, nanos: 724244457 } })
+   0.048904583s  INFO prepare_target{force=false package_id=caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench) target="buffer_pool_bench"}: cargo::core::compiler::fingerprint: fingerprint error for caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench)/Check { test: true }/TargetInner { kind: "bench", name: "buffer_pool_bench", tested: false, harness: false, ..: with_path("/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench/benches/buffer_pool_bench.rs", Edition2021) }
+   0.048909375s  INFO prepare_target{force=false package_id=caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench) target="buffer_pool_bench"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_bench-4cb60409e6aa297f/test-bench-buffer_pool_bench`
 
 Caused by:
     No such file or directory (os error 2)
@@ -23,8 +26,8 @@ Stack backtrace:
   15: std::rt::lang_start::<()>::{closure#0}
   16: std::rt::lang_start_internal
   17: _main
-   0.059881541s  INFO prepare_target{force=false package_id=caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench) target="queue_bench"}: cargo::core::compiler::fingerprint: fingerprint error for caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench)/Check { test: true }/TargetInner { kind: "bench", name: "queue_bench", tested: false, harness: false, ..: with_path("/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench/benches/queue_bench.rs", Edition2021) }
-   0.059886083s  INFO prepare_target{force=false package_id=caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench) target="queue_bench"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_bench-9732365c1fd28976/test-bench-queue_bench`
+   0.051325583s  INFO prepare_target{force=false package_id=caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench) target="queue_bench"}: cargo::core::compiler::fingerprint: fingerprint error for caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench)/Check { test: true }/TargetInner { kind: "bench", name: "queue_bench", tested: false, harness: false, ..: with_path("/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench/benches/queue_bench.rs", Edition2021) }
+   0.051330666s  INFO prepare_target{force=false package_id=caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench) target="queue_bench"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_bench-9732365c1fd28976/test-bench-queue_bench`
 
 Caused by:
     No such file or directory (os error 2)
@@ -48,8 +51,8 @@ Stack backtrace:
   15: std::rt::lang_start::<()>::{closure#0}
   16: std::rt::lang_start_internal
   17: _main
-   0.060151333s  INFO prepare_target{force=false package_id=caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench) target="scheduler_bench"}: cargo::core::compiler::fingerprint: fingerprint error for caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench)/Check { test: true }/TargetInner { kind: "bench", name: "scheduler_bench", tested: false, harness: false, ..: with_path("/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench/benches/scheduler_bench.rs", Edition2021) }
-   0.060154708s  INFO prepare_target{force=false package_id=caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench) target="scheduler_bench"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_bench-00d73bc2817d6654/test-bench-scheduler_bench`
+   0.051597375s  INFO prepare_target{force=false package_id=caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench) target="scheduler_bench"}: cargo::core::compiler::fingerprint: fingerprint error for caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench)/Check { test: true }/TargetInner { kind: "bench", name: "scheduler_bench", tested: false, harness: false, ..: with_path("/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench/benches/scheduler_bench.rs", Edition2021) }
+   0.051600333s  INFO prepare_target{force=false package_id=caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench) target="scheduler_bench"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_bench-00d73bc2817d6654/test-bench-scheduler_bench`
 
 Caused by:
     No such file or directory (os error 2)
@@ -73,8 +76,83 @@ Stack backtrace:
   15: std::rt::lang_start::<()>::{closure#0}
   16: std::rt::lang_start_internal
   17: _main
+   0.051939541s  INFO prepare_target{force=false package_id=caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli) target="caret_cli"}: cargo::core::compiler::fingerprint: dependency on `caret_graph` is newer than we are 1767874065.344212711s > 1767870991.602343724s "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_dsl"
+   0.051952458s  INFO prepare_target{force=false package_id=caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli) target="caret_cli"}: cargo::core::compiler::fingerprint: dependency on `caret_core` is newer than we are 1767874065.032994002s > 1767871869.772565370s "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_metrics"
+   0.052251000s  INFO prepare_target{force=false package_id=caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli) target="caret_cli"}: cargo::core::compiler::fingerprint: fingerprint dirty for caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("caret_cli", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli/src/lib.rs", Edition2021) }
+   0.052254833s  INFO prepare_target{force=false package_id=caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli) target="caret_cli"}: cargo::core::compiler::fingerprint:     dirty: FsStatusOutdated(StaleDepFingerprint { name: "caret_trace" })
+   0.052618041s  INFO prepare_target{force=false package_id=caret_dsl v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_dsl) target="caret_dsl"}: cargo::core::compiler::fingerprint: fingerprint dirty for caret_dsl v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_dsl)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("caret_dsl", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_dsl/src/lib.rs", Edition2021) }
+   0.052621000s  INFO prepare_target{force=false package_id=caret_dsl v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_dsl) target="caret_dsl"}: cargo::core::compiler::fingerprint:     dirty: FsStatusOutdated(StaleDependency { name: "caret_graph", dep_mtime: FileTime { seconds: 1767874065, nanos: 344212711 }, max_mtime: FileTime { seconds: 1767870991, nanos: 602343724 } })
+   0.052872375s  INFO prepare_target{force=false package_id=caret_metrics v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_metrics) target="caret_metrics"}: cargo::core::compiler::fingerprint: fingerprint dirty for caret_metrics v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_metrics)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("caret_metrics", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_metrics/src/lib.rs", Edition2021) }
+   0.052875375s  INFO prepare_target{force=false package_id=caret_metrics v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_metrics) target="caret_metrics"}: cargo::core::compiler::fingerprint:     dirty: FsStatusOutdated(StaleDependency { name: "caret_core", dep_mtime: FileTime { seconds: 1767874065, nanos: 32994002 }, max_mtime: FileTime { seconds: 1767871869, nanos: 772565370 } })
+   0.053068208s  INFO prepare_target{force=false package_id=caret_trace v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_trace) target="caret_trace"}: cargo::core::compiler::fingerprint: fingerprint dirty for caret_trace v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_trace)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("caret_trace", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_trace/src/lib.rs", Edition2021) }
+   0.053073916s  INFO prepare_target{force=false package_id=caret_trace v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_trace) target="caret_trace"}: cargo::core::compiler::fingerprint:     dirty: FsStatusOutdated(StaleDepFingerprint { name: "caret_metrics" })
+   0.053530666s  INFO prepare_target{force=false package_id=caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli) target="caret_cli"}: cargo::core::compiler::fingerprint: fingerprint dirty for caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli)/Check { test: true }/TargetInner { name_inferred: true, ..: lib_target("caret_cli", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli/src/lib.rs", Edition2021) }
+   0.053533625s  INFO prepare_target{force=false package_id=caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli) target="caret_cli"}: cargo::core::compiler::fingerprint:     dirty: FsStatusOutdated(StaleDepFingerprint { name: "caret_trace" })
+   0.053908333s  INFO prepare_target{force=false package_id=caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli) target="caret"}: cargo::core::compiler::fingerprint: fingerprint dirty for caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli)/Check { test: false }/TargetInner { name: "caret", doc: true, ..: with_path("/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli/src/main.rs", Edition2021) }
+   0.053911458s  INFO prepare_target{force=false package_id=caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli) target="caret"}: cargo::core::compiler::fingerprint:     dirty: FsStatusOutdated(StaleDepFingerprint { name: "caret_trace" })
+   0.054265541s  INFO prepare_target{force=false package_id=caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli) target="caret"}: cargo::core::compiler::fingerprint: fingerprint dirty for caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli)/Check { test: true }/TargetInner { name: "caret", doc: true, ..: with_path("/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli/src/main.rs", Edition2021) }
+   0.054273083s  INFO prepare_target{force=false package_id=caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli) target="caret"}: cargo::core::compiler::fingerprint:     dirty: FsStatusOutdated(StaleDepFingerprint { name: "caret_trace" })
+   0.056359458s  INFO prepare_target{force=false package_id=caret_plugins v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_plugins) target="caret_plugins"}: cargo::core::compiler::fingerprint: fingerprint error for caret_plugins v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_plugins)/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("caret_plugins", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_plugins/src/lib.rs", Edition2021) }
+   0.056362708s  INFO prepare_target{force=false package_id=caret_plugins v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_plugins) target="caret_plugins"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_plugins-da4f16c8f993d332/lib-caret_plugins`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+  17: _main
+   0.056940166s  INFO prepare_target{force=false package_id=caret_plugins v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_plugins) target="caret_plugins"}: cargo::core::compiler::fingerprint: fingerprint error for caret_plugins v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_plugins)/Check { test: true }/TargetInner { name_inferred: true, ..: lib_target("caret_plugins", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_plugins/src/lib.rs", Edition2021) }
+   0.056946166s  INFO prepare_target{force=false package_id=caret_plugins v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_plugins) target="caret_plugins"}: cargo::core::compiler::fingerprint:     err: failed to read `/Users/staticpayload/Mainframe/caret-eternity/target/debug/.fingerprint/caret_plugins-09c9ac8a6c1a12a7/test-lib-caret_plugins`
+
+Caused by:
+    No such file or directory (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+   1: std::backtrace::Backtrace::capture
+   2: cargo_util::paths::read_bytes
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::main
+  14: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  15: std::rt::lang_start::<()>::{closure#0}
+  16: std::rt::lang_start_internal
+  17: _main
+   0.057450333s  INFO prepare_target{force=false package_id=caret_trace v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_trace) target="caret_trace"}: cargo::core::compiler::fingerprint: fingerprint dirty for caret_trace v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_trace)/Check { test: true }/TargetInner { name_inferred: true, ..: lib_target("caret_trace", ["lib"], "/Users/staticpayload/Mainframe/caret-eternity/crates/caret_trace/src/lib.rs", Edition2021) }
+   0.057454083s  INFO prepare_target{force=false package_id=caret_trace v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_trace) target="caret_trace"}: cargo::core::compiler::fingerprint:     dirty: FsStatusOutdated(StaleDepFingerprint { name: "caret_metrics" })
+    Checking caret_metrics v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_metrics)
+    Checking caret_dsl v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_dsl)
     Checking caret_bench v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_bench)
-error: could not compile `caret_bench` (bench "scheduler_bench") due to 1 previous error
-warning: build failed, waiting for other jobs to finish...
+    Checking caret_plugins v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_plugins)
+    Checking caret_trace v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_trace)
 error: could not compile `caret_bench` (bench "queue_bench") due to 1 previous error
+warning: build failed, waiting for other jobs to finish...
 error: could not compile `caret_bench` (bench "buffer_pool_bench") due to 1 previous error
+error: could not compile `caret_bench` (bench "scheduler_bench") due to 1 previous error
+    Checking caret_cli v0.1.0 (/Users/staticpayload/Mainframe/caret-eternity/crates/caret_cli)
+error: could not compile `caret_plugins` (lib) due to 3 previous errors; 8 warnings emitted
+error: could not compile `caret_plugins` (lib test) due to 3 previous errors; 7 warnings emitted

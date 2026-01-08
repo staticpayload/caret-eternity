@@ -11,7 +11,9 @@ description = "Plugin system and ABI for Caret"
 
 [dependencies]
 caret_core.workspace = true
+caret_sched.workspace = true
 thiserror.workspace = true
 serde.workspace = true
 serde_json.workspace = true
+toml.workspace = true
 libloading = "0.9"

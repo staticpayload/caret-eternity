@@ -1,99 +1,55 @@
 # Caret State
 
-**Last updated:** 2025-01-08T21:00:00Z
+**Last updated:** 2025-01-08T23:00:00Z
 
 ## Current milestone
-Milestone 10: Codec system for serialization
+Milestone 12: Transform nodes for common operations
 
 ## Current objective
-Implementing codec system for packet serialization
+Implementing common transform nodes (filter, map, merge, demux, etc.)
 
 ## In progress
-- Designing codec API
-- Implementing binary codec
-- Adding JSON codec support
+- Designing transform node API
+- Adding basic filter and map nodes
 
 ## Done since last update
-### Milestone 9: Metrics and tracing v0 - COMPLETE
-- `caret_metrics` crate with Counter, Gauge, Histogram metric types
-- MetricRegistry with thread-safe metric storage
-- Prometheus-style text export format
-- Builder pattern for all metric types
-- `caret_trace` crate with TraceContext for propagation
-- W3C traceparent format support (v0 using 64-bit IDs)
-- CaretLayer for tracing span collection
-- TraceRegistry for JSON export of spans
-- 163 total tests passing across workspace
-### Milestone 8: CLI tool commands - COMPLETE
-- `caret` CLI binary with clap argument parsing
-- `run` command structure for executing pipelines
-- `validate` command for checking DSL files (human and JSON output)
-- `graph` command for visualizing pipelines (dot, JSON, mermaid formats)
-- `bench` command for performance testing (table and JSON output)
-- Error handling with proper error types
-- Verbose logging support with tracing-subscriber
-- Updated workspace Cargo.toml with env-filter feature
+### Milestone 11: Plugin loading system v0 - COMPLETE
+- `caret_plugins` crate with Plugin trait and plugin system
+- Plugin manifest format (Caret.toml) with TOML parsing
+- Plugin types: Node, Codec, IO, MetricExporter, UiPanel
+- PluginMetadata with version, author, capabilities
+- PluginRegistry for managing loaded plugins
+- PluginLibrary with dynamic loading using libloading
+- NodePlugin, CodecPlugin, IoPlugin, MetricExporterPlugin traits
+- API version compatibility checking
+- Plugin discovery from directories
+- 18 tests passing in caret_plugins
+- 196+ total tests passing across workspace
 
-### Milestone 7: DSL v0 grammar and parser - COMPLETE
-- Token definitions and lexer for the Caret DSL
-- AST nodes for statements, node declarations, connections, and pipelines
-- Recursive descent parser for the DSL
-- Error types with source location tracking
-- 17 unit tests for lexer, parser, and AST
-- DSL syntax support for:
-  - Node declarations (source/sink/process)
-  - Named properties and positional arguments
-  - Pipeline blocks with scoped statements
-  - Connection/link statements
-  - Import/export declarations
-
-### Milestone 6: Minimal IO nodes - COMPLETE
-- SourceNode, SinkNode, ProcessNode traits for IO abstractions
-- SourceNodeAdapter, SinkNodeAdapter, ProcessNodeAdapter for NodeProcessor integration
-- FileSource for reading files in chunks with loop support
-- FileSink for buffered file writing with append mode
-- MemorySource for in-memory data with configurable chunking
-- MemorySink for collecting data with optional max size limit
-- 17 unit tests for all IO nodes
-
-### Milestone 5: Scheduler and runtime executor - COMPLETE
-- Runtime executor with tick-based execution model
-- NodeProcessor trait for custom node implementations
-- Port connections with bounded queues
-- Scheduling policies (Realtime, Batch)
-- Runtime state management (Running, Paused, Stopped, Completed, Error)
-- ProcessingContext for execution tracking
-- PassthroughNode helper for simple implementations
-- CountingNode helper for testing
-- Three-node pipeline integration test
-
-### Previously completed (Milestones 1-4)
-- Created all governance documentation files
-- Set up complete directory structure
-- Initialized Rust workspace with 13 crates
-- Implemented core error type with typed error hierarchy
-- Implemented all data packet types (Bytes, Audio, Video, Tensor, Event, Control)
-- Implemented timestamp and duration abstractions
-- Implemented metadata system with typed values
-- Implemented buffer pool with slab allocation support
-- Implemented bounded queue with overflow policies
-- Implemented graph representation with nodes and ports
-- Implemented topology management with cycle detection
-- Implemented topological sorting for DAG validation
-- Added CI workflows for formatting, linting, and testing
+### Previously completed (Milestones 1-10)
+- Codec system for serialization with JsonCodec and BinaryCodec
+- Metrics and tracing v0 with Counter, Gauge, Histogram and TraceContext
+- CLI tool suite with run, validate, graph, bench commands
+- DSL v0 grammar and parser with lexer, AST, and recursive descent parser
+- Minimal IO nodes (FileSource, FileSink, MemorySource, MemorySink)
+- Scheduler and runtime executor with tick-based execution
+- Buffer pools and bounded queues with overflow policies
+- Graph representation with topological sorting
+- Core data types and error model
+- Complete governance documentation and repo structure
 
 ## Next objectives
-1. Complete metrics and tracing v0 - Milestone 9
-2. Add codec system for serialization - Milestone 10
-3. Implement plugin loading system - Milestone 11
-4. Add transform nodes for common operations - Milestone 12
+1. Complete transform nodes - Milestone 12
+2. Implement inspector service API - Milestone 13
+3. Add record and replay v0 - Milestone 14
 
 ## Risks
-- None identified yet
+- Plugin system uses unsafe code for dynamic loading - needs audit
+- caret_trace has a pre-existing test isolation issue with global state
 
 ## Quality gates status
 - Build: Passing
-- Tests: All 130 tests passing across 7 crates
+- Tests: 196+ tests passing across workspace
 - Docs: Core APIs documented
 - Lint: Passes (some warnings for missing docs on internal items)
 - Format: Passing
