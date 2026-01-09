@@ -104,8 +104,7 @@ impl FrameCodec {
         if len > self.max_frame_size {
             return Err(Error::InvalidMessage(format!(
                 "frame too large: {} bytes (max {})",
-                len,
-                self.max_frame_size
+                len, self.max_frame_size
             )));
         }
 
@@ -137,9 +136,7 @@ impl FrameCodec {
     pub fn decode_from_reader<R: Read>(&self, reader: &mut R) -> Result<Message> {
         let mut header = [0u8; FRAME_HEADER_SIZE];
 
-        reader
-            .read_exact(&mut header)
-            .map_err(|e| Error::Io(e))?;
+        reader.read_exact(&mut header).map_err(|e| Error::Io(e))?;
 
         // Check magic (5 bytes)
         if &header[0..5] != FRAME_MAGIC {
@@ -161,19 +158,17 @@ impl FrameCodec {
         if len > self.max_frame_size {
             return Err(Error::InvalidMessage(format!(
                 "frame too large: {} bytes (max {})",
-                len,
-                self.max_frame_size
+                len, self.max_frame_size
             )));
         }
 
         // Read checksum (4 bytes at index 10-13)
-        let expected_checksum = u32::from_be_bytes([header[10], header[11], header[12], header[13]]);
+        let expected_checksum =
+            u32::from_be_bytes([header[10], header[11], header[12], header[13]]);
 
         // Read payload
         let mut payload = vec![0u8; len];
-        reader
-            .read_exact(&mut payload)
-            .map_err(|e| Error::Io(e))?;
+        reader.read_exact(&mut payload).map_err(|e| Error::Io(e))?;
 
         // Verify checksum
         let actual_checksum = calculate_checksum(&payload);
@@ -192,9 +187,7 @@ impl FrameCodec {
     /// Encode a message and write to a writer
     pub fn encode_to_writer<W: Write>(&self, msg: &Message, writer: &mut W) -> Result<()> {
         let frame = self.encode(msg)?;
-        writer
-            .write_all(&frame)
-            .map_err(|e| Error::Io(e))?;
+        writer.write_all(&frame).map_err(|e| Error::Io(e))?;
         writer.flush().map_err(|e| Error::Io(e))?;
         Ok(())
     }

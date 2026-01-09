@@ -8,16 +8,16 @@
 //! Integration tests for distributed execution infrastructure.
 
 use caret_distributed::{
-    Coordinator, CoordinatorConfig, DistributedExecutor, ExecutorConfig, FrameCodec,
-    LocalNode, Message, MessagePayload, NodeId, NodeInfo, TransportConfig,
+    Coordinator, CoordinatorConfig, DistributedExecutor, ExecutorConfig, FrameCodec, LocalNode,
+    Message, MessagePayload, NodeId, NodeInfo, TransportConfig,
 };
 use std::net::SocketAddr;
 
 /// Helper to create a test node ID
 fn test_node_id(seed: u8) -> NodeId {
     NodeId::from_bytes([
-        seed, seed, seed, seed, seed, seed, seed, seed, seed, seed, seed, seed, seed, seed,
-        seed, seed,
+        seed, seed, seed, seed, seed, seed, seed, seed, seed, seed, seed, seed, seed, seed, seed,
+        seed,
     ])
 }
 
@@ -108,13 +108,19 @@ async fn coordinator_graph_lifecycle() {
     // Submit a graph
     let graph_id = "test-graph";
     assert!(coordinator
-        .submit_graph(graph_id.to_string(), caret_distributed::ExecutionMode::Pipeline)
+        .submit_graph(
+            graph_id.to_string(),
+            caret_distributed::ExecutionMode::Pipeline
+        )
         .is_ok());
 
     // Verify graph is in pending state
     let graphs = coordinator.graphs.lock();
     assert!(graphs.contains_key(graph_id));
-    assert_eq!(graphs[graph_id].status, caret_distributed::ExecutionStatus::Pending);
+    assert_eq!(
+        graphs[graph_id].status,
+        caret_distributed::ExecutionStatus::Pending
+    );
     drop(graphs);
 
     // Start graph execution
@@ -283,7 +289,7 @@ fn test_error_display() {
 #[test]
 fn test_distributed_partition_setup() {
     use caret_distributed::{GraphPartition, PartitionStrategy, SerializableGraph};
-    use caret_graph::{Graph, NodeType, Node, PortDirection};
+    use caret_graph::{Graph, Node, NodeType, PortDirection};
 
     // Create a distributed executor
     let executor = DistributedExecutor::new(ExecutorConfig::default());
@@ -325,7 +331,7 @@ fn test_distributed_partition_setup() {
     let partition = GraphPartition {
         worker_id: executor.local_id(),
         nodes: vec![source_id, transform_id, sink_id],
-        internal_edges: vec![],  // Empty for now
+        internal_edges: vec![], // Empty for now
         input_edges: vec![],
         output_edges: vec![],
     };
@@ -346,7 +352,10 @@ fn test_distributed_partition_setup() {
 
 #[test]
 fn test_distributed_packet_routing() {
-    use caret_distributed::{GraphPartition, SerializableGraph, SerializableNode, SerializablePort, PortDirection, NodeType};
+    use caret_distributed::{
+        GraphPartition, NodeType, PortDirection, SerializableGraph, SerializableNode,
+        SerializablePort,
+    };
 
     // Create a distributed executor
     let executor = DistributedExecutor::new(ExecutorConfig::default());
@@ -357,13 +366,11 @@ fn test_distributed_packet_routing() {
         id: 1,
         name: "test_sink".to_string(),
         node_type: NodeType::Sink,
-        inputs: vec![
-            SerializablePort {
-                name: "input".to_string(),
-                id: 1,
-                direction: PortDirection::In,
-            }
-        ],
+        inputs: vec![SerializablePort {
+            name: "input".to_string(),
+            id: 1,
+            direction: PortDirection::In,
+        }],
         outputs: vec![],
     });
 
@@ -377,7 +384,9 @@ fn test_distributed_packet_routing() {
     };
 
     // Setup the local partition
-    executor.setup_local_partition(&graph, &partition, "test-graph").unwrap();
+    executor
+        .setup_local_partition(&graph, &partition, "test-graph")
+        .unwrap();
 
     // Route a packet to the local node
     // Note: This should now work because SinkNode creates the input port
@@ -385,5 +394,8 @@ fn test_distributed_packet_routing() {
     let result = executor.route_packet_to_local_node("1:input", &packet_data);
 
     // We expect this to succeed because SinkNode has an "input" port
-    assert!(result.is_ok(), "Packet routing should succeed because SinkNode has an input port");
+    assert!(
+        result.is_ok(),
+        "Packet routing should succeed because SinkNode has an input port"
+    );
 }

@@ -10,9 +10,9 @@ use parking_lot::Mutex;
 use std::collections::HashMap;
 use std::net::SocketAddr;
 use std::sync::Arc;
+use tokio::net::{TcpListener, TcpStream};
 use tokio::sync::mpsc;
 use tokio::sync::Mutex as TokioMutex;
-use tokio::net::{TcpListener, TcpStream};
 
 /// Transport configuration
 #[derive(Clone, Debug)]
@@ -30,9 +30,7 @@ pub struct TransportConfig {
 impl Default for TransportConfig {
     fn default() -> Self {
         Self {
-            bind_addr: format!("0.0.0.0:{}", crate::DEFAULT_PORT)
-                .parse()
-                .unwrap(),
+            bind_addr: format!("0.0.0.0:{}", crate::DEFAULT_PORT).parse().unwrap(),
             max_message_size: crate::MAX_MESSAGE_SIZE,
             send_buffer_size: 1024,
             recv_buffer_size: 1024,
@@ -72,10 +70,7 @@ impl TransportConfig {
 #[derive(Clone, Debug)]
 pub enum TransportEvent {
     /// Message received
-    Message {
-        from: SocketAddr,
-        message: Message,
-    },
+    Message { from: SocketAddr, message: Message },
     /// New connection established
     Connected { addr: SocketAddr },
     /// Connection closed
@@ -133,9 +128,11 @@ impl TcpTransport {
 
         let local_addr = listener.local_addr().map_err(|e| Error::Io(e))?;
 
-        let (events, _rx): (mpsc::Sender<TransportEvent>, mpsc::Receiver<TransportEvent>) = mpsc::channel(config.recv_buffer_size);
+        let (events, _rx): (mpsc::Sender<TransportEvent>, mpsc::Receiver<TransportEvent>) =
+            mpsc::channel(config.recv_buffer_size);
 
-        let senders: Arc<Mutex<HashMap<SocketAddr, mpsc::Sender<Vec<u8>>>>> = Arc::new(Mutex::new(HashMap::new()));
+        let senders: Arc<Mutex<HashMap<SocketAddr, mpsc::Sender<Vec<u8>>>>> =
+            Arc::new(Mutex::new(HashMap::new()));
         let running = Arc::new(Mutex::new(false));
         let tasks: Arc<Mutex<Vec<tokio::task::JoinHandle<()>>>> = Arc::new(Mutex::new(Vec::new()));
 
@@ -150,12 +147,14 @@ impl TcpTransport {
                 match listener.accept().await {
                     Ok((stream, addr)) => {
                         let stream = Arc::new(TokioMutex::new(stream));
-                        let (tx, mut rx): (mpsc::Sender<Vec<u8>>, mpsc::Receiver<Vec<u8>>) = mpsc::channel(1024);
+                        let (tx, mut rx): (mpsc::Sender<Vec<u8>>, mpsc::Receiver<Vec<u8>>) =
+                            mpsc::channel(1024);
                         conn_senders.lock().insert(addr, tx.clone());
 
-                        let _ = conn_events.lock().await.try_send(TransportEvent::Connected {
-                            addr,
-                        });
+                        let _ = conn_events
+                            .lock()
+                            .await
+                            .try_send(TransportEvent::Connected { addr });
 
                         // Spawn read task
                         let conn_events_clone = Arc::clone(&conn_events);
@@ -173,11 +172,10 @@ impl TcpTransport {
                                     match tokio::io::AsyncReadExt::read(&mut *s, &mut buf).await {
                                         Ok(0) => {
                                             conn_senders_clone.lock().remove(&addr);
-                                            let _ = conn_events_clone.lock().await.try_send(
-                                                TransportEvent::Disconnected {
-                                                    addr,
-                                                },
-                                            );
+                                            let _ = conn_events_clone
+                                                .lock()
+                                                .await
+                                                .try_send(TransportEvent::Disconnected { addr });
                                             break;
                                         }
                                         Ok(n) => {
@@ -185,12 +183,13 @@ impl TcpTransport {
 
                                             while let Ok(msg) = decoder.try_decode() {
                                                 if let Some(decoded) = msg {
-                                                    let _ = conn_events_clone.lock().await.try_send(
-                                                        TransportEvent::Message {
+                                                    let _ = conn_events_clone
+                                                        .lock()
+                                                        .await
+                                                        .try_send(TransportEvent::Message {
                                                             from: addr,
                                                             message: decoded,
-                                                        },
-                                                    );
+                                                        });
                                                 }
                                             }
                                         }
@@ -208,11 +207,15 @@ impl TcpTransport {
                         tokio::spawn(async move {
                             while let Some(data) = rx.recv().await {
                                 let mut s = stream.lock().await;
-                                if let Err(e) = tokio::io::AsyncWriteExt::write_all(&mut *s, &data).await {
-                                    let _ = conn_events_clone.lock().await.try_send(TransportEvent::Error {
-                                        addr,
-                                        error: e.to_string(),
-                                    });
+                                if let Err(e) =
+                                    tokio::io::AsyncWriteExt::write_all(&mut *s, &data).await
+                                {
+                                    let _ = conn_events_clone.lock().await.try_send(
+                                        TransportEvent::Error {
+                                            addr,
+                                            error: e.to_string(),
+                                        },
+                                    );
                                     break;
                                 }
                                 let _ = tokio::io::AsyncWriteExt::flush(&mut *s).await;
@@ -252,10 +255,12 @@ impl TcpTransport {
 
         let local_addr = stream.local_addr().map_err(|e| Error::Io(e))?;
 
-        let (events, _rx): (mpsc::Sender<TransportEvent>, mpsc::Receiver<TransportEvent>) = mpsc::channel(config.recv_buffer_size);
+        let (events, _rx): (mpsc::Sender<TransportEvent>, mpsc::Receiver<TransportEvent>) =
+            mpsc::channel(config.recv_buffer_size);
         let (tx, mut rx): (mpsc::Sender<Vec<u8>>, mpsc::Receiver<Vec<u8>>) = mpsc::channel(1024);
 
-        let senders: Arc<Mutex<HashMap<SocketAddr, mpsc::Sender<Vec<u8>>>>> = Arc::new(Mutex::new(HashMap::new()));
+        let senders: Arc<Mutex<HashMap<SocketAddr, mpsc::Sender<Vec<u8>>>>> =
+            Arc::new(Mutex::new(HashMap::new()));
         senders.lock().insert(remote_addr, tx);
 
         let running = Arc::new(Mutex::new(true));
@@ -277,9 +282,10 @@ impl TcpTransport {
                     let mut s = stream_clone.lock().await;
                     match tokio::io::AsyncReadExt::read(&mut *s, &mut buf).await {
                         Ok(0) => {
-                            let _ = conn_events.lock().await.try_send(TransportEvent::Disconnected {
-                                addr: remote_addr,
-                            });
+                            let _ = conn_events
+                                .lock()
+                                .await
+                                .try_send(TransportEvent::Disconnected { addr: remote_addr });
                             break;
                         }
                         Ok(n) => {
@@ -287,10 +293,12 @@ impl TcpTransport {
 
                             while let Ok(msg) = decoder.try_decode() {
                                 if let Some(decoded) = msg {
-                                    let _ = conn_events.lock().await.try_send(TransportEvent::Message {
-                                        from: remote_addr,
-                                        message: decoded,
-                                    });
+                                    let _ = conn_events.lock().await.try_send(
+                                        TransportEvent::Message {
+                                            from: remote_addr,
+                                            message: decoded,
+                                        },
+                                    );
                                 }
                             }
                         }
@@ -305,10 +313,13 @@ impl TcpTransport {
             while let Some(data) = rx.recv().await {
                 let mut s = stream.lock().await;
                 if let Err(e) = tokio::io::AsyncWriteExt::write_all(&mut *s, &data).await {
-                    let _ = conn_events_clone.lock().await.try_send(TransportEvent::Error {
-                        addr: remote_addr,
-                        error: e.to_string(),
-                    });
+                    let _ = conn_events_clone
+                        .lock()
+                        .await
+                        .try_send(TransportEvent::Error {
+                            addr: remote_addr,
+                            error: e.to_string(),
+                        });
                     break;
                 }
                 let _ = tokio::io::AsyncWriteExt::flush(&mut *s).await;
@@ -318,9 +329,7 @@ impl TcpTransport {
         tasks.lock().push(read_task);
         tasks.lock().push(write_task);
 
-        let _ = events.try_send(TransportEvent::Connected {
-            addr: remote_addr,
-        });
+        let _ = events.try_send(TransportEvent::Connected { addr: remote_addr });
 
         Ok(Self {
             local_addr,

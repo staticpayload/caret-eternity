@@ -5,7 +5,7 @@
 // Licensed under the MIT License:
 // https://opensource.org/licenses/MIT
 
-use crate::{NodeInfo, NodeId, Result};
+use crate::{NodeId, NodeInfo, Result};
 use parking_lot::Mutex;
 use std::collections::HashMap;
 use std::net::SocketAddr;
@@ -201,10 +201,7 @@ impl Discovery {
         };
 
         if existed {
-            let _ = self
-                .event_tx
-                .lock()
-                .try_send(DiscoveryEvent::NodeLeft(id));
+            let _ = self.event_tx.lock().try_send(DiscoveryEvent::NodeLeft(id));
         }
     }
 

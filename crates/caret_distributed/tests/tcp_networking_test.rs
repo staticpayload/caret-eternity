@@ -11,8 +11,8 @@
 //! TCP transport between coordinator and worker nodes.
 
 use caret_distributed::{
-    Coordinator, CoordinatorConfig, DistributedExecutor, ExecutorConfig, Message,
-    MessagePayload, NodeId, TcpTransport, Transport, TransportConfig,
+    Coordinator, CoordinatorConfig, DistributedExecutor, ExecutorConfig, Message, MessagePayload,
+    NodeId, TcpTransport, Transport, TransportConfig,
 };
 use std::net::SocketAddr;
 use std::time::Duration;
@@ -119,15 +119,13 @@ async fn tcp_distributed_executor_handshake() {
 
     // Worker connects to coordinator
     let worker_transport_config = TransportConfig::with_bind_addr(worker_addr);
-    let _worker_transport: TcpTransport = TcpTransport::connect(coordinator_addr, worker_transport_config)
-        .await
-        .expect("Failed to connect worker to coordinator");
+    let _worker_transport: TcpTransport =
+        TcpTransport::connect(coordinator_addr, worker_transport_config)
+            .await
+            .expect("Failed to connect worker to coordinator");
 
     // Verify both executors have unique IDs
-    assert_ne!(
-        coordinator_executor.local_id(),
-        worker_executor.local_id()
-    );
+    assert_ne!(coordinator_executor.local_id(), worker_executor.local_id());
 
     // Give time for connection
     tokio::time::sleep(Duration::from_millis(100)).await;
@@ -215,7 +213,9 @@ async fn tcp_graph_submission() {
     drop(graphs);
 
     // Start graph
-    coordinator.start_graph(graph_id).expect("Failed to start graph");
+    coordinator
+        .start_graph(graph_id)
+        .expect("Failed to start graph");
 
     // Verify graph is running
     assert_eq!(
@@ -289,7 +289,8 @@ async fn tcp_connection_error_handling() {
     let config = TransportConfig::with_bind_addr(addr);
 
     // Attempt to connect to non-existent server should fail
-    let result: Result<TcpTransport, caret_distributed::Error> = TcpTransport::connect(addr, config).await;
+    let result: Result<TcpTransport, caret_distributed::Error> =
+        TcpTransport::connect(addr, config).await;
 
     assert!(result.is_err());
     match result {

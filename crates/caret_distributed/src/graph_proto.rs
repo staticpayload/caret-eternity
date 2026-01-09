@@ -6,10 +6,10 @@
 // https://opensource.org/licenses/MIT
 
 use crate::NodeId;
+use caret_graph::{Graph as CaretGraph, NodeType as CaretNodeType};
 use serde::{Deserialize, Serialize};
 use std::collections::{HashMap, HashSet};
 use thiserror::Error;
-use caret_graph::{Graph as CaretGraph, NodeType as CaretNodeType};
 
 /// Errors that can occur during graph partitioning
 #[derive(Debug, Error)]
@@ -173,10 +173,7 @@ impl SerializableGraph {
 
     /// Get edges to a node
     pub fn edges_to(&self, node_id: u64) -> Vec<&SerializableEdge> {
-        self.edges
-            .iter()
-            .filter(|e| e.to_node == node_id)
-            .collect()
+        self.edges.iter().filter(|e| e.to_node == node_id).collect()
     }
 
     /// Check if the graph is empty
@@ -427,10 +424,7 @@ impl GraphPartitioner {
     }
 
     /// Assign nodes to workers using round-robin
-    fn round_robin_assign(
-        graph: &SerializableGraph,
-        workers: &[NodeId],
-    ) -> HashMap<u64, NodeId> {
+    fn round_robin_assign(graph: &SerializableGraph, workers: &[NodeId]) -> HashMap<u64, NodeId> {
         let mut assignments = HashMap::new();
         for (i, node) in graph.nodes.iter().enumerate() {
             let worker = workers[i % workers.len()];
@@ -440,10 +434,7 @@ impl GraphPartitioner {
     }
 
     /// Assign nodes to workers using contiguous ranges
-    fn contiguous_assign(
-        graph: &SerializableGraph,
-        workers: &[NodeId],
-    ) -> HashMap<u64, NodeId> {
+    fn contiguous_assign(graph: &SerializableGraph, workers: &[NodeId]) -> HashMap<u64, NodeId> {
         let mut assignments = HashMap::new();
         let nodes_per_worker = (graph.nodes.len() + workers.len() - 1) / workers.len();
 
@@ -760,14 +751,10 @@ mod tests {
     #[test]
     fn test_partition_round_robin() {
         let graph = create_test_graph();
-        let workers = vec![
-            uuid::Uuid::from_u128(100),
-            uuid::Uuid::from_u128(101),
-        ];
+        let workers = vec![uuid::Uuid::from_u128(100), uuid::Uuid::from_u128(101)];
 
         let assignment =
-            GraphPartitioner::partition(&graph, &workers, PartitionStrategy::RoundRobin)
-                .unwrap();
+            GraphPartitioner::partition(&graph, &workers, PartitionStrategy::RoundRobin).unwrap();
 
         assert_eq!(assignment.partitions.len(), 2);
         // Round-robin: node 1->worker 0, node 2->worker 1, node 3->worker 0
@@ -778,14 +765,10 @@ mod tests {
     #[test]
     fn test_partition_contiguous() {
         let graph = create_test_graph();
-        let workers = vec![
-            uuid::Uuid::from_u128(100),
-            uuid::Uuid::from_u128(101),
-        ];
+        let workers = vec![uuid::Uuid::from_u128(100), uuid::Uuid::from_u128(101)];
 
         let assignment =
-            GraphPartitioner::partition(&graph, &workers, PartitionStrategy::Contiguous)
-                .unwrap();
+            GraphPartitioner::partition(&graph, &workers, PartitionStrategy::Contiguous).unwrap();
 
         // Nodes 1-2 on worker 0, node 3 on worker 1
         assert_eq!(assignment.partitions.len(), 2);
@@ -797,8 +780,7 @@ mod tests {
         let graph = create_test_graph();
         let workers = vec![];
 
-        let result =
-            GraphPartitioner::partition(&graph, &workers, PartitionStrategy::RoundRobin);
+        let result = GraphPartitioner::partition(&graph, &workers, PartitionStrategy::RoundRobin);
 
         assert!(matches!(result, Err(PartitionError::NoWorkers)));
     }
@@ -809,8 +791,7 @@ mod tests {
         let workers = vec![uuid::Uuid::from_u128(100)];
 
         let assignment =
-            GraphPartitioner::partition(&graph, &workers, PartitionStrategy::RoundRobin)
-                .unwrap();
+            GraphPartitioner::partition(&graph, &workers, PartitionStrategy::RoundRobin).unwrap();
 
         assert!(assignment.partitions.is_empty());
         assert!(assignment.routes.is_empty());
@@ -874,7 +855,9 @@ mod tests {
         caret_graph.add_node(sink).unwrap();
 
         // Connect them
-        caret_graph.connect(source_id, "frame", sink_id, "in").unwrap();
+        caret_graph
+            .connect(source_id, "frame", sink_id, "in")
+            .unwrap();
 
         // Convert to serializable graph
         let serializable = SerializableGraph::from_caret_graph("test-graph", &caret_graph);

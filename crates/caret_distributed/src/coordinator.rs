@@ -6,8 +6,8 @@
 // https://opensource.org/licenses/MIT
 
 use crate::{error::Result, message::Message, node::NodeId, Error};
-use serde::{Deserialize, Serialize};
 use parking_lot::Mutex;
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::sync::Arc;
 use std::time::Duration;
@@ -293,9 +293,10 @@ impl Coordinator {
                 ExecutionStatus::Completed
             };
 
-            let _ = self.event_tx.lock().try_send(CoordinatorEvent::GraphStopped(
-                id.to_string(),
-            ));
+            let _ = self
+                .event_tx
+                .lock()
+                .try_send(CoordinatorEvent::GraphStopped(id.to_string()));
 
             Ok(())
         } else {

@@ -5,7 +5,7 @@
 // Licensed under the MIT License:
 // https://opensource.org/licenses/MIT
 
-use crate::{NodeInfo, NodeId, Result};
+use crate::{NodeId, NodeInfo, Result};
 use mdns_sd::{ServiceDaemon, ServiceEvent, ServiceInfo};
 use parking_lot::Mutex;
 use std::collections::HashMap;
@@ -211,9 +211,9 @@ impl MdnsDiscovery {
     /// Announce our service via mDNS
     fn announce_service(&self) -> Result<()> {
         let daemon = self.daemon.lock();
-        let daemon = daemon.as_ref().ok_or_else(|| {
-            crate::Error::Transport("mDNS daemon not initialized".to_string())
-        })?;
+        let daemon = daemon
+            .as_ref()
+            .ok_or_else(|| crate::Error::Transport("mDNS daemon not initialized".to_string()))?;
 
         // Create TXT records with node information as HashMap
         let mut txt_props = self.config.txt_info.clone();
@@ -372,7 +372,9 @@ impl MdnsDiscovery {
         let node_id = NodeId::from_bytes(hash.0);
 
         if let Some(info) = known_nodes.lock().remove(&node_id) {
-            let _ = event_tx.lock().try_send(super::DiscoveryEvent::NodeLeft(info.id));
+            let _ = event_tx
+                .lock()
+                .try_send(super::DiscoveryEvent::NodeLeft(info.id));
             info!("mDNS node left: {}", node_id);
         }
     }

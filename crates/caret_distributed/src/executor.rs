@@ -6,9 +6,15 @@
 // https://opensource.org/licenses/MIT
 
 use crate::{
-    codec::FrameCodec, coordinator::Coordinator, error::Result, graph_proto::*,
-    message::*, node::NodeId, transport::{Transport, TransportConfig, TransportEvent},
-    Error, Message, node_factory::NodeFactory,
+    codec::FrameCodec,
+    coordinator::Coordinator,
+    error::Result,
+    graph_proto::*,
+    message::*,
+    node::NodeId,
+    node_factory::NodeFactory,
+    transport::{Transport, TransportConfig, TransportEvent},
+    Error, Message,
 };
 use caret_sched::{Executor as LocalExecutor, ExecutorConfig as LocalExecutorConfig};
 use parking_lot::Mutex;
@@ -35,9 +41,7 @@ pub struct ExecutorConfig {
 impl Default for ExecutorConfig {
     fn default() -> Self {
         Self {
-            bind_addr: format!("0.0.0.0:{}", crate::DEFAULT_PORT)
-                .parse()
-                .unwrap(),
+            bind_addr: format!("0.0.0.0:{}", crate::DEFAULT_PORT).parse().unwrap(),
             max_message_size: crate::MAX_MESSAGE_SIZE,
             heartbeat_interval: Duration::from_secs(crate::DEFAULT_HEARTBEAT_INTERVAL_SECS),
             node_timeout: Duration::from_secs(crate::DEFAULT_NODE_TIMEOUT_SECS),
@@ -92,13 +96,20 @@ pub struct DistributedExecutor {
     local_executor: Arc<Mutex<LocalExecutor>>,
     /// Map from graph node IDs to local executor node IDs
     local_node_mapping: Arc<Mutex<HashMap<String, caret_sched::NodeId>>>,
+    /// Set of graphs that are currently running
+    running_graphs: Arc<Mutex<std::collections::HashSet<String>>>,
+    /// Tick interval for the local executor
+    tick_interval: Duration,
 }
 
 impl DistributedExecutor {
     /// Create a new distributed executor
     pub fn new(config: ExecutorConfig) -> Self {
         let local_id = NodeId::new_v4();
-        let coordinator = Arc::new(Coordinator::new(config.coordinator_config.clone(), local_id));
+        let coordinator = Arc::new(Coordinator::new(
+            config.coordinator_config.clone(),
+            local_id,
+        ));
 
         // Create local executor for running partitions
         let local_executor = LocalExecutor::new(LocalExecutorConfig::default());
@@ -114,6 +125,8 @@ impl DistributedExecutor {
             codec: FrameCodec::with_max_size(crate::MAX_MESSAGE_SIZE),
             local_executor: Arc::new(Mutex::new(local_executor)),
             local_node_mapping: Arc::new(Mutex::new(HashMap::new())),
+            running_graphs: Arc::new(Mutex::new(std::collections::HashSet::new())),
+            tick_interval: Duration::from_millis(1),
         }
     }
 
@@ -131,6 +144,9 @@ impl DistributedExecutor {
     pub async fn start(&mut self, transport: Box<dyn Transport + Send>) -> Result<()> {
         *self.running.lock() = true;
         self.transport = Some(transport);
+
+        // Start the tick loop
+        self.start_tick_loop();
 
         // Start event loop
         self.run_event_loop().await?;
@@ -269,16 +285,19 @@ impl DistributedExecutor {
 
                 if let Some(addr) = addr {
                     // Serialize the graph
-                    let graph_bytes = serde_json::to_vec(&serializable)
-                        .map_err(|e| Error::Serialization(format!("Failed to serialize graph: {}", e)))?;
+                    let graph_bytes = serde_json::to_vec(&serializable).map_err(|e| {
+                        Error::Serialization(format!("Failed to serialize graph: {}", e))
+                    })?;
 
                     // Serialize the partition
-                    let partition_bytes = serde_json::to_vec(partition)
-                        .map_err(|e| Error::Serialization(format!("Failed to serialize partition: {}", e)))?;
+                    let partition_bytes = serde_json::to_vec(partition).map_err(|e| {
+                        Error::Serialization(format!("Failed to serialize partition: {}", e))
+                    })?;
 
                     // Serialize the routes
-                    let routes_bytes = serde_json::to_vec(&assignment.routes)
-                        .map_err(|e| Error::Serialization(format!("Failed to serialize routes: {}", e)))?;
+                    let routes_bytes = serde_json::to_vec(&assignment.routes).map_err(|e| {
+                        Error::Serialization(format!("Failed to serialize routes: {}", e))
+                    })?;
 
                     let msg = Message::new(
                         self.local_id,
@@ -316,6 +335,14 @@ impl DistributedExecutor {
     pub fn start_graph(&self, graph_id: &str) -> Result<()> {
         self.coordinator.start_graph(graph_id)?;
 
+        // Add to running graphs and start local executor if needed
+        self.running_graphs.lock().insert(graph_id.to_string());
+        if self.running_graphs.lock().len() == 1 {
+            // First graph started, start the local executor
+            self.local_executor.lock().start()?;
+            tracing::info!("Local executor started");
+        }
+
         // Broadcast start message
         if let Some(transport) = &self.transport {
             let msg = Message::new(
@@ -335,6 +362,14 @@ impl DistributedExecutor {
     /// Stop executing a graph
     pub fn stop_graph(&self, graph_id: &str, drain: bool) -> Result<()> {
         self.coordinator.stop_graph(graph_id, drain)?;
+
+        // Remove from running graphs
+        self.running_graphs.lock().remove(graph_id);
+        if self.running_graphs.lock().is_empty() {
+            // No more running graphs, stop the local executor
+            self.local_executor.lock().stop()?;
+            tracing::info!("Local executor stopped");
+        }
 
         // Broadcast stop message
         if let Some(transport) = &self.transport {
@@ -422,9 +457,10 @@ impl DistributedExecutor {
 
     /// Main event loop
     async fn run_event_loop(&self) -> Result<()> {
-        let transport = self.transport.as_ref().ok_or_else(|| {
-            Error::Transport("Transport not initialized".into())
-        })?;
+        let transport = self
+            .transport
+            .as_ref()
+            .ok_or_else(|| Error::Transport("Transport not initialized".into()))?;
 
         let mut events = transport.subscribe();
         let heartbeat_interval = self.config.heartbeat_interval;
@@ -507,10 +543,7 @@ impl DistributedExecutor {
     /// Handle incoming message
     fn handle_incoming_message(&self, from: SocketAddr, message: Message) -> Result<()> {
         match message.payload {
-            MessagePayload::Hello {
-                version,
-                node_info,
-            } => {
+            MessagePayload::Hello { version, node_info } => {
                 // Check version compatibility
                 if version != crate::PROTOCOL_VERSION {
                     tracing::warn!(
@@ -697,7 +730,9 @@ impl DistributedExecutor {
                 );
 
                 // Create local node instances for the assigned partition
-                if let Err(e) = self.setup_local_partition(&serializable_graph, &graph_partition, &graph_id) {
+                if let Err(e) =
+                    self.setup_local_partition(&serializable_graph, &graph_partition, &graph_id)
+                {
                     tracing::error!("Failed to setup local partition: {}", e);
                     return Err(e);
                 }
@@ -724,11 +759,30 @@ impl DistributedExecutor {
             MessagePayload::GraphStart { ref graph_id } => {
                 tracing::info!("Starting graph: {}", graph_id);
                 self.coordinator.start_graph(graph_id)?;
+
+                // Add to running graphs and start local executor if needed
+                self.running_graphs.lock().insert(graph_id.clone());
+                if self.running_graphs.lock().len() == 1 {
+                    // First graph started, start the local executor
+                    self.local_executor.lock().start()?;
+                    tracing::info!("Local executor started");
+                }
             }
 
-            MessagePayload::GraphStop { ref graph_id, drain } => {
+            MessagePayload::GraphStop {
+                ref graph_id,
+                drain,
+            } => {
                 tracing::info!("Stopping graph: {} (drain={})", graph_id, drain);
                 self.coordinator.stop_graph(graph_id, drain)?;
+
+                // Remove from running graphs
+                self.running_graphs.lock().remove(graph_id);
+                if self.running_graphs.lock().is_empty() {
+                    // No more running graphs, stop the local executor
+                    self.local_executor.lock().stop()?;
+                    tracing::info!("Local executor stopped");
+                }
             }
 
             MessagePayload::StatusRequest => {
@@ -783,6 +837,83 @@ impl DistributedExecutor {
         &self.local_executor
     }
 
+    /// Start the local executor tick loop
+    ///
+    /// This spawns a background task that continuously ticks the local executor
+    /// while there are graphs running.
+    fn start_tick_loop(&self) {
+        let running = Arc::clone(&self.running);
+        let local_executor = Arc::clone(&self.local_executor);
+        let running_graphs = Arc::clone(&self.running_graphs);
+        let tick_interval = self.tick_interval;
+
+        tokio::spawn(async move {
+            let mut interval = tokio::time::interval(tick_interval);
+
+            while *running.lock() {
+                interval.tick().await;
+
+                // Only tick if there are running graphs
+                if !running_graphs.lock().is_empty() {
+                    let mut executor = local_executor.lock();
+                    match executor.tick_once() {
+                        Ok(caret_sched::TickResult::Executed {
+                            nodes_run,
+                            nodes_done,
+                            nodes_error,
+                        }) => {
+                            if nodes_run > 0 || nodes_done > 0 || nodes_error > 0 {
+                                tracing::trace!(
+                                    "Tick: run={}, done={}, error={}",
+                                    nodes_run,
+                                    nodes_done,
+                                    nodes_error
+                                );
+                            }
+                        }
+                        Ok(caret_sched::TickResult::Skipped) => {}
+                        Err(e) => {
+                            tracing::warn!("Executor tick error: {}", e);
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    /// Start the tick loop without a transport (for testing)
+    ///
+    /// This is used in tests to verify tick loop behavior without
+    /// setting up a full transport.
+    #[cfg(test)]
+    pub fn start_tick_loop_sync(&self) {
+        let running = Arc::clone(&self.running);
+        let local_executor = Arc::clone(&self.local_executor);
+        let running_graphs = Arc::clone(&self.running_graphs);
+        let tick_interval = self.tick_interval;
+
+        // Mark as running
+        *running.lock() = true;
+
+        std::thread::spawn(move || {
+            while *running.lock() {
+                std::thread::sleep(tick_interval);
+
+                // Only tick if there are running graphs
+                if !running_graphs.lock().is_empty() {
+                    let mut executor = local_executor.lock();
+                    let _ = executor.tick_once();
+                }
+            }
+        });
+    }
+
+    /// Stop the tick loop (for testing)
+    #[cfg(test)]
+    pub fn stop_tick_loop(&self) {
+        *self.running.lock() = false;
+    }
+
     /// Setup local node instances for a partition
     ///
     /// This method creates node instances in the local executor for all nodes
@@ -800,21 +931,23 @@ impl DistributedExecutor {
         mapping.retain(|key, _| !key.starts_with(&format!("{}:", graph_id)));
 
         // Create a map of node_id -> SerializableNode for quick lookup
-        let node_map: std::collections::HashMap<u64, &SerializableNode> = graph
-            .nodes()
-            .iter()
-            .map(|node| (node.id, node))
-            .collect();
+        let node_map: std::collections::HashMap<u64, &SerializableNode> =
+            graph.nodes().iter().map(|node| (node.id, node)).collect();
 
         // Create node instances for each node in the partition
         for node_id in &partition.nodes {
             // Get the node definition from the graph
-            let serializable_node = node_map.get(node_id)
+            let serializable_node = node_map
+                .get(node_id)
                 .ok_or_else(|| Error::Execution(format!("Node {} not found in graph", node_id)))?;
 
             // Create a processor using the node factory
-            let processor = NodeFactory::create_processor(serializable_node)
-                .map_err(|e| Error::Execution(format!("Failed to create processor for node {}: {}", node_id, e)))?;
+            let processor = NodeFactory::create_processor(serializable_node).map_err(|e| {
+                Error::Execution(format!(
+                    "Failed to create processor for node {}: {}",
+                    node_id, e
+                ))
+            })?;
 
             // Add the node to the local executor
             let local_node_id = local_executor
@@ -822,20 +955,29 @@ impl DistributedExecutor {
                 .map_err(|e| Error::Execution(format!("Failed to add node {}: {}", node_id, e)))?;
 
             // Get the node instance to add ports
-            let node_instance = local_executor.node(local_node_id)
-                .ok_or_else(|| Error::Execution(format!("Failed to get node instance {}", local_node_id.as_u64())))?;
+            let node_instance = local_executor.node(local_node_id).ok_or_else(|| {
+                Error::Execution(format!(
+                    "Failed to get node instance {}",
+                    local_node_id.as_u64()
+                ))
+            })?;
             let mut node_instance = node_instance.lock();
 
             // Add input ports
             for (port_name, capacity) in NodeFactory::get_input_ports(serializable_node) {
-                node_instance.ports.add_input(&port_name, capacity)
-                    .map_err(|e| Error::Execution(format!("Failed to add input port {}: {}", port_name, e)))?;
+                node_instance
+                    .ports
+                    .add_input(&port_name, capacity)
+                    .map_err(|e| {
+                        Error::Execution(format!("Failed to add input port {}: {}", port_name, e))
+                    })?;
             }
 
             // Add output ports
             for port_name in NodeFactory::get_output_ports(serializable_node) {
-                node_instance.ports.add_output(&port_name)
-                    .map_err(|e| Error::Execution(format!("Failed to add output port {}: {}", port_name, e)))?;
+                node_instance.ports.add_output(&port_name).map_err(|e| {
+                    Error::Execution(format!("Failed to add output port {}: {}", port_name, e))
+                })?;
             }
 
             // Store the mapping
@@ -857,7 +999,9 @@ impl DistributedExecutor {
             let from_key = format!("{}:{}", graph_id, edge.from_node);
             let to_key = format!("{}:{}", graph_id, edge.to_node);
 
-            if let (Some(from_local_id), Some(to_local_id)) = (mapping.get(&from_key), mapping.get(&to_key)) {
+            if let (Some(from_local_id), Some(to_local_id)) =
+                (mapping.get(&from_key), mapping.get(&to_key))
+            {
                 local_executor
                     .connect(*from_local_id, &edge.from_port, *to_local_id, &edge.to_port)
                     .map_err(|e| {
@@ -987,7 +1131,10 @@ mod tests {
 
         // The graph should be in the coordinator
         let coordinator = executor.coordinator();
-        assert_eq!(coordinator.graph_status(&graph_id), Some(crate::coordinator::ExecutionStatus::Pending));
+        assert_eq!(
+            coordinator.graph_status(&graph_id),
+            Some(crate::coordinator::ExecutionStatus::Pending)
+        );
         assert_eq!(coordinator.worker_count(), 0);
     }
 
@@ -1013,7 +1160,10 @@ mod tests {
         );
 
         // Register worker with coordinator
-        coordinator_executor.coordinator.register_worker(worker_id).unwrap();
+        coordinator_executor
+            .coordinator
+            .register_worker(worker_id)
+            .unwrap();
 
         // Verify worker is registered
         assert_eq!(coordinator_executor.coordinator.worker_count(), 1);
@@ -1245,5 +1395,114 @@ mod tests {
         // Round-robin partitioning with 3 nodes and 2 workers should create
         // at least one cross-partition edge
         assert!(!routes.is_empty());
+    }
+
+    /// Test tick loop start and graph lifecycle
+    #[test]
+    fn test_tick_loop_start_stop() {
+        let executor = DistributedExecutor::new(ExecutorConfig::default());
+
+        // Initially, no graphs are running and the executor is stopped
+        assert!(executor.running_graphs.lock().is_empty());
+        assert_eq!(
+            executor.local_executor.lock().runtime_state(),
+            caret_sched::RuntimeState::Stopped
+        );
+
+        // Start a graph - this should start the local executor
+        let graph_id = "test-graph-1".to_string();
+        executor
+            .coordinator
+            .submit_graph(
+                graph_id.clone(),
+                crate::coordinator::ExecutionMode::Pipeline,
+            )
+            .unwrap();
+        executor.start_graph(&graph_id).unwrap();
+
+        // The graph should be in the running set
+        assert!(executor.running_graphs.lock().contains(&graph_id));
+
+        // The local executor should be running
+        assert_eq!(
+            executor.local_executor.lock().runtime_state(),
+            caret_sched::RuntimeState::Running
+        );
+
+        // Start another graph - executor should still be running
+        let graph_id2 = "test-graph-2".to_string();
+        executor
+            .coordinator
+            .submit_graph(
+                graph_id2.clone(),
+                crate::coordinator::ExecutionMode::Pipeline,
+            )
+            .unwrap();
+        executor.start_graph(&graph_id2).unwrap();
+
+        assert_eq!(executor.running_graphs.lock().len(), 2);
+        assert_eq!(
+            executor.local_executor.lock().runtime_state(),
+            caret_sched::RuntimeState::Running
+        );
+
+        // Stop one graph - the executor should still be running
+        executor.stop_graph(&graph_id, false).unwrap();
+        assert_eq!(executor.running_graphs.lock().len(), 1);
+        assert!(!executor.running_graphs.lock().contains(&graph_id));
+        assert_eq!(
+            executor.local_executor.lock().runtime_state(),
+            caret_sched::RuntimeState::Running
+        );
+
+        // Stop the last graph - the executor should stop
+        executor.stop_graph(&graph_id2, false).unwrap();
+        assert!(executor.running_graphs.lock().is_empty());
+        assert_eq!(
+            executor.local_executor.lock().runtime_state(),
+            caret_sched::RuntimeState::Stopped
+        );
+    }
+
+    /// Test that the executor ticks when graphs are running
+    #[test]
+    fn test_executor_ticks_with_graphs() {
+        use std::thread;
+        use std::time::Duration;
+
+        let executor = DistributedExecutor::new(ExecutorConfig::default());
+
+        // Start the tick loop
+        executor.start_tick_loop_sync();
+
+        // Start a graph
+        let graph_id = "test-graph-tick".to_string();
+        executor
+            .coordinator
+            .submit_graph(
+                graph_id.clone(),
+                crate::coordinator::ExecutionMode::Pipeline,
+            )
+            .unwrap();
+        executor.start_graph(&graph_id).unwrap();
+
+        // The tick loop should be running now
+        // Let it tick a few times
+        thread::sleep(Duration::from_millis(10));
+
+        // The local executor should have a tick count > 0
+        let tick_count = executor.local_executor.lock().tick();
+        // The tick loop runs on a 1ms interval, so after 10ms we should have some ticks
+        // Note: In a test without actual nodes, the ticks will happen but may not process anything
+        assert!(tick_count > 0, "Expected at least one tick to occur");
+
+        // Stop the graph
+        executor.stop_graph(&graph_id, false).unwrap();
+
+        // The running_graphs set should be empty
+        assert!(executor.running_graphs.lock().is_empty());
+
+        // Stop the tick loop
+        executor.stop_tick_loop();
     }
 }

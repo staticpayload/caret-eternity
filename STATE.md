@@ -1,6 +1,6 @@
 # Caret State
 
-**Last updated:** 2025-01-09T18:00:00Z
+**Last updated:** 2025-01-09T18:30:00Z
 
 ## Current milestone
 Milestone 22: Distributed graph execution with real Caret graphs - IN PROGRESS
@@ -10,14 +10,21 @@ Implementing distributed graph execution with real Caret graphs
 
 ## Done since last update
 ### Milestone 22: Distributed graph execution with real Caret graphs (IN PROGRESS)
-- **NEW: Packet flow through output ports:**
-  - Extended `ProcessingContext` to include output ports map
-  - Added `send()` method to ProcessingContext for outputting packets
-  - Added `output_map()` method to PortSet for accessing all output ports
-  - Modified executor tick loop to create ProcessingContext with output ports
-  - Updated TransformNode and GenericNode to send packets to all output ports
-  - Implemented automatic packet forwarding to connected input ports
-  - All 75 tests passing in caret_distributed (49 lib + 18 integration + 8 TCP)
+- **NEW: Executor tick loop invocation:**
+  - Added `running_graphs` field to track active graphs
+  - Added `tick_interval` field for configurable tick frequency (default 1ms)
+  - Added `start_tick_loop()` method that spawns background async task
+  - Task continuously calls `tick_once()` on local executor while graphs are running
+  - Modified `start()` to call `start_tick_loop()` after transport initialization
+  - Updated `start_graph()` to add graph to running set and start local executor
+  - Updated `stop_graph()` to remove graph from running set and stop local executor if empty
+  - Updated `GraphStart` message handler to manage running graphs and local executor state
+  - Updated `GraphStop` message handler to manage running graphs and local executor state
+  - Added `start_tick_loop_sync()` for testing (sync thread-based tick loop)
+  - Added `stop_tick_loop()` for testing
+  - Added test `test_tick_loop_start_stop`: Verifies graph lifecycle with executor state
+  - Added test `test_executor_ticks_with_graphs`: Verifies tick loop runs and increments tick count
+  - All 77 tests passing in caret_distributed (51 lib + 18 integration + 8 TCP)
   - All 42 tests passing in caret_sched
 - Previous node factory with proper port definitions:
   - Created `NodeFactory` for deserializing `SerializableNode` into processors
@@ -28,6 +35,13 @@ Implementing distributed graph execution with real Caret graphs
   - Updated `PartitionAssign` message to include full graph definition
   - Modified `setup_local_partition()` to use NodeFactory and add proper ports
   - Added `nodes()` method to `SerializableGraph` for iteration
+- Previous packet flow through output ports:
+  - Extended `ProcessingContext` to include output ports map
+  - Added `send()` method to ProcessingContext for outputting packets
+  - Added `output_map()` method to PortSet for accessing all output ports
+  - Modified executor tick loop to create ProcessingContext with output ports
+  - Updated TransformNode and GenericNode to send packets to all output ports
+  - Implemented automatic packet forwarding to connected input ports
 - Previous local executor integration work:
   - `local_executor` and `local_node_mapping` fields in `DistributedExecutor`
   - `route_packet_to_local_node()`: Delivers packets from remote nodes to local nodes
@@ -83,7 +97,7 @@ Implementing distributed graph execution with real Caret graphs
     - `tcp_broadcast`: Broadcast functionality
     - `tcp_connection_error_handling`: Connection refused errors
     - `tcp_transport_lifecycle`: Start/stop/restart transport
-- 68 tests passing in caret_distributed (44 lib + 16 integration + 8 TCP)
+  - 68 tests passing in caret_distributed (44 lib + 16 integration + 8 TCP)
 
 ### Milestone 21: Distributed execution support - COMPLETE
 - Created `caret_distributed` crate with:
@@ -154,7 +168,7 @@ Implementing distributed graph execution with real Caret graphs
 - Complete governance documentation and repo structure
 
 ## Next objectives
-1. Milestone 22: Continue distributed graph execution - add executor tick loop invocation
+1. Milestone 22: Add distributed graph execution end-to-end integration test
 2. Add TLS support for secure transport
 3. Add distributed system benchmarks
 
@@ -164,7 +178,7 @@ Implementing distributed graph execution with real Caret graphs
 
 ## Quality gates status
 - Build: Passing
-- Tests: 75 tests passing in caret_distributed (49 lib + 18 integration + 8 TCP networking)
+- Tests: 77 tests passing in caret_distributed (51 lib + 18 integration + 8 TCP networking)
 - Docs: Core APIs documented
 - Lint: Passes (some warnings for missing docs on internal items)
 - Format: Passing

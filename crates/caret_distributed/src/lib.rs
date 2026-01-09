@@ -17,31 +17,31 @@
 #![warn(clippy::all)]
 
 mod codec;
-mod transport;
-mod node;
-mod discovery;
 mod coordinator;
-mod message;
+mod discovery;
 mod error;
 mod executor;
-mod mdns;
 mod graph_proto;
+mod mdns;
+mod message;
+mod node;
 mod node_factory;
+mod transport;
 
 pub use codec::{FrameCodec, FrameDecoder, FRAME_HEADER_SIZE, FRAME_MAGIC, FRAME_VERSION};
-pub use error::{Error, Result};
-pub use transport::{Transport, TransportConfig, TransportEvent, TcpTransport, MemoryTransport};
-pub use node::{NodeId, NodeInfo, NodeState, LocalNode};
-pub use discovery::{Discovery, DiscoveryConfig, DiscoveryEvent};
 pub use coordinator::{Coordinator, CoordinatorConfig, ExecutionMode, ExecutionStatus, GraphState};
-pub use message::{Message, MessagePayload, MessageType};
+pub use discovery::{Discovery, DiscoveryConfig, DiscoveryEvent};
+pub use error::{Error, Result};
 pub use executor::{DistributedExecutor, ExecutorConfig};
-pub use mdns::{MdnsDiscovery, MdnsDiscoveryConfig, CARET_SERVICE_TYPE};
 pub use graph_proto::{
-    CrossNodeRoute, CrossPartitionEdge, GraphPartition, GraphPartitioner, NodeType as GraphNodeType,
-    PartitionAssignment, PartitionError, PartitionStrategy, PortDirection, SerializableEdge,
-    SerializableGraph, SerializableNode, SerializablePort, NodeType,
+    CrossNodeRoute, CrossPartitionEdge, GraphPartition, GraphPartitioner,
+    NodeType as GraphNodeType, NodeType, PartitionAssignment, PartitionError, PartitionStrategy,
+    PortDirection, SerializableEdge, SerializableGraph, SerializableNode, SerializablePort,
 };
+pub use mdns::{MdnsDiscovery, MdnsDiscoveryConfig, CARET_SERVICE_TYPE};
+pub use message::{Message, MessagePayload, MessageType};
+pub use node::{LocalNode, NodeId, NodeInfo, NodeState};
+pub use transport::{MemoryTransport, TcpTransport, Transport, TransportConfig, TransportEvent};
 
 /// Version of the distributed protocol
 pub const PROTOCOL_VERSION: &str = "0.1.0";

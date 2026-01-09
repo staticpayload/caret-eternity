@@ -6,8 +6,8 @@
 // https://opensource.org/licenses/MIT
 
 use crate::graph_proto::{NodeType, SerializableNode};
-use caret_sched::{NodeProcessor, ProcessingContext, ProcessingResult};
 use caret_core::{Packet, Result};
+use caret_sched::{NodeProcessor, ProcessingContext, ProcessingResult};
 
 /// Factory for creating node processors from serialized node definitions
 pub struct NodeFactory;
@@ -231,7 +231,7 @@ impl NodeProcessor for GenericNode {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::graph_proto::{SerializableNode, SerializablePort, PortDirection, NodeType};
+    use crate::graph_proto::{NodeType, PortDirection, SerializableNode, SerializablePort};
 
     #[test]
     fn test_node_factory_source() {
@@ -240,13 +240,11 @@ mod tests {
             name: "test_source".to_string(),
             node_type: NodeType::Source,
             inputs: vec![],
-            outputs: vec![
-                SerializablePort {
-                    name: "data".to_string(),
-                    id: 1,
-                    direction: PortDirection::Out,
-                }
-            ],
+            outputs: vec![SerializablePort {
+                name: "data".to_string(),
+                id: 1,
+                direction: PortDirection::Out,
+            }],
         };
 
         let processor = NodeFactory::create_processor(&node).unwrap();
@@ -266,20 +264,16 @@ mod tests {
             id: 2,
             name: "test_transform".to_string(),
             node_type: NodeType::Transform,
-            inputs: vec![
-                SerializablePort {
-                    name: "input".to_string(),
-                    id: 1,
-                    direction: PortDirection::In,
-                }
-            ],
-            outputs: vec![
-                SerializablePort {
-                    name: "output".to_string(),
-                    id: 2,
-                    direction: PortDirection::Out,
-                }
-            ],
+            inputs: vec![SerializablePort {
+                name: "input".to_string(),
+                id: 1,
+                direction: PortDirection::In,
+            }],
+            outputs: vec![SerializablePort {
+                name: "output".to_string(),
+                id: 2,
+                direction: PortDirection::Out,
+            }],
         };
 
         let processor = NodeFactory::create_processor(&node).unwrap();
@@ -300,13 +294,11 @@ mod tests {
             id: 3,
             name: "test_sink".to_string(),
             node_type: NodeType::Sink,
-            inputs: vec![
-                SerializablePort {
-                    name: "input".to_string(),
-                    id: 1,
-                    direction: PortDirection::In,
-                }
-            ],
+            inputs: vec![SerializablePort {
+                name: "input".to_string(),
+                id: 1,
+                direction: PortDirection::In,
+            }],
             outputs: vec![],
         };
 
