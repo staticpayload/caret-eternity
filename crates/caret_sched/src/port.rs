@@ -52,6 +52,13 @@ impl InputPort {
     pub fn capacity(&self) -> usize {
         self.queue.capacity()
     }
+
+    /// Push a packet directly into the input port
+    ///
+    /// This is used for external packet injection (e.g., from distributed execution).
+    pub fn push(&self, packet: Packet) -> Result<()> {
+        self.queue.push(packet)
+    }
 }
 
 /// Output port for sending packets

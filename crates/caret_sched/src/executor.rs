@@ -224,6 +224,35 @@ impl Executor {
         Ok(())
     }
 
+    /// Inject a packet directly into a node's input port
+    ///
+    /// This is used for external packet sources (e.g., distributed execution)
+    /// to deliver packets to nodes without going through normal graph connections.
+    pub fn inject_packet(
+        &self,
+        node_id: NodeId,
+        port_name: &str,
+        data: Vec<u8>,
+    ) -> Result<()> {
+        use caret_core::Packet;
+
+        let instance = self
+            .nodes
+            .get(&node_id)
+            .ok_or_else(|| Error::graph(format!("Node {} not found", node_id.as_u64())))?;
+
+        let inst = instance.lock();
+        let input = inst
+            .ports
+            .input(port_name)
+            .ok_or_else(|| Error::graph(format!("Input port '{}' not found", port_name)))?;
+
+        // Create a bytes packet from the raw data
+        let packet = Packet::bytes(data);
+        input.push(packet)?;
+        Ok(())
+    }
+
     /// Execute a single tick
     ///
     /// Performance optimizations:

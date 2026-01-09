@@ -10,6 +10,7 @@ use crate::{
     message::*, node::NodeId, transport::{Transport, TransportConfig, TransportEvent},
     Error, Message,
 };
+use caret_sched::{Executor as LocalExecutor, ExecutorConfig as LocalExecutorConfig, NodeProcessor, PassthroughNode, ProcessingContext, ProcessingResult};
 use parking_lot::Mutex;
 use std::collections::HashMap;
 use std::net::SocketAddr;
@@ -87,6 +88,10 @@ pub struct DistributedExecutor {
     config: ExecutorConfig,
     /// Codec for encoding messages
     codec: FrameCodec,
+    /// Local executor for running assigned partitions
+    local_executor: Arc<Mutex<LocalExecutor>>,
+    /// Map from graph node IDs to local executor node IDs
+    local_node_mapping: Arc<Mutex<HashMap<String, caret_sched::NodeId>>>,
 }
 
 impl DistributedExecutor {
@@ -94,6 +99,9 @@ impl DistributedExecutor {
     pub fn new(config: ExecutorConfig) -> Self {
         let local_id = NodeId::new_v4();
         let coordinator = Arc::new(Coordinator::new(config.coordinator_config.clone(), local_id));
+
+        // Create local executor for running partitions
+        let local_executor = LocalExecutor::new(LocalExecutorConfig::default());
 
         Self {
             local_id,
@@ -104,6 +112,8 @@ impl DistributedExecutor {
             running: Arc::new(Mutex::new(false)),
             config,
             codec: FrameCodec::with_max_size(crate::MAX_MESSAGE_SIZE),
+            local_executor: Arc::new(Mutex::new(local_executor)),
+            local_node_mapping: Arc::new(Mutex::new(HashMap::new())),
         }
     }
 
@@ -671,11 +681,11 @@ impl DistributedExecutor {
                     local_assignment.routes.len()
                 );
 
-                // In a real implementation, this would:
-                // 1. Create local node instances for the assigned nodes
-                // 2. Set up cross-node packet routing
-                // 3. Initialize input/output queues
-                // For now, we just log the assignment
+                // Create local node instances for the assigned partition
+                if let Err(e) = self.setup_local_partition(&graph_partition, &graph_id) {
+                    tracing::error!("Failed to setup local partition: {}", e);
+                    return Err(e);
+                }
             }
 
             MessagePayload::Packet {
@@ -691,7 +701,9 @@ impl DistributedExecutor {
                 );
 
                 // Route the packet to the appropriate local node
-                // In a real implementation, this would deliver to the node's input queue
+                if let Err(e) = self.route_packet_to_local_node(to_port, data) {
+                    tracing::warn!("Failed to route packet: {}", e);
+                }
             }
 
             MessagePayload::GraphStart { ref graph_id } => {
@@ -749,6 +761,123 @@ impl DistributedExecutor {
     /// Get connection count
     pub fn connection_count(&self) -> usize {
         self.connections.lock().len()
+    }
+
+    /// Setup local node instances for a partition
+    ///
+    /// This method creates node instances in the local executor for all nodes
+    /// assigned to this worker in the partition.
+    fn setup_local_partition(&self, partition: &GraphPartition, graph_id: &str) -> Result<()> {
+        let mut local_executor = self.local_executor.lock();
+        let mut mapping = self.local_node_mapping.lock();
+
+        // Clear previous mappings for this graph
+        mapping.retain(|key, _| !key.starts_with(&format!("{}:", graph_id)));
+
+        // Create a passthrough node processor for each node in the partition
+        for node_id in &partition.nodes {
+            // Create a simple passthrough processor with a descriptive name
+            let processor = Box::new(PassthroughNode::new(format!("node_{}", node_id)));
+
+            // Add the node to the local executor
+            let local_node_id = local_executor
+                .add_node(*node_id, processor)
+                .map_err(|e| Error::Execution(format!("Failed to add node {}: {}", node_id, e)))?;
+
+            // Store the mapping
+            let key = format!("{}:{}", graph_id, node_id);
+            mapping.insert(key, local_node_id);
+
+            tracing::debug!(
+                "Created local node {} for graph node {}",
+                local_node_id.as_u64(),
+                node_id
+            );
+        }
+
+        // Connect internal edges (within this partition)
+        for edge in &partition.internal_edges {
+            let from_key = format!("{}:{}", graph_id, edge.from_node);
+            let to_key = format!("{}:{}", graph_id, edge.to_node);
+
+            if let (Some(from_local_id), Some(to_local_id)) = (mapping.get(&from_key), mapping.get(&to_key)) {
+                local_executor
+                    .connect(*from_local_id, &edge.from_port, *to_local_id, &edge.to_port)
+                    .map_err(|e| {
+                        Error::Execution(format!(
+                            "Failed to connect {}:{} to {}:{}: {}",
+                            edge.from_node, edge.from_port, edge.to_node, edge.to_port, e
+                        ))
+                    })?;
+
+                tracing::debug!(
+                    "Connected internal edge: {}:{} -> {}:{}",
+                    edge.from_node,
+                    edge.from_port,
+                    edge.to_node,
+                    edge.to_port
+                );
+            }
+        }
+
+        // For input edges (from other partitions), we need to set up special handling
+        // These will be handled by the Packet message handler
+
+        tracing::info!(
+            "Setup complete: {} nodes, {} internal edges",
+            partition.nodes.len(),
+            partition.internal_edges.len()
+        );
+
+        Ok(())
+    }
+
+    /// Route a packet to a local node
+    ///
+    /// This method handles packets arriving from remote nodes and delivers them
+    /// to the appropriate local node's input queue.
+    fn route_packet_to_local_node(&self, to_port: &str, data: &[u8]) -> Result<()> {
+        // Parse the port format: "node_id:port_name"
+        let parts: Vec<&str> = to_port.split(':').collect();
+        if parts.len() != 2 {
+            return Err(Error::Execution(format!(
+                "Invalid port format: {}, expected node_id:port_name",
+                to_port
+            )));
+        }
+
+        let node_id: u64 = parts[0]
+            .parse()
+            .map_err(|_| Error::Execution(format!("Invalid node ID: {}", parts[0])))?;
+        let port_name = parts[1];
+
+        // Look up the local node ID from the mapping
+        // We need to find which graph this node belongs to
+        let mapping = self.local_node_mapping.lock();
+
+        // Find the local node ID by checking all mappings for this graph node ID
+        let local_node_id = mapping
+            .iter()
+            .find(|(key, _)| key.ends_with(&format!(":{}", node_id)))
+            .map(|(_, &local_id)| local_id)
+            .ok_or_else(|| {
+                Error::Execution(format!("No local node found for graph node {}", node_id))
+            })?;
+
+        // Inject the packet into the node's input port
+        let executor = self.local_executor.lock();
+        executor
+            .inject_packet(local_node_id, port_name, data.to_vec())
+            .map_err(|e| Error::Execution(format!("Failed to inject packet: {}", e)))?;
+
+        tracing::debug!(
+            "Routed packet to local node {} port {} ({} bytes)",
+            local_node_id.as_u64(),
+            port_name,
+            data.len()
+        );
+
+        Ok(())
     }
 }
 
