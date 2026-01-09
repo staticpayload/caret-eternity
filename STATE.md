@@ -1,6 +1,6 @@
 # Caret State
 
-**Last updated:** 2025-01-09T13:00:00Z
+**Last updated:** 2025-01-09T15:30:00Z
 
 ## Current milestone
 Milestone 22: Distributed graph execution with real Caret graphs - IN PROGRESS
@@ -10,14 +10,23 @@ Implementing distributed graph execution with real Caret graphs
 
 ## Done since last update
 ### Milestone 22: Distributed graph execution with real Caret graphs (IN PROGRESS)
-- Implemented actual mDNS functionality using mdns-sd crate:
+- **NEW: Local executor integration for partition execution:**
+  - Added `local_executor` and `local_node_mapping` fields to `DistributedExecutor`
+  - Implemented `setup_local_partition()`: Creates local node instances when partitions are received
+  - Implemented `route_packet_to_local_node()`: Delivers packets from remote nodes to local nodes
+  - Replaced TODO comments with actual partition execution logic
+  - 72 tests passing in caret_distributed (46 lib + 18 integration + 8 TCP)
+  - Added end-to-end integration tests for partition setup and packet routing
+- **NEW: caret_sched enhancements for external packet injection:**
+  - Added `inject_packet()` method to `caret_sched::Executor` for external packet delivery
+  - Added `push()` method to `caret_sched::InputPort` for direct packet injection
+  - Enables distributed execution to inject packets from remote nodes
+- Previous mDNS, graph serialization, and partitioning work remains intact:
   - `MdnsDiscovery`: Real mDNS service discovery with ServiceDaemon
-  - Service broadcasting with TXT records containing node_id, version, capabilities
-  - Service browsing with proper event handling (ServiceFound, ServiceResolved, ServiceRemoved)
-  - Builder pattern for `MdnsDiscoveryConfig` with service name, port, and TXT record customization
-  - Proper node ID extraction from TXT records with MD5 fallback for services without node_id
-  - Integration with DiscoveryEvent enum for node discovery lifecycle
-  - 70 tests passing in caret_distributed (46 lib + 16 integration + 8 TCP)
+  - `SerializableGraph`: Network-transmittable graph representation
+  - `GraphPartitioner`: Partitions graphs across worker nodes
+  - `PartitionStrategy`: RoundRobin, Contiguous, MinimizeCrossEdges, Manual
+  - Cross-node packet routing with node:port format
 - Previous graph serialization and partitioning work remains intact
 - Graph serialization for distributed transmission:
   - `SerializableGraph`: Network-transmittable graph representation
@@ -93,8 +102,8 @@ Implementing distributed graph execution with real Caret graphs
   - Builder pattern for configuration
 - Worker registration and assignment logic
 - Graph execution state management
-- Integration tests covering all major components (16 tests passing)
-- 43 total tests passing in caret_distributed
+- Integration tests covering all major components (18 tests passing)
+- 72 total tests passing in caret_distributed (46 lib + 18 integration + 8 TCP)
 
 ### Milestone 20: Performance optimization and profiling - COMPLETE
 - Executor tick performance optimizations:
@@ -133,7 +142,7 @@ Implementing distributed graph execution with real Caret graphs
 - Complete governance documentation and repo structure
 
 ## Next objectives
-1. Milestone 22: Continue distributed graph execution with real Caret graphs
+1. Milestone 22: Continue distributed graph execution - implement custom node processors with proper port definitions
 2. Add TLS support for secure transport
 3. Add distributed system benchmarks
 
@@ -143,7 +152,7 @@ Implementing distributed graph execution with real Caret graphs
 
 ## Quality gates status
 - Build: Passing
-- Tests: 70 tests passing in caret_distributed (46 lib + 16 integration + 8 TCP networking)
+- Tests: 72 tests passing in caret_distributed (46 lib + 18 integration + 8 TCP networking)
 - Docs: Core APIs documented
 - Lint: Passes (some warnings for missing docs on internal items)
 - Format: Passing
