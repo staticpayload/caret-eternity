@@ -33,7 +33,7 @@ Implementing TLS support for secure transport
   - Milestone 22: Distributed graph execution with real Caret graphs - COMPLETE
 
 ## Next objectives
-1. Complete TlsTransport async implementation (simplify async move blocks)
+1. Complete TlsTransport async implementation (fix async move compilation issues)
 2. Add TLS transport tests
 3. Add distributed system benchmarks
 
