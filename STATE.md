@@ -1,6 +1,6 @@
 # Caret State
 
-**Last updated:** 2025-01-09T17:00:00Z
+**Last updated:** 2025-01-09T18:00:00Z
 
 ## Current milestone
 Milestone 22: Distributed graph execution with real Caret graphs - IN PROGRESS
@@ -10,20 +10,25 @@ Implementing distributed graph execution with real Caret graphs
 
 ## Done since last update
 ### Milestone 22: Distributed graph execution with real Caret graphs (IN PROGRESS)
-- **NEW: Node factory with proper port definitions:**
+- **NEW: Packet flow through output ports:**
+  - Extended `ProcessingContext` to include output ports map
+  - Added `send()` method to ProcessingContext for outputting packets
+  - Added `output_map()` method to PortSet for accessing all output ports
+  - Modified executor tick loop to create ProcessingContext with output ports
+  - Updated TransformNode and GenericNode to send packets to all output ports
+  - Implemented automatic packet forwarding to connected input ports
+  - All 75 tests passing in caret_distributed (49 lib + 18 integration + 8 TCP)
+  - All 42 tests passing in caret_sched
+- Previous node factory with proper port definitions:
   - Created `NodeFactory` for deserializing `SerializableNode` into processors
   - Implemented `SourceNode`: Generates data with output ports only
   - Implemented `TransformNode`: Processes data with input and output ports
   - Implemented `SinkNode`: Consumes data with input ports only
   - Implemented `GenericNode`: Passthrough for custom node types
   - Updated `PartitionAssign` message to include full graph definition
-  - Modified `setup_local_partition()` to:
-    - Use NodeFactory to create appropriate processors
-    - Add input/output ports based on SerializableNode definitions
-    - Connect internal edges with proper port names
+  - Modified `setup_local_partition()` to use NodeFactory and add proper ports
   - Added `nodes()` method to `SerializableGraph` for iteration
-  - 75 tests passing in caret_distributed (49 lib + 18 integration + 8 TCP)
-- Previous local executor integration work remains intact:
+- Previous local executor integration work:
   - `local_executor` and `local_node_mapping` fields in `DistributedExecutor`
   - `route_packet_to_local_node()`: Delivers packets from remote nodes to local nodes
   - `inject_packet()` method in `caret_sched::Executor` for external packet delivery
@@ -149,7 +154,7 @@ Implementing distributed graph execution with real Caret graphs
 - Complete governance documentation and repo structure
 
 ## Next objectives
-1. Milestone 22: Continue distributed graph execution - implement actual packet flow between nodes
+1. Milestone 22: Continue distributed graph execution - add executor tick loop invocation
 2. Add TLS support for secure transport
 3. Add distributed system benchmarks
 
