@@ -310,11 +310,18 @@ impl Executor {
             inst.state = NodeState::Running;
             nodes_run += 1;
 
+            // Clone output ports for the processing context
+            let output_ports = inst.ports.output_map();
+
             // Process packets from each input port using cached names
             for port_name in &input_names {
                 if let Some(port) = inst.ports.input(port_name) {
                     while let Some(packet) = port.try_recv() {
-                        let ctx = crate::node::ProcessingContext::new(inst.id, current_tick);
+                        let ctx = crate::node::ProcessingContext::new(
+                            inst.id,
+                            current_tick,
+                            output_ports.clone(),
+                        );
                         match inst.processor.process(&ctx, packet, port_name) {
                             Ok(result) => match result {
                                 crate::node::ProcessingResult::Done => {

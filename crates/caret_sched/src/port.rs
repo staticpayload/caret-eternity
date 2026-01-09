@@ -211,6 +211,11 @@ impl PortSet {
     pub fn output_count(&self) -> usize {
         self.outputs.lock().len()
     }
+
+    /// Get all output ports as a map
+    pub fn output_map(&self) -> std::collections::HashMap<String, OutputPort> {
+        self.outputs.lock().clone()
+    }
 }
 
 #[cfg(test)]

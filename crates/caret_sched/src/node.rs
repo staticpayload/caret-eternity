@@ -92,12 +92,34 @@ pub struct ProcessingContext {
     pub node_id: NodeId,
     /// Current tick number
     pub tick: u64,
+    /// Output ports for sending packets
+    pub outputs: std::collections::HashMap<String, crate::port::OutputPort>,
 }
 
 impl ProcessingContext {
     /// Create a new processing context
-    pub fn new(node_id: NodeId, tick: u64) -> Self {
-        Self { node_id, tick }
+    pub fn new(
+        node_id: NodeId,
+        tick: u64,
+        outputs: std::collections::HashMap<String, crate::port::OutputPort>,
+    ) -> Self {
+        Self {
+            node_id,
+            tick,
+            outputs,
+        }
+    }
+
+    /// Send a packet to an output port
+    pub fn send(&self, port_name: &str, packet: Packet) -> Result<()> {
+        if let Some(output) = self.outputs.get(port_name) {
+            output.send(packet)
+        } else {
+            Err(caret_core::Error::graph(format!(
+                "Output port '{}' not found",
+                port_name
+            )))
+        }
     }
 }
 
@@ -196,7 +218,7 @@ mod tests {
     #[test]
     fn test_processing_context() {
         let node_id = NodeId::new(1);
-        let ctx = ProcessingContext::new(node_id, 100);
+        let ctx = ProcessingContext::new(node_id, 100, std::collections::HashMap::new());
         assert_eq!(ctx.node_id, node_id);
         assert_eq!(ctx.tick, 100);
     }
@@ -206,7 +228,7 @@ mod tests {
         let mut node = PassthroughNode::new("test");
         assert_eq!(node.name(), "test");
 
-        let ctx = ProcessingContext::new(NodeId::new(1), 1);
+        let ctx = ProcessingContext::new(NodeId::new(1), 1, std::collections::HashMap::new());
         let packet = Packet::bytes(&[][..]);
         let result = node.process(&ctx, packet, "input");
         assert!(result.is_ok());

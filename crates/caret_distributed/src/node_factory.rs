@@ -98,19 +98,22 @@ impl TransformNode {
 impl NodeProcessor for TransformNode {
     fn process(
         &mut self,
-        _ctx: &ProcessingContext,
+        ctx: &ProcessingContext,
         packet: Packet,
         _port: &str,
     ) -> Result<ProcessingResult> {
-        // For now, just process the packet and continue
-        // In a real implementation, this would transform the data
+        // For now, just pass through the packet to all output ports
         tracing::trace!(
             "Transform node {} processing packet ({} bytes)",
             self.name,
             packet.len()
         );
 
-        // The executor handles sending to output ports automatically
+        // Send the packet to all output ports
+        for (port_name, _output) in &ctx.outputs {
+            ctx.send(port_name, packet.clone())?;
+        }
+
         Ok(ProcessingResult::Continue)
     }
 
@@ -191,17 +194,22 @@ impl GenericNode {
 impl NodeProcessor for GenericNode {
     fn process(
         &mut self,
-        _ctx: &ProcessingContext,
+        ctx: &ProcessingContext,
         packet: Packet,
         _port: &str,
     ) -> Result<ProcessingResult> {
-        // Passthrough behavior
+        // Passthrough behavior - send to all output ports
         tracing::trace!(
             "Generic node {} ({}) passing through packet ({} bytes)",
             self.name,
             self.type_name,
             packet.len()
         );
+
+        // Send the packet to all output ports
+        for (port_name, _output) in &ctx.outputs {
+            ctx.send(port_name, packet.clone())?;
+        }
 
         Ok(ProcessingResult::Continue)
     }
