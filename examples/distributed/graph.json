@@ -1,0 +1,76 @@
+{
+  "name": "Distributed Graph",
+  "description": "A graph designed for distributed execution across multiple workers",
+  "partitioning": {
+    "strategy": "round_robin",
+    "workers": 3
+  },
+  "nodes": [
+    {
+      "id": "source",
+      "type": "generator",
+      "config": {
+        "interval_ms": 100,
+        "min": 1,
+        "max": 100,
+        "count": 100
+      }
+    },
+    {
+      "id": "worker_1",
+      "type": "map",
+      "config": {
+        "expression": "x + 10"
+      }
+    },
+    {
+      "id": "worker_2",
+      "type": "map",
+      "config": {
+        "expression": "x * 2"
+      }
+    },
+    {
+      "id": "worker_3",
+      "type": "filter",
+      "config": {
+        "predicate": "x > 50"
+      }
+    },
+    {
+      "id": "aggregate",
+      "type": "aggregate",
+      "config": {
+        "function": "count",
+        "window": "tumbling(1s)"
+      }
+    },
+    {
+      "id": "output",
+      "type": "console",
+      "config": {}
+    }
+  ],
+  "edges": [
+    {
+      "from": "source",
+      "to": "worker_1"
+    },
+    {
+      "from": "worker_1",
+      "to": "worker_2"
+    },
+    {
+      "from": "worker_2",
+      "to": "worker_3"
+    },
+    {
+      "from": "worker_3",
+      "to": "aggregate"
+    },
+    {
+      "from": "aggregate",
+      "to": "output"
+    }
+  ]
+}

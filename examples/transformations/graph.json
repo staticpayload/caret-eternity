@@ -1,0 +1,59 @@
+{
+  "name": "Transformations",
+  "description": "Demonstrates various data transformation operations",
+  "nodes": [
+    {
+      "id": "source",
+      "type": "sequence",
+      "config": {
+        "start": 1,
+        "end": 10,
+        "step": 1
+      }
+    },
+    {
+      "id": "double",
+      "type": "map",
+      "config": {
+        "expression": "x * 2"
+      }
+    },
+    {
+      "id": "filter_gt_10",
+      "type": "filter",
+      "config": {
+        "predicate": "x > 10"
+      }
+    },
+    {
+      "id": "add_original",
+      "type": "map",
+      "config": {
+        "expression": "x + (x / 2)"
+      }
+    },
+    {
+      "id": "output",
+      "type": "console",
+      "config": {}
+    }
+  ],
+  "edges": [
+    {
+      "from": "source",
+      "to": "double"
+    },
+    {
+      "from": "double",
+      "to": "filter_gt_10"
+    },
+    {
+      "from": "filter_gt_10",
+      "to": "add_original"
+    },
+    {
+      "from": "add_original",
+      "to": "output"
+    }
+  ]
+}

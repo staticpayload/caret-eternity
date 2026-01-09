@@ -40,3 +40,33 @@ logs/
 .env
 .env.local
 .env.*.local
+
+# Generated files
+schema/
+flamegraph.svg
+*.flamegraph.csv
+target/coverage/
+
+# Release artifacts
+release-*/
+*.tar.gz
+*.zip
+SHA256SUMS
+
+# Profiling
+perf.data
+perf.data.old
+heaptrack.*
+
+# Python bindings
+bindings/python/build/
+bindings/python/dist/
+*.egg-info/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Node.js bindings
+bindings/node/build/
+bindings/node/node_modules/
+bindings/npm/

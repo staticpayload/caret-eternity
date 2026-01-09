@@ -1,0 +1,75 @@
+{
+  "name": "Tumbling Window Aggregation",
+  "description": "Aggregates values in 1-second tumbling windows",
+  "nodes": [
+    {
+      "id": "source",
+      "type": "generator",
+      "config": {
+        "interval_ms": 100,
+        "min": 1,
+        "max": 100
+      }
+    },
+    {
+      "id": "sum",
+      "type": "aggregate",
+      "config": {
+        "function": "sum",
+        "window": "tumbling(1s)",
+        "emit": "each"
+      }
+    },
+    {
+      "id": "count",
+      "type": "aggregate",
+      "config": {
+        "function": "count",
+        "window": "tumbling(1s)",
+        "emit": "each"
+      }
+    },
+    {
+      "id": "average",
+      "type": "aggregate",
+      "config": {
+        "function": "avg",
+        "window": "tumbling(1s)",
+        "emit": "each"
+      }
+    },
+    {
+      "id": "output",
+      "type": "console",
+      "config": {
+        "format": "json"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "source",
+      "to": "sum"
+    },
+    {
+      "from": "source",
+      "to": "count"
+    },
+    {
+      "from": "source",
+      "to": "average"
+    },
+    {
+      "from": "sum",
+      "to": "output"
+    },
+    {
+      "from": "count",
+      "to": "output"
+    },
+    {
+      "from": "average",
+      "to": "output"
+    }
+  ]
+}

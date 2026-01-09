@@ -1,0 +1,38 @@
+{
+  "name": "Custom Node Example",
+  "description": "Graph using a custom moving average node",
+  "nodes": [
+    {
+      "id": "source",
+      "type": "generator",
+      "config": {
+        "interval_ms": 100,
+        "values": [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+      }
+    },
+    {
+      "id": "moving_avg",
+      "type": "moving_average",
+      "config": {
+        "window_size": 5
+      }
+    },
+    {
+      "id": "output",
+      "type": "console",
+      "config": {
+        "prefix": "MA(5): "
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "source",
+      "to": "moving_avg"
+    },
+    {
+      "from": "moving_avg",
+      "to": "output"
+    }
+  ]
+}

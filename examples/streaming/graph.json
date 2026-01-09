@@ -1,0 +1,101 @@
+{
+  "name": "Streaming Pipeline",
+  "description": "Continuous stream processing example",
+  "nodes": [
+    {
+      "id": "source",
+      "type": "generator",
+      "config": {
+        "interval_ms": 100,
+        "min": 1,
+        "max": 100
+      }
+    },
+    {
+      "id": "normalize",
+      "type": "map",
+      "config": {
+        "expression": "x / 100.0"
+      }
+    },
+    {
+      "id": "classify",
+      "type": "router",
+      "config": {
+        "routes": [
+          {
+            "predicate": "x < 0.33",
+            "output": "low"
+          },
+          {
+            "predicate": "x < 0.66",
+            "output": "medium"
+          },
+          {
+            "predicate": "true",
+            "output": "high"
+          }
+        ]
+      }
+    },
+    {
+      "id": "counter_low",
+      "type": "counter",
+      "config": {}
+    },
+    {
+      "id": "counter_medium",
+      "type": "counter",
+      "config": {}
+    },
+    {
+      "id": "counter_high",
+      "type": "counter",
+      "config": {}
+    },
+    {
+      "id": "output",
+      "type": "console",
+      "config": {
+        "format": "json"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "source",
+      "to": "normalize"
+    },
+    {
+      "from": "normalize",
+      "to": "classify"
+    },
+    {
+      "from": "classify",
+      "from_port": "low",
+      "to": "counter_low"
+    },
+    {
+      "from": "classify",
+      "from_port": "medium",
+      "to": "counter_medium"
+    },
+    {
+      "from": "classify",
+      "from_port": "high",
+      "to": "counter_high"
+    },
+    {
+      "from": "counter_low",
+      "to": "output"
+    },
+    {
+      "from": "counter_medium",
+      "to": "output"
+    },
+    {
+      "from": "counter_high",
+      "to": "output"
+    }
+  ]
+}

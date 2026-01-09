@@ -1,0 +1,41 @@
+{
+  "name": "Sliding Window Aggregation",
+  "description": "Aggregates values in sliding windows",
+  "nodes": [
+    {
+      "id": "source",
+      "type": "generator",
+      "config": {
+        "interval_ms": 100,
+        "min": 1,
+        "max": 50
+      }
+    },
+    {
+      "id": "sliding_sum",
+      "type": "aggregate",
+      "config": {
+        "function": "sum",
+        "window": "sliding(2s, 500ms)",
+        "emit": "each"
+      }
+    },
+    {
+      "id": "output",
+      "type": "console",
+      "config": {
+        "prefix": "Sliding Sum: "
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "source",
+      "to": "sliding_sum"
+    },
+    {
+      "from": "sliding_sum",
+      "to": "output"
+    }
+  ]
+}

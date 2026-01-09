@@ -1,0 +1,50 @@
+{
+  "name": "Simple Graph",
+  "description": "A basic pipeline demonstrating sequence, map, filter, and console",
+  "nodes": [
+    {
+      "id": "source",
+      "type": "sequence",
+      "config": {
+        "start": 1,
+        "end": 5,
+        "step": 1
+      }
+    },
+    {
+      "id": "double",
+      "type": "map",
+      "config": {
+        "expression": "x * 2"
+      }
+    },
+    {
+      "id": "filter_gt_five",
+      "type": "filter",
+      "config": {
+        "predicate": "x > 5"
+      }
+    },
+    {
+      "id": "output",
+      "type": "console",
+      "config": {
+        "prefix": "Result: "
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "source",
+      "to": "double"
+    },
+    {
+      "from": "double",
+      "to": "filter_gt_five"
+    },
+    {
+      "from": "filter_gt_five",
+      "to": "output"
+    }
+  ]
+}
