@@ -1,6 +1,6 @@
 # Caret State
 
-**Last updated:** 2025-01-09T15:30:00Z
+**Last updated:** 2025-01-09T17:00:00Z
 
 ## Current milestone
 Milestone 22: Distributed graph execution with real Caret graphs - IN PROGRESS
@@ -10,17 +10,24 @@ Implementing distributed graph execution with real Caret graphs
 
 ## Done since last update
 ### Milestone 22: Distributed graph execution with real Caret graphs (IN PROGRESS)
-- **NEW: Local executor integration for partition execution:**
-  - Added `local_executor` and `local_node_mapping` fields to `DistributedExecutor`
-  - Implemented `setup_local_partition()`: Creates local node instances when partitions are received
-  - Implemented `route_packet_to_local_node()`: Delivers packets from remote nodes to local nodes
-  - Replaced TODO comments with actual partition execution logic
-  - 72 tests passing in caret_distributed (46 lib + 18 integration + 8 TCP)
-  - Added end-to-end integration tests for partition setup and packet routing
-- **NEW: caret_sched enhancements for external packet injection:**
-  - Added `inject_packet()` method to `caret_sched::Executor` for external packet delivery
-  - Added `push()` method to `caret_sched::InputPort` for direct packet injection
-  - Enables distributed execution to inject packets from remote nodes
+- **NEW: Node factory with proper port definitions:**
+  - Created `NodeFactory` for deserializing `SerializableNode` into processors
+  - Implemented `SourceNode`: Generates data with output ports only
+  - Implemented `TransformNode`: Processes data with input and output ports
+  - Implemented `SinkNode`: Consumes data with input ports only
+  - Implemented `GenericNode`: Passthrough for custom node types
+  - Updated `PartitionAssign` message to include full graph definition
+  - Modified `setup_local_partition()` to:
+    - Use NodeFactory to create appropriate processors
+    - Add input/output ports based on SerializableNode definitions
+    - Connect internal edges with proper port names
+  - Added `nodes()` method to `SerializableGraph` for iteration
+  - 75 tests passing in caret_distributed (49 lib + 18 integration + 8 TCP)
+- Previous local executor integration work remains intact:
+  - `local_executor` and `local_node_mapping` fields in `DistributedExecutor`
+  - `route_packet_to_local_node()`: Delivers packets from remote nodes to local nodes
+  - `inject_packet()` method in `caret_sched::Executor` for external packet delivery
+  - `push()` method in `caret_sched::InputPort` for direct packet injection
 - Previous mDNS, graph serialization, and partitioning work remains intact:
   - `MdnsDiscovery`: Real mDNS service discovery with ServiceDaemon
   - `SerializableGraph`: Network-transmittable graph representation
@@ -142,7 +149,7 @@ Implementing distributed graph execution with real Caret graphs
 - Complete governance documentation and repo structure
 
 ## Next objectives
-1. Milestone 22: Continue distributed graph execution - implement custom node processors with proper port definitions
+1. Milestone 22: Continue distributed graph execution - implement actual packet flow between nodes
 2. Add TLS support for secure transport
 3. Add distributed system benchmarks
 
@@ -152,7 +159,7 @@ Implementing distributed graph execution with real Caret graphs
 
 ## Quality gates status
 - Build: Passing
-- Tests: 72 tests passing in caret_distributed (46 lib + 18 integration + 8 TCP networking)
+- Tests: 75 tests passing in caret_distributed (49 lib + 18 integration + 8 TCP networking)
 - Docs: Core APIs documented
 - Lint: Passes (some warnings for missing docs on internal items)
 - Format: Passing
