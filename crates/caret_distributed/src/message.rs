@@ -195,6 +195,8 @@ pub enum MessagePayload {
     PartitionAssign {
         /// Graph ID
         graph_id: String,
+        /// Graph definition (serialized)
+        graph: Vec<u8>,
         /// Partition assignment (serialized)
         partition: Vec<u8>,
         /// Partition routes (serialized)

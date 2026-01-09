@@ -158,6 +158,11 @@ impl SerializableGraph {
         self.nodes.iter().find(|n| n.id == id)
     }
 
+    /// Get all nodes
+    pub fn nodes(&self) -> &[SerializableNode] {
+        &self.nodes
+    }
+
     /// Get edges from a node
     pub fn edges_from(&self, node_id: u64) -> Vec<&SerializableEdge> {
         self.edges

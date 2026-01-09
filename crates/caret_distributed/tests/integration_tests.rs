@@ -331,7 +331,7 @@ fn test_distributed_partition_setup() {
     };
 
     // Setup the local partition
-    let result = executor.setup_local_partition(&partition, "test-graph");
+    let result = executor.setup_local_partition(&serializable, &partition, "test-graph");
 
     if let Err(e) = &result {
         eprintln!("Partition setup failed: {}", e);
@@ -346,10 +346,26 @@ fn test_distributed_partition_setup() {
 
 #[test]
 fn test_distributed_packet_routing() {
-    use caret_distributed::GraphPartition;
+    use caret_distributed::{GraphPartition, SerializableGraph, SerializableNode, SerializablePort, PortDirection, NodeType};
 
     // Create a distributed executor
     let executor = DistributedExecutor::new(ExecutorConfig::default());
+
+    // Create a simple graph with one node
+    let mut graph = SerializableGraph::new("test-graph");
+    graph.add_node(SerializableNode {
+        id: 1,
+        name: "test_sink".to_string(),
+        node_type: NodeType::Sink,
+        inputs: vec![
+            SerializablePort {
+                name: "input".to_string(),
+                id: 1,
+                direction: PortDirection::In,
+            }
+        ],
+        outputs: vec![],
+    });
 
     // Create a simple partition with one node
     let partition = GraphPartition {
@@ -361,14 +377,13 @@ fn test_distributed_packet_routing() {
     };
 
     // Setup the local partition
-    executor.setup_local_partition(&partition, "test-graph").unwrap();
+    executor.setup_local_partition(&graph, &partition, "test-graph").unwrap();
 
     // Route a packet to the local node
-    // Note: This will fail because PassthroughNode doesn't create ports,
-    // but it tests the routing logic
+    // Note: This should now work because SinkNode creates the input port
     let packet_data = vec![0x01, 0x02, 0x03, 0x04];
     let result = executor.route_packet_to_local_node("1:input", &packet_data);
 
-    // We expect this to fail with "Input port 'input' not found"
-    assert!(result.is_err(), "Packet routing should fail because PassthroughNode has no ports");
+    // We expect this to succeed because SinkNode has an "input" port
+    assert!(result.is_ok(), "Packet routing should succeed because SinkNode has an input port");
 }

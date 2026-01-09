@@ -26,6 +26,7 @@ mod error;
 mod executor;
 mod mdns;
 mod graph_proto;
+mod node_factory;
 
 pub use codec::{FrameCodec, FrameDecoder, FRAME_HEADER_SIZE, FRAME_MAGIC, FRAME_VERSION};
 pub use error::{Error, Result};
@@ -39,7 +40,7 @@ pub use mdns::{MdnsDiscovery, MdnsDiscoveryConfig, CARET_SERVICE_TYPE};
 pub use graph_proto::{
     CrossNodeRoute, CrossPartitionEdge, GraphPartition, GraphPartitioner, NodeType as GraphNodeType,
     PartitionAssignment, PartitionError, PartitionStrategy, PortDirection, SerializableEdge,
-    SerializableGraph, SerializableNode,
+    SerializableGraph, SerializableNode, SerializablePort, NodeType,
 };
 
 /// Version of the distributed protocol

@@ -8,9 +8,9 @@
 use crate::{
     codec::FrameCodec, coordinator::Coordinator, error::Result, graph_proto::*,
     message::*, node::NodeId, transport::{Transport, TransportConfig, TransportEvent},
-    Error, Message,
+    Error, Message, node_factory::NodeFactory,
 };
-use caret_sched::{Executor as LocalExecutor, ExecutorConfig as LocalExecutorConfig, NodeProcessor, PassthroughNode, ProcessingContext, ProcessingResult};
+use caret_sched::{Executor as LocalExecutor, ExecutorConfig as LocalExecutorConfig};
 use parking_lot::Mutex;
 use std::collections::HashMap;
 use std::net::SocketAddr;
@@ -268,6 +268,10 @@ impl DistributedExecutor {
                 };
 
                 if let Some(addr) = addr {
+                    // Serialize the graph
+                    let graph_bytes = serde_json::to_vec(&serializable)
+                        .map_err(|e| Error::Serialization(format!("Failed to serialize graph: {}", e)))?;
+
                     // Serialize the partition
                     let partition_bytes = serde_json::to_vec(partition)
                         .map_err(|e| Error::Serialization(format!("Failed to serialize partition: {}", e)))?;
@@ -281,6 +285,7 @@ impl DistributedExecutor {
                         Some(*worker_id),
                         MessagePayload::PartitionAssign {
                             graph_id: graph_id.clone(),
+                            graph: graph_bytes,
                             partition: partition_bytes,
                             routes: routes_bytes,
                         },
@@ -638,6 +643,7 @@ impl DistributedExecutor {
 
             MessagePayload::PartitionAssign {
                 ref graph_id,
+                ref graph,
                 ref partition,
                 ref routes,
             } => {
@@ -646,6 +652,15 @@ impl DistributedExecutor {
                     graph_id,
                     partition.len()
                 );
+
+                // Deserialize the graph
+                let serializable_graph: SerializableGraph = match serde_json::from_slice(graph) {
+                    Ok(g) => g,
+                    Err(e) => {
+                        tracing::error!("Failed to deserialize graph: {}", e);
+                        return Err(Error::Serialization(format!("Invalid graph: {}", e)));
+                    }
+                };
 
                 // Deserialize the partition
                 let graph_partition: GraphPartition = match serde_json::from_slice(partition) {
@@ -682,7 +697,7 @@ impl DistributedExecutor {
                 );
 
                 // Create local node instances for the assigned partition
-                if let Err(e) = self.setup_local_partition(&graph_partition, &graph_id) {
+                if let Err(e) = self.setup_local_partition(&serializable_graph, &graph_partition, &graph_id) {
                     tracing::error!("Failed to setup local partition: {}", e);
                     return Err(e);
                 }
@@ -772,31 +787,68 @@ impl DistributedExecutor {
     ///
     /// This method creates node instances in the local executor for all nodes
     /// assigned to this worker in the partition.
-    pub fn setup_local_partition(&self, partition: &GraphPartition, graph_id: &str) -> Result<()> {
+    pub fn setup_local_partition(
+        &self,
+        graph: &SerializableGraph,
+        partition: &GraphPartition,
+        graph_id: &str,
+    ) -> Result<()> {
         let mut local_executor = self.local_executor.lock();
         let mut mapping = self.local_node_mapping.lock();
 
         // Clear previous mappings for this graph
         mapping.retain(|key, _| !key.starts_with(&format!("{}:", graph_id)));
 
-        // Create a passthrough node processor for each node in the partition
+        // Create a map of node_id -> SerializableNode for quick lookup
+        let node_map: std::collections::HashMap<u64, &SerializableNode> = graph
+            .nodes()
+            .iter()
+            .map(|node| (node.id, node))
+            .collect();
+
+        // Create node instances for each node in the partition
         for node_id in &partition.nodes {
-            // Create a simple passthrough processor with a descriptive name
-            let processor = Box::new(PassthroughNode::new(format!("node_{}", node_id)));
+            // Get the node definition from the graph
+            let serializable_node = node_map.get(node_id)
+                .ok_or_else(|| Error::Execution(format!("Node {} not found in graph", node_id)))?;
+
+            // Create a processor using the node factory
+            let processor = NodeFactory::create_processor(serializable_node)
+                .map_err(|e| Error::Execution(format!("Failed to create processor for node {}: {}", node_id, e)))?;
 
             // Add the node to the local executor
             let local_node_id = local_executor
                 .add_node(*node_id, processor)
                 .map_err(|e| Error::Execution(format!("Failed to add node {}: {}", node_id, e)))?;
 
+            // Get the node instance to add ports
+            let node_instance = local_executor.node(local_node_id)
+                .ok_or_else(|| Error::Execution(format!("Failed to get node instance {}", local_node_id.as_u64())))?;
+            let mut node_instance = node_instance.lock();
+
+            // Add input ports
+            for (port_name, capacity) in NodeFactory::get_input_ports(serializable_node) {
+                node_instance.ports.add_input(&port_name, capacity)
+                    .map_err(|e| Error::Execution(format!("Failed to add input port {}: {}", port_name, e)))?;
+            }
+
+            // Add output ports
+            for port_name in NodeFactory::get_output_ports(serializable_node) {
+                node_instance.ports.add_output(&port_name)
+                    .map_err(|e| Error::Execution(format!("Failed to add output port {}: {}", port_name, e)))?;
+            }
+
             // Store the mapping
             let key = format!("{}:{}", graph_id, node_id);
             mapping.insert(key, local_node_id);
 
             tracing::debug!(
-                "Created local node {} for graph node {}",
+                "Created local node {} for graph node {} ({}) with {} inputs, {} outputs",
                 local_node_id.as_u64(),
-                node_id
+                node_id,
+                serializable_node.name,
+                serializable_node.inputs.len(),
+                serializable_node.outputs.len()
             );
         }
 
