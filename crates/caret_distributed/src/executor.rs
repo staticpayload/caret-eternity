@@ -1505,4 +1505,136 @@ mod tests {
         // Stop the tick loop
         executor.stop_tick_loop();
     }
+
+    /// End-to-end test for distributed graph execution
+    ///
+    /// This test verifies that a complete graph can be submitted to a distributed
+    /// executor, partitioned, and executed with the tick loop.
+    #[test]
+    fn test_end_to_end_distributed_execution() {
+        use caret_graph::{Graph, Node};
+        use std::thread;
+        use std::time::Duration;
+
+        // Create a distributed executor
+        let executor = DistributedExecutor::new(ExecutorConfig::default());
+
+        // Register a worker for partitioning
+        let worker_id = NodeId::from_bytes([100; 16]);
+        executor.coordinator.register_worker(worker_id).unwrap();
+
+        // Set up connection for the worker
+        let worker_addr: SocketAddr = "127.0.0.1:9001".parse().unwrap();
+        executor.connections.lock().insert(
+            worker_id,
+            ConnectionState {
+                node_id: worker_id,
+                addr: worker_addr,
+                last_heartbeat: std::time::Instant::now(),
+                node_info: crate::NodeInfo::local(worker_addr).unwrap(),
+            },
+        );
+
+        // Create a simple Caret graph with 3 nodes: source -> transform -> sink
+        let mut graph = Graph::new();
+
+        let mut source = Node::source("source");
+        let mut transform = Node::transform("transform");
+        let mut sink = Node::sink("sink");
+
+        // Add output to source
+        let _ = source.add_output("output");
+
+        // Add input and output to transform
+        let _ = transform.add_input("input");
+        let _ = transform.add_output("output");
+
+        // Add input to sink
+        let _ = sink.add_input("input");
+
+        // Get node IDs before adding to graph
+        let source_id = source.id().as_u64();
+        let transform_id = transform.id().as_u64();
+        let sink_id = sink.id().as_u64();
+
+        // Add nodes to graph
+        let _ = graph.add_node(source);
+        let _ = graph.add_node(transform);
+        let _ = graph.add_node(sink);
+
+        // Connect nodes
+        let _ = graph.connect(source_id, "output", transform_id, "input");
+        let _ = graph.connect(transform_id, "output", sink_id, "input");
+
+        // Submit graph for distributed execution
+        let graph_id = "e2e-test-graph".to_string();
+        let result = executor.submit_caret_graph(
+            graph_id.clone(),
+            &graph,
+            crate::graph_proto::PartitionStrategy::RoundRobin,
+        );
+
+        assert!(result.is_ok(), "Graph submission should succeed");
+
+        // Verify graph is in the coordinator
+        assert_eq!(
+            executor.coordinator.graph_status(&graph_id),
+            Some(crate::coordinator::ExecutionStatus::Pending)
+        );
+
+        // Start tick loop (in real scenario, this would be started by `start()` with transport)
+        executor.start_tick_loop_sync();
+
+        // Start graph
+        executor.start_graph(&graph_id).unwrap();
+
+        // Verify graph is running
+        assert_eq!(
+            executor.coordinator.graph_status(&graph_id),
+            Some(crate::coordinator::ExecutionStatus::Running)
+        );
+
+        // Verify local executor is running
+        assert_eq!(
+            executor.local_executor.lock().runtime_state(),
+            caret_sched::RuntimeState::Running
+        );
+
+        // Verify graph is in the running set
+        assert!(
+            executor.running_graphs.lock().contains(&graph_id),
+            "Graph should be in running set"
+        );
+
+        // Let tick loop run for a bit
+        thread::sleep(Duration::from_millis(10));
+
+        // Verify local executor has been ticking
+        let tick_count = executor.local_executor.lock().tick();
+        assert!(tick_count > 0, "Executor should have ticked at least once");
+
+        // Stop graph
+        executor.stop_graph(&graph_id, false).unwrap();
+
+        // Verify graph is completed
+        assert_eq!(
+            executor.coordinator.graph_status(&graph_id),
+            Some(crate::coordinator::ExecutionStatus::Completed)
+        );
+
+        // Verify local executor is stopped (no more running graphs)
+        assert_eq!(
+            executor.local_executor.lock().runtime_state(),
+            caret_sched::RuntimeState::Stopped
+        );
+
+        // Verify graph is removed from the running set
+        assert!(
+            !executor.running_graphs.lock().contains(&graph_id),
+            "Graph should be removed from running set"
+        );
+
+        // Stop tick loop
+        executor.stop_tick_loop();
+    }
 }

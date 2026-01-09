@@ -389,7 +389,7 @@ fn test_distributed_packet_routing() {
         .unwrap();
 
     // Route a packet to the local node
-    // Note: This should now work because SinkNode creates the input port
+    // Note: This should now work because SinkNode creates an input port
     let packet_data = vec![0x01, 0x02, 0x03, 0x04];
     let result = executor.route_packet_to_local_node("1:input", &packet_data);
 
