@@ -26,3 +26,4 @@ hostname = "0.4"
 num_cpus.workspace = true
 async-trait = "0.1"
 mdns-sd = "0.11"
+md5 = "0.7"

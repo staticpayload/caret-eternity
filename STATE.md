@@ -10,6 +10,15 @@ Implementing distributed graph execution with real Caret graphs
 
 ## Done since last update
 ### Milestone 22: Distributed graph execution with real Caret graphs (IN PROGRESS)
+- Implemented actual mDNS functionality using mdns-sd crate:
+  - `MdnsDiscovery`: Real mDNS service discovery with ServiceDaemon
+  - Service broadcasting with TXT records containing node_id, version, capabilities
+  - Service browsing with proper event handling (ServiceFound, ServiceResolved, ServiceRemoved)
+  - Builder pattern for `MdnsDiscoveryConfig` with service name, port, and TXT record customization
+  - Proper node ID extraction from TXT records with MD5 fallback for services without node_id
+  - Integration with DiscoveryEvent enum for node discovery lifecycle
+  - 70 tests passing in caret_distributed (46 lib + 16 integration + 8 TCP)
+- Previous graph serialization and partitioning work remains intact
 - Graph serialization for distributed transmission:
   - `SerializableGraph`: Network-transmittable graph representation
   - `SerializableNode`: Node definition with ports and type
@@ -124,10 +133,9 @@ Implementing distributed graph execution with real Caret graphs
 - Complete governance documentation and repo structure
 
 ## Next objectives
-1. Milestone 22: Implement distributed graph execution with real Caret graphs
-2. Implement actual mDNS functionality (currently using simplified implementation)
-3. Add TLS support for secure transport
-4. Add distributed system benchmarks
+1. Milestone 22: Continue distributed graph execution with real Caret graphs
+2. Add TLS support for secure transport
+3. Add distributed system benchmarks
 
 ## Risks
 - Plugin system uses unsafe code for dynamic loading - needs audit
@@ -135,7 +143,7 @@ Implementing distributed graph execution with real Caret graphs
 
 ## Quality gates status
 - Build: Passing
-- Tests: 68 tests passing in caret_distributed (44 lib + 16 integration + 8 TCP networking)
+- Tests: 70 tests passing in caret_distributed (46 lib + 16 integration + 8 TCP networking)
 - Docs: Core APIs documented
 - Lint: Passes (some warnings for missing docs on internal items)
 - Format: Passing
