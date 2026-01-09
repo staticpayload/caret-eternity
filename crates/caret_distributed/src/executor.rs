@@ -36,6 +36,8 @@ pub struct ExecutorConfig {
     pub node_timeout: Duration,
     /// Coordinator configuration
     pub coordinator_config: crate::coordinator::CoordinatorConfig,
+    /// Transport configuration for TLS and other options
+    pub transport_config: crate::transport::TransportConfig,
 }
 
 impl Default for ExecutorConfig {
@@ -46,6 +48,7 @@ impl Default for ExecutorConfig {
             heartbeat_interval: Duration::from_secs(crate::DEFAULT_HEARTBEAT_INTERVAL_SECS),
             node_timeout: Duration::from_secs(crate::DEFAULT_NODE_TIMEOUT_SECS),
             coordinator_config: Default::default(),
+            transport_config: Default::default(),
         }
     }
 }
@@ -158,11 +161,7 @@ impl DistributedExecutor {
     pub async fn start_server(&mut self) -> Result<()> {
         use crate::transport::TcpTransport;
 
-        let transport_config = TransportConfig {
-            bind_addr: self.config.bind_addr,
-            max_message_size: self.config.max_message_size,
-            ..Default::default()
-        };
+        let transport_config = self.config.transport_config.clone();
 
         let transport = TcpTransport::bind(transport_config).await?;
         self.start(Box::new(transport)).await
@@ -172,11 +171,7 @@ impl DistributedExecutor {
     pub async fn connect(&mut self, addr: SocketAddr) -> Result<()> {
         use crate::transport::TcpTransport;
 
-        let transport_config = TransportConfig {
-            bind_addr: "0.0.0.0:0".parse().unwrap(),
-            max_message_size: self.config.max_message_size,
-            ..Default::default()
-        };
+        let transport_config = self.config.transport_config.clone();
 
         let transport = TcpTransport::connect(addr, transport_config).await?;
 

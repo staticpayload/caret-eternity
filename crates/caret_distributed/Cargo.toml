@@ -27,3 +27,6 @@ num_cpus.workspace = true
 async-trait = "0.1"
 mdns-sd = "0.11"
 md5 = "0.7"
+rustls = "0.23"
+rustls-pemfile = "1.0"
+pem = "3.0"

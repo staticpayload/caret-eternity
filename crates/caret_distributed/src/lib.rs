@@ -8,7 +8,7 @@
 //! Distributed execution support for Caret pipelines.
 //!
 //! This crate provides:
-//! - Network transport layer with TCP support
+//! - Network transport layer with TCP and TLS support
 //! - Node discovery and cluster management
 //! - Distributed graph execution coordination
 //! - Protocol messages for cluster communication
@@ -41,7 +41,9 @@ pub use graph_proto::{
 pub use mdns::{MdnsDiscovery, MdnsDiscoveryConfig, CARET_SERVICE_TYPE};
 pub use message::{Message, MessagePayload, MessageType};
 pub use node::{LocalNode, NodeId, NodeInfo, NodeState};
-pub use transport::{MemoryTransport, TcpTransport, Transport, TransportConfig, TransportEvent};
+pub use transport::{
+    MemoryTransport, TcpTransport, TlsTransport, Transport, TransportConfig, TransportEvent,
+};
 
 /// Version of the distributed protocol
 pub const PROTOCOL_VERSION: &str = "0.1.0";

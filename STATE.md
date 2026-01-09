@@ -1,6 +1,6 @@
 # Caret State
 
-**Last updated:** 2025-01-09T19:00:00Z
+**Last updated:** 2025-01-09T20:00:00Z
 
 ## Current milestone
 Milestone 23: TLS support for secure transport - IN PROGRESS
@@ -9,176 +9,33 @@ Milestone 23: TLS support for secure transport - IN PROGRESS
 Implementing TLS support for secure transport
 
 ## Done since last update
-### Milestone 22: Distributed graph execution with real Caret graphs (COMPLETE)
-- **Executor tick loop invocation:**
-  - Added `running_graphs` field to track active graphs
-  - Added `tick_interval` field for configurable tick frequency (default 1ms)
-  - Added `start_tick_loop()` method that spawns background async task
-  - Task continuously calls `tick_once()` on local executor while graphs are running
-  - Modified `start()` to call `start_tick_loop()` after transport initialization
-  - Updated `start_graph()` to add graph to running set and start local executor
-  - Updated `stop_graph()` to remove graph from running set and stop local executor if empty
-  - Updated `GraphStart` message handler to manage running graphs and local executor state
-  - Updated `GraphStop` message handler to manage running graphs and local executor state
-  - Added `start_tick_loop_sync()` for testing (sync thread-based tick loop)
-  - Added `stop_tick_loop()` for testing
-  - Added test `test_tick_loop_start_stop`: Verifies graph lifecycle with executor state
-  - Added test `test_executor_ticks_with_graphs`: Verifies tick loop runs and increments tick count
-- **End-to-end integration test:**
-  - Added `test_end_to_end_distributed_execution()` unit test
-  - Test verifies: graph creation, worker registration, graph submission,
-    partitioning, tick loop startup, graph lifecycle, executor state
-  - Test uses `start_tick_loop_sync()` for synchronous test execution
-  - Verifies tick loop runs and increments tick count
-  - Verifies running graphs are properly tracked
-  - Verifies local executor state transitions (Running -> Stopped)
+### Milestone 23: TLS support for secure transport (IN PROGRESS)
+- **TLS infrastructure:**
+  - Added rustls and related dependencies to Cargo.toml
+  - Added TLS configuration fields to TransportConfig
+  - Added `tls_server_config` and `tls_client_config` fields for TLS certificates
+  - Added `with_tls_server_config()` method for server TLS configuration
+  - Added `with_tls_client_config()` method for client TLS configuration
+  - Added `with_tls_server_pem()` method to configure TLS from PEM files
+  - Added `TlsTransport` struct for TLS-wrapped TCP transport
+  - Implemented `bind_tls()` method for TLS server mode
+  - Implemented `connect_tls()` method for TLS client mode
+  - Updated TransportConfig default to include TLS fields
+  - Updated module documentation to mention TLS support
+  - Exported TlsTransport from lib.rs
+- **ExecutorConfig integration:**
+  - Added `transport_config` field to ExecutorConfig
+  - Updated ExecutorConfig default to include transport_config
+  - Updated start_server() and connect() to use transport_config
+- Previous work remains intact:
   - All 78 tests passing in caret_distributed (52 lib + 18 integration + 8 TCP)
   - All 42 tests passing in caret_sched
-- Previous node factory with proper port definitions:
-- Previous node factory with proper port definitions:
-  - Created `NodeFactory` for deserializing `SerializableNode` into processors
-  - Implemented `SourceNode`: Generates data with output ports only
-  - Implemented `TransformNode`: Processes data with input and output ports
-  - Implemented `SinkNode`: Consumes data with input ports only
-  - Implemented `GenericNode`: Passthrough for custom node types
-  - Updated `PartitionAssign` message to include full graph definition
-  - Modified `setup_local_partition()` to use NodeFactory and add proper ports
-  - Added `nodes()` method to `SerializableGraph` for iteration
-- Previous packet flow through output ports:
-  - Extended `ProcessingContext` to include output ports map
-  - Added `send()` method to ProcessingContext for outputting packets
-  - Added `output_map()` method to PortSet for accessing all output ports
-  - Modified executor tick loop to create ProcessingContext with output ports
-  - Updated TransformNode and GenericNode to send packets to all output ports
-  - Implemented automatic packet forwarding to connected input ports
-- Previous local executor integration work:
-  - `local_executor` and `local_node_mapping` fields in `DistributedExecutor`
-  - `route_packet_to_local_node()`: Delivers packets from remote nodes to local nodes
-  - `inject_packet()` method in `caret_sched::Executor` for external packet delivery
-  - `push()` method in `caret_sched::InputPort` for direct packet injection
-- Previous mDNS, graph serialization, and partitioning work remains intact:
-  - `MdnsDiscovery`: Real mDNS service discovery with ServiceDaemon
-  - `SerializableGraph`: Network-transmittable graph representation
-  - `GraphPartitioner`: Partitions graphs across worker nodes
-  - `PartitionStrategy`: RoundRobin, Contiguous, MinimizeCrossEdges, Manual
-  - Cross-node packet routing with node:port format
-- Previous graph serialization and partitioning work remains intact
-- Graph serialization for distributed transmission:
-  - `SerializableGraph`: Network-transmittable graph representation
-  - `SerializableNode`: Node definition with ports and type
-  - `SerializableEdge`: Connection between node ports
-  - JSON and binary serialization via serde
-- Graph partitioning for multi-worker execution:
-  - `GraphPartitioner`: Partitions graphs across worker nodes
-  - `PartitionStrategy`: RoundRobin, Contiguous, MinimizeCrossEdges, Manual
-  - `PartitionAssignment`: Complete partition with cross-node routes
-  - `GraphPartition`: Per-worker node and edge assignment with helper methods
-  - `CrossPartitionEdge`: Edge crossing partition boundaries
-  - `CrossNodeRoute`: Route for cross-node packet delivery
-- Integration with caret_graph:
-  - `SerializableGraph::from_caret_graph()`: Convert from caret_graph Graph
-  - Preserves nodes, edges, ports, and topological order
-  - Port name resolution for proper routing
-- DistributedExecutor enhancements:
-  - `submit_caret_graph()`: Submit Caret graph for distributed execution
-  - `setup_routes_from_partition()`: Configure routing from partition assignment
-  - `get_routes()`: Query configured routes
-  - Enhanced cross-node packet routing with node:port format
-- Protocol message types:
-  - `PartitionAssign`: Message type for assigning partitions to workers
-  - `Message::is_from()`: Helper to check message source
-  - Worker-side partition deserialization and route setup
-- GraphPartition helper methods:
-  - `node_ids()`: Get list of local node IDs
-  - `node_count()`: Get number of nodes in partition
-  - `internal_edge_count()`, `input_edge_count()`, `output_edge_count()`
-- Test fixes:
-  - Fixed deadlock in `test_distributed_execution_integration` by releasing graphs lock
-  - Fixed async coordinator tests by awaiting `start()` futures
-- TCP networking integration tests:
-  - Export `TcpTransport` and `MemoryTransport` from lib.rs
-  - 8 new TCP networking integration tests:
-    - `tcp_transport_bind_connect`: Basic bind and connect
-    - `tcp_transport_send`: Message sending over TCP
-    - `tcp_distributed_executor_handshake`: Coordinator-worker handshake
-    - `tcp_worker_registration`: Worker registration flow
-    - `tcp_graph_submission`: Graph lifecycle over TCP
-    - `tcp_broadcast`: Broadcast functionality
-    - `tcp_connection_error_handling`: Connection refused errors
-    - `tcp_transport_lifecycle`: Start/stop/restart transport
-  - 68 tests passing in caret_distributed (44 lib + 16 integration + 8 TCP)
-
-### Milestone 21: Distributed execution support - COMPLETE
-- Created `caret_distributed` crate with:
-  - Transport layer abstraction (`Transport`, `MemoryTransport` for testing, `TcpTransport` for real networking)
-  - Message framing codec (`FrameCodec`, `FrameDecoder`) with CARET magic bytes
-  - Protocol messages (`Message`, `MessagePayload`, `MessageType`)
-  - Node types (`NodeId`, `NodeInfo`, `NodeState`, `LocalNode`)
-  - Discovery service (`Discovery`, `DiscoveryConfig`, `DiscoveryEvent`)
-  - Coordinator for distributed execution (`Coordinator`, `ExecutionMode`)
-  - DistributedExecutor for runtime execution
-  - Error types specific to distributed operations
-- TCP transport implementation:
-  - Server mode with `TcpTransport::bind()` for accepting connections
-  - Client mode with `TcpTransport::connect()` for outbound connections
-  - Per-connection read/write tasks using tokio async primitives
-  - Proper frame-based message encoding/decoding with checksums
-- Distributed executor implementation:
-  - `DistributedExecutor`: Main runtime connecting coordinator and transport
-  - Graph lifecycle: submit, start, stop operations
-  - Worker management with Hello handshake and heartbeat monitoring
-  - Packet routing for cross-node data transfer
-  - Event loop for transport events and message handling
-- Transport configuration with customizable buffers and message sizes
-- Node discovery with support for static and multicast modes
-- mDNS-based service discovery (`MdnsDiscovery`, `MdnsDiscoveryConfig`)
-  - Service type `_caret._tcp.local.` for Caret node discovery
-  - Node lifecycle tracking with discovery events
-  - Builder pattern for configuration
-- Worker registration and assignment logic
-- Graph execution state management
-- Integration tests covering all major components (18 tests passing)
-- 72 total tests passing in caret_distributed (46 lib + 18 integration + 8 TCP)
-
-### Milestone 20: Performance optimization and profiling - COMPLETE
-- Executor tick performance optimizations:
-  - Added cached node IDs to avoid Vec allocation in every tick
-  - Added `node_ids_slice()` for zero-copy access to node IDs
-  - Added cached input port names in NodeInstance
-  - Added `has_inputs` flag to avoid empty checks
-  - Optimized tick_once to use cached data and reduce allocations
-- Port set optimizations:
-  - Added `input_count()` and `output_count()` for cheap size checks
-- Queue optimizations (caret_buffers):
-  - Added atomic length for lock-free `len()`, `is_empty()`, `is_full()` queries
-  - Reduced queue_len from 2ns to ~0ns (lock-free)
-  - Optimized push/pop with atomic operations for concurrent access
-- Buffer pool optimizations (caret_buffers):
-  - Implemented size classes (power-of-2 buckets) for O(1) buffer lookup
-  - Replaced linear search (O(n)) with direct bucket access
-  - buffer_acquire: 35ns → 29ns (17% faster)
-  - buffer_acquire_release: 80ns → 27ns (66% faster)
-- Performance benchmark binaries:
-  - executor_perf: Executor tick benchmarks
-  - buffer_perf: Buffer pool and queue benchmarks
-
-### Milestone 19: Stream processing primitives - COMPLETE
-- Created `caret_stream` crate with stream processing primitives
-- 35 tests passing in caret_stream
-
-### Milestone 18: Dynamic graph modification - COMPLETE
-- Dynamic graph modification in caret_graph
-- 48 tests passing in caret_graph
-
-### Previously completed (Milestones 1-17)
-- Scheduler with PriorityScheduler, FairScheduler, DeadlineScheduler, WorkStealingScheduler
-- Graph representation with topological sorting
-- Core data types and error model
-- Complete governance documentation and repo structure
+  - Milestone 22: Distributed graph execution with real Caret graphs - COMPLETE
 
 ## Next objectives
-1. Milestone 23: TLS support for secure transport
-2. Add distributed system benchmarks
+1. Complete TlsTransport async implementation (simplify async move blocks)
+2. Add TLS transport tests
+3. Add distributed system benchmarks
 
 ## Risks
 - Plugin system uses unsafe code for dynamic loading - needs audit
