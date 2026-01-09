@@ -1,16 +1,16 @@
 # Caret State
 
-**Last updated:** 2025-01-09T18:30:00Z
+**Last updated:** 2025-01-09T19:00:00Z
 
 ## Current milestone
-Milestone 22: Distributed graph execution with real Caret graphs - IN PROGRESS
+Milestone 23: TLS support for secure transport - IN PROGRESS
 
 ## Current objective
-Implementing distributed graph execution with real Caret graphs
+Implementing TLS support for secure transport
 
 ## Done since last update
-### Milestone 22: Distributed graph execution with real Caret graphs (IN PROGRESS)
-- **NEW: Executor tick loop invocation:**
+### Milestone 22: Distributed graph execution with real Caret graphs (COMPLETE)
+- **Executor tick loop invocation:**
   - Added `running_graphs` field to track active graphs
   - Added `tick_interval` field for configurable tick frequency (default 1ms)
   - Added `start_tick_loop()` method that spawns background async task
@@ -24,8 +24,17 @@ Implementing distributed graph execution with real Caret graphs
   - Added `stop_tick_loop()` for testing
   - Added test `test_tick_loop_start_stop`: Verifies graph lifecycle with executor state
   - Added test `test_executor_ticks_with_graphs`: Verifies tick loop runs and increments tick count
-  - All 77 tests passing in caret_distributed (51 lib + 18 integration + 8 TCP)
+- **End-to-end integration test:**
+  - Added `test_end_to_end_distributed_execution()` unit test
+  - Test verifies: graph creation, worker registration, graph submission,
+    partitioning, tick loop startup, graph lifecycle, executor state
+  - Test uses `start_tick_loop_sync()` for synchronous test execution
+  - Verifies tick loop runs and increments tick count
+  - Verifies running graphs are properly tracked
+  - Verifies local executor state transitions (Running -> Stopped)
+  - All 78 tests passing in caret_distributed (52 lib + 18 integration + 8 TCP)
   - All 42 tests passing in caret_sched
+- Previous node factory with proper port definitions:
 - Previous node factory with proper port definitions:
   - Created `NodeFactory` for deserializing `SerializableNode` into processors
   - Implemented `SourceNode`: Generates data with output ports only
@@ -168,9 +177,8 @@ Implementing distributed graph execution with real Caret graphs
 - Complete governance documentation and repo structure
 
 ## Next objectives
-1. Milestone 22: Add distributed graph execution end-to-end integration test
-2. Add TLS support for secure transport
-3. Add distributed system benchmarks
+1. Milestone 23: TLS support for secure transport
+2. Add distributed system benchmarks
 
 ## Risks
 - Plugin system uses unsafe code for dynamic loading - needs audit
@@ -178,7 +186,7 @@ Implementing distributed graph execution with real Caret graphs
 
 ## Quality gates status
 - Build: Passing
-- Tests: 77 tests passing in caret_distributed (51 lib + 18 integration + 8 TCP networking)
+- Tests: 78 tests passing in caret_distributed (52 lib + 18 integration + 8 TCP networking)
 - Docs: Core APIs documented
 - Lint: Passes (some warnings for missing docs on internal items)
 - Format: Passing
