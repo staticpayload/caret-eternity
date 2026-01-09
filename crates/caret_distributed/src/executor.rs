@@ -763,11 +763,16 @@ impl DistributedExecutor {
         self.connections.lock().len()
     }
 
+    /// Get the local executor (for testing)
+    pub fn local_executor(&self) -> &Arc<Mutex<LocalExecutor>> {
+        &self.local_executor
+    }
+
     /// Setup local node instances for a partition
     ///
     /// This method creates node instances in the local executor for all nodes
     /// assigned to this worker in the partition.
-    fn setup_local_partition(&self, partition: &GraphPartition, graph_id: &str) -> Result<()> {
+    pub fn setup_local_partition(&self, partition: &GraphPartition, graph_id: &str) -> Result<()> {
         let mut local_executor = self.local_executor.lock();
         let mut mapping = self.local_node_mapping.lock();
 
@@ -836,7 +841,7 @@ impl DistributedExecutor {
     ///
     /// This method handles packets arriving from remote nodes and delivers them
     /// to the appropriate local node's input queue.
-    fn route_packet_to_local_node(&self, to_port: &str, data: &[u8]) -> Result<()> {
+    pub fn route_packet_to_local_node(&self, to_port: &str, data: &[u8]) -> Result<()> {
         // Parse the port format: "node_id:port_name"
         let parts: Vec<&str> = to_port.split(':').collect();
         if parts.len() != 2 {

@@ -275,3 +275,100 @@ fn test_error_display() {
         assert!(!display.is_empty());
     }
 }
+
+// ============================================================================
+// End-to-End Distributed Execution Tests
+// ============================================================================
+
+#[test]
+fn test_distributed_partition_setup() {
+    use caret_distributed::{GraphPartition, PartitionStrategy, SerializableGraph};
+    use caret_graph::{Graph, NodeType, Node, PortDirection};
+
+    // Create a distributed executor
+    let executor = DistributedExecutor::new(ExecutorConfig::default());
+
+    // Register a worker
+    let worker_id = test_node_id(10);
+    executor.coordinator().register_worker(worker_id).unwrap();
+
+    // Create a simple graph with 3 nodes
+    let mut graph = Graph::new();
+
+    let mut source = Node::source("source");
+    let mut transform = Node::transform("transform");
+    let mut sink = Node::sink("sink");
+
+    // Add ports to nodes
+    source.add_input("control").unwrap();
+    source.add_output("data").unwrap();
+
+    transform.add_input("input").unwrap();
+    transform.add_output("output").unwrap();
+
+    sink.add_input("input").unwrap();
+    sink.add_output("status").unwrap();
+
+    graph.add_node(source).unwrap();
+    graph.add_node(transform).unwrap();
+    graph.add_node(sink).unwrap();
+
+    // Get the auto-generated node IDs
+    let nodes: Vec<u64> = graph.nodes().map(|n| n.id().as_u64()).collect();
+    let (source_id, transform_id, sink_id) = (nodes[0], nodes[1], nodes[2]);
+
+    // Convert to serializable graph
+    let serializable = SerializableGraph::from_caret_graph("test-graph", &graph);
+
+    // Create a partition with the nodes (no internal edges for now,
+    // since PassthroughNode doesn't define ports)
+    let partition = GraphPartition {
+        worker_id: executor.local_id(),
+        nodes: vec![source_id, transform_id, sink_id],
+        internal_edges: vec![],  // Empty for now
+        input_edges: vec![],
+        output_edges: vec![],
+    };
+
+    // Setup the local partition
+    let result = executor.setup_local_partition(&partition, "test-graph");
+
+    if let Err(e) = &result {
+        eprintln!("Partition setup failed: {}", e);
+    }
+    assert!(result.is_ok(), "Partition setup should succeed");
+
+    // Verify the local executor has the nodes
+    let local_executor = executor.local_executor();
+    let node_ids = local_executor.lock().node_ids();
+    assert_eq!(node_ids.len(), 3, "Should have 3 local nodes");
+}
+
+#[test]
+fn test_distributed_packet_routing() {
+    use caret_distributed::GraphPartition;
+
+    // Create a distributed executor
+    let executor = DistributedExecutor::new(ExecutorConfig::default());
+
+    // Create a simple partition with one node
+    let partition = GraphPartition {
+        worker_id: executor.local_id(),
+        nodes: vec![1],
+        internal_edges: vec![],
+        input_edges: vec![],
+        output_edges: vec![],
+    };
+
+    // Setup the local partition
+    executor.setup_local_partition(&partition, "test-graph").unwrap();
+
+    // Route a packet to the local node
+    // Note: This will fail because PassthroughNode doesn't create ports,
+    // but it tests the routing logic
+    let packet_data = vec![0x01, 0x02, 0x03, 0x04];
+    let result = executor.route_packet_to_local_node("1:input", &packet_data);
+
+    // We expect this to fail with "Input port 'input' not found"
+    assert!(result.is_err(), "Packet routing should fail because PassthroughNode has no ports");
+}
